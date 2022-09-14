@@ -1,17 +1,24 @@
 #!/bin/bash
-echo "This is KV's arch installation script
-Root filesystem: ext4"
+clear
+echo "#############################
+This is KV's arch installation script
+#############################"
+
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
+
 pacman --noconfirm -Sy archlinux-keyring
 loadkeys us
 timedatectl set-ntp true
 
+clear
 lsblk
-
+echo -e "\n\n\n"
 read -p "Enter the drive (e.g. /dev/sda or /dev/nvme0n1): " drive
 cfdisk $drive
 
+clear
 lsblk
+echo -e "\n\n\n"
 read -p "Enter the root partition (e.g. /dev/sda3 or /dev/nvme0n1p3): " partition
 mkfs.ext4 $partition
 mount $partition /mnt
@@ -32,10 +39,13 @@ if [[ $swpanswer = y ]] ; then
   swapon $swap_partition
 fi
 
-pacstrap /mnt base base-devel linux linux-firmware linux-headers opendoas neovim networkmanager git
+clear
+pacstrap /mnt base linux linux-firmware linux-headers opendoas neovim networkmanager git
 
+clear ; echo -e "\n\n\n Generating fstab \n\n\n"
 genfstab -U /mnt >> /mnt/etc/fstab
 
+echo -e "\n\n\n copying configuration script \n\n\n"
 cp dotfile-setup.sh configuration-script.sh /mnt/
 
 echo "Now mount arch-chroot $partition and run configuration script"
