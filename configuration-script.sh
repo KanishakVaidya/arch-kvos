@@ -11,10 +11,12 @@ echo "127.0.0.1       localhost" >> /etc/hosts
 echo "::1             localhost" >> /etc/hosts
 echo "127.0.1.1       $hostname.localdomain $hostname" >> /etc/hosts
 
+clear ; echo -e "\n\n\n Setting Root Password \n\n\n"
 passwd
 
+echo -e "\n\n\n Setting up a user \n\n\n"
 read -p "Enter a username: " username
-useradd -m -G audio,video,storage,optical,wheel -s /usr/bin/zsh $username
+useradd -m -G audio,video,storage,optical,wheel $username
 passwd $username
 echo "permit persist :wheel as root" >> /etc/doas.conf
 
@@ -27,6 +29,6 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl enable NetworkManager.service
 
-mv dotfile-setup.sh /home/$username
+mv dotfile-setup.sh packages.txt /home/$username
 
 echo "Now you can exit out of the chrooted environment. Unmount the drives mounted in /mnt and reboot."
