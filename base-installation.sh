@@ -44,7 +44,7 @@ if [[ $swpanswer = y ]] ; then
 fi
 
 clear
-pacstrap /mnt base linux linux-firmware linux-headers opendoas neovim networkmanager git
+pacstrap /mnt base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git
 
 clear ; echo -e "\n\n\n Generating fstab \n\n\n"
 genfstab -U /mnt >> /mnt/etc/fstab

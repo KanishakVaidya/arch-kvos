@@ -1,5 +1,21 @@
 #+title: Custom arch based distribution
 
+* Introduction
+This repository installs my custom Arch based distribution on a computer
+** What is in this script
+- After successful execution, you will be left with a Arch System that contains i3wm
+** Prerequisite
+- Download an Arch Linux ISO and write it to a USB
+- Boot from the live USB and connect to the internet
+- From the command line execute following commands
+  #+begin_src bash
+pacman -Sy archlinux-keyring
+pacman -S git
+git clone --depth=1 https://github.com/KanishakVaidya/arch-KVOS.git
+  #+end_src
+- From the ~arch-KVOS~ directory copy all the files to the current directory
+- Start by executing the ~base-installation.sh~ script
+
 * Base installation
 ** Basic setup
 #+begin_src bash :tangle base-installation.sh
@@ -67,7 +83,7 @@ Installing
  - git
 #+begin_src bash :tangle base-installation.sh
 clear
-pacstrap /mnt base linux linux-firmware linux-headers opendoas neovim networkmanager git
+pacstrap /mnt base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git
 
 clear ; echo -e "\n\n\n Generating fstab \n\n\n"
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -101,10 +117,10 @@ passwd
 
 echo -e "\n\n\n Setting up a user \n\n\n"
 read -p "Enter a username: " username
-useradd -m -G audio,video,storage,optical,wheel $username
+useradd -m -G audio,video,storage,optical,wheel -s /usr/bin/zsh $username
 passwd $username
-echo "permit persist :wheel as root" >> /etc/doas.conf
-
+echo "permit persist :wheel as root" > /etc/doas.conf
+echo 'export ZDOTDIR="$HOME"/.config/zsh' > /etc/zsh/zshenv
 #+end_src
 
 ** Grub configuration and startup daemons
@@ -123,6 +139,29 @@ mv dotfile-setup.sh packages.txt /home/$username
 echo "Now you can exit out of the chrooted environment. Unmount the drives mounted in /mnt and reboot."
 #+end_src
 * dotfiles setup
+** Setting variables and links
+#+begin_src bash :tangle dotfile-setup.sh
+echo "setting a link to doas"
+doas ln -sf /bin/doas /bin/sudo
+echo "setting a link to xresources"
+ln -sf ~/.config/Xresources/codedark ~/.Xresources
+mkdir -p $HOME/desktop $HOME/dwn $HOME/templates $HOME/shared $HOME/doc $HOME/music $HOME/pic $HOME/vid $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin
+doas pacman --noconfirm -S xdg-user-dirs rsync
+xdg-user-dirs-update
+#+end_src
+** Bringing dotfiles from github
+Managing dotfiles using a git bare repository is referenced from [[https://www.anand-iyer.com/blog/2018/a-simpler-way-to-manage-your-dotfiles.html][this Anand Iyer's blog]]
+#+begin_src bash :tangle dotfile-setup.sh
+git clone --depth=1 --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
+rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
+#+end_src
+** Installing icons and themes
+Installing [[https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git][papirus icons]] and materia dark theme
+#+begin_src bash
+git clone --depth=1 https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git /tmp/papirus-icons
+mkdir -p $HOME/.local/share/icons
+cp -r /tmp/papirus-icons/Papirus* $HOME/.local/share/icons/
+#+end_src
 ** Installing all the packages
 #+begin_src bash :tangle dotfile-setup.sh
 #!/bin/bash
@@ -133,13 +172,5 @@ Installing the packages
 #######################
 "
 
-doas pacman -Syu $(cat packages.txt)
-#+end_src
-
-** Bringing dotfiles from github
-Managing dotfiles using a git bare repository is referenced from [[https://www.anand-iyer.com/blog/2018/a-simpler-way-to-manage-your-dotfiles.html][this Anand Iyer's blog]]
-#+begin_src bash :tangle dotfile-setup.sh
-git clone --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
-rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
-rm -r /tmp/tmpdotfiles
+doas pacman --needed -Syu $(cat packages.txt)
 #+end_src

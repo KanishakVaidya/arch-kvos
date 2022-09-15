@@ -16,9 +16,10 @@ passwd
 
 echo -e "\n\n\n Setting up a user \n\n\n"
 read -p "Enter a username: " username
-useradd -m -G audio,video,storage,optical,wheel $username
+useradd -m -G audio,video,storage,optical,wheel -s /usr/bin/zsh $username
 passwd $username
-echo "permit persist :wheel as root" >> /etc/doas.conf
+echo "permit persist :wheel as root" > /etc/doas.conf
+echo 'export ZDOTDIR="$HOME"/.config/zsh' > /etc/zsh/zshenv
 
 pacman --noconfirm -S sed
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
