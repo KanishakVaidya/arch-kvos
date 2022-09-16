@@ -47,7 +47,7 @@ clear
 noerror='n'
 while [[ $noerror != 'y'  ]]
 do
-    pacstrap /mnt base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git rsync
+    pacstrap /mnt base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git sed rsync grub efibootmgr os-prober
     read -p "Installation ended successfully? (y/n): " noerror
 done
 

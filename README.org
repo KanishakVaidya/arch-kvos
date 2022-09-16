@@ -86,7 +86,7 @@ clear
 noerror='n'
 while [[ $noerror != 'y'  ]]
 do
-    pacstrap /mnt base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git rsync
+    pacstrap /mnt base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git sed rsync grub efibootmgr os-prober
     read -p "Installation ended successfully? (y/n): " noerror
 done
 
@@ -134,11 +134,9 @@ doas ln -sf /bin/doas /bin/sudo
 
 ** Grub configuration and startup daemons
 #+begin_src bash :tangle configuration-script.sh
-pacman --noconfirm --needed -S sed
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
 echo "Setting up GRUB"
-pacman --noconfirm -S grub efibootmgr os-prober
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=myArch
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -157,19 +155,10 @@ mkdir -p $HOME/desktop $HOME/dwn $HOME/templates $HOME/shared $HOME/doc $HOME/mu
 git clone --depth=1 --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
 rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
 #+end_src
-** Setting variables, links and neovim
+** Setting variables and links
 #+begin_src bash :tangle dotfile-setup.sh
 echo "setting a link to xresources"
 ln -sf ~/.config/Xresources/codedark ~/.Xresources
-doas pacman --noconfirm -S xdg-user-dirs
-xdg-user-dirs-update
-#+end_src
-** Setting up neovim
-#+begin_src bash :tangle dotfile-setup.sh
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-
-nvim -c PlugInstall
 #+end_src
 ** Installing icons and themes
 Installing [[https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git][papirus icons]] and materia dark theme
@@ -177,10 +166,12 @@ Installing [[https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git][p
 git clone --depth=1 https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git /tmp/papirus-icons
 cp -r /tmp/papirus-icons/Papirus* $HOME/.local/share/icons/
 #+end_src
-** Installing all the packages
+** Setting up neovim and Installing packages
 #+begin_src bash :tangle dotfile-setup.sh
 #!/bin/bash
 
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 while [[ $installpkgs != 'y' ]]
 do
    clear
@@ -188,9 +179,9 @@ do
    echo "Installing the packages"
    echo "#######################"
 
-   nvim packages.md
+   nvim -c PlugInstall packages.md
    awk '/\- \[X\]/ {getline ; print}' packages.md | tr "\n" " " > /tmp/packages.txt
-   echo -e "Following packages will be installed:"
+   clear ; echo -e "Following packages will be installed:"
    cat /tmp/packages.txt
    read -p "Do you want to proceed (y/n): " installpkgs
 done
@@ -199,7 +190,8 @@ done
 noerror='n'
 while [[ $noerror != 'y'  ]]
 do
-    doas pacman --needed -Syu $(cat /tmp/packages.txt)
+    doas pacman --needed --noconfirm -Syu $(cat /tmp/packages.txt)
+    xdg-user-dirs-update
     read -p "Installation ended successfully? (y/n): " noerror
 done
 #+end_src

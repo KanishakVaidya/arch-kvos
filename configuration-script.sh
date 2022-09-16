@@ -23,11 +23,9 @@ echo 'export ZDOTDIR="$HOME"/.config/zsh' > /etc/zsh/zshenv
 echo "setting a link to doas"
 doas ln -sf /bin/doas /bin/sudo
 
-pacman --noconfirm --needed -S sed
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
 echo "Setting up GRUB"
-pacman --noconfirm -S grub efibootmgr os-prober
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=myArch
 grub-mkconfig -o /boot/grub/grub.cfg
 
