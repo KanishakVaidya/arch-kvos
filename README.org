@@ -40,35 +40,35 @@ A good partitioning scheme is as follows:
 | /mnt        | /dev/sda3 | Linux x86_64 root (/) | Rest of device    |
 
 #+begin_src bash :tangle base-installation.sh
-clear ; echo -e "\n\n\n"
+clear
 lsblk
-echo -e "\n\n\n"
+echo -e "\n"
 read -p "Enter the drive (e.g. /dev/sda or /dev/nvme0n1): " drive
 cfdisk $drive
 
-clear ; echo -e "\n\n\n"
+clear
 lsblk
-echo -e "\n\n\n"
-read -p "Enter the root partition (e.g. /dev/sda3 or /dev/nvme0n1p3): " partition
+echo -e "\n"
+read -p "Enter the root partition (e.g. /dev/sda2 or /dev/nvme0n1p2): " partition
 mkfs.ext4 $partition
 mount $partition /mnt
 
-clear ; echo -e "\n\n\n"
-read -p "Create efi partition? [y/n]" efianswer
+clear
+read -p "Create efi partition? [y/n]: " efianswer
 if [[ $efianswer = y ]] ; then
   lsblk
-  echo -e "\n\n\n"
+  echo -e "\n"
   read -p "Enter EFI partition (e.g. /dev/sda1 or /dev/nvme0n1p1): " efipartition
   mkfs.fat -F 32 $efipartition
   mount --mkdir $efipartition /mnt/boot
 fi
 
-clear ; echo -e "\n\n\n"
-read -p "Create swap partition? [y/n]" swpanswer
+clear
+read -p "Create swap partition? [y/n]: " swpanswer
 if [[ $swpanswer = y ]] ; then
   lsblk
-  echo -e "\n\n\n"
-  read -p "Enter EFI partition (e.g. /dev/sda2 or /dev/nvme0n1p2): " swap_partition
+  echo -e "\n"
+  read -p "Enter swap partition (e.g. /dev/sda3 or /dev/nvme0n1p3): " swap_partition
   mkswap $swap_partition
   swapon $swap_partition
 fi
@@ -83,15 +83,22 @@ Installing
  - git
 #+begin_src bash :tangle base-installation.sh
 clear
-pacstrap /mnt base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git
+noerror='n'
+while [[ $noerror != 'y'  ]]
+do
+    pacstrap /mnt base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git rsync
+    read -p "Installation ended successfully? (y/n): " noerror
+done
 
-clear ; echo -e "\n\n\n Generating fstab \n\n\n"
+clear ; echo -e "\n Generating fstab..."
 genfstab -U /mnt >> /mnt/etc/fstab
 
-echo -e "\n\n\n copying configuration script \n\n\n"
-cp packages.txt dotfile-setup.sh configuration-script.sh /mnt/
+echo -e "copying configuration script..."
+cp packages.md dotfile-setup.sh configuration-script.sh /mnt/
 
-echo "Now chroot into root partition using 'arch-chroot $partition' and run configuration script"
+chmod +x /mnt/configuration-script.sh
+
+arch-chroot /mnt ./configuration-script.sh
 #+end_src
 * Configuring the system
 This should be run after chrooting into the arch system
@@ -112,65 +119,87 @@ echo "127.0.1.1       $hostname.localdomain $hostname" >> /etc/hosts
 #+end_src
 ** Users and passwords
 #+begin_src bash :tangle configuration-script.sh
-clear ; echo -e "\n\n\n Setting Root Password \n\n\n"
+clear ; echo -e "Setting Root Password \n"
 passwd
 
-echo -e "\n\n\n Setting up a user \n\n\n"
+echo -e "\n Setting up a user...\n"
 read -p "Enter a username: " username
 useradd -m -G audio,video,storage,optical,wheel -s /usr/bin/zsh $username
 passwd $username
 echo "permit persist :wheel as root" > /etc/doas.conf
 echo 'export ZDOTDIR="$HOME"/.config/zsh' > /etc/zsh/zshenv
+echo "setting a link to doas"
+doas ln -sf /bin/doas /bin/sudo
 #+end_src
 
 ** Grub configuration and startup daemons
 #+begin_src bash :tangle configuration-script.sh
-pacman --noconfirm -S sed
+pacman --noconfirm --needed -S sed
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
+echo "Setting up GRUB"
 pacman --noconfirm -S grub efibootmgr os-prober
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=myArch
 grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl enable NetworkManager.service
 
-mv dotfile-setup.sh packages.txt /home/$username
+mv dotfile-setup.sh packages.md /home/$username
 
 echo "Now you can exit out of the chrooted environment. Unmount the drives mounted in /mnt and reboot."
 #+end_src
 * dotfiles setup
-** Setting variables and links
-#+begin_src bash :tangle dotfile-setup.sh
-echo "setting a link to doas"
-doas ln -sf /bin/doas /bin/sudo
-echo "setting a link to xresources"
-ln -sf ~/.config/Xresources/codedark ~/.Xresources
-mkdir -p $HOME/desktop $HOME/dwn $HOME/templates $HOME/shared $HOME/doc $HOME/music $HOME/pic $HOME/vid $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin
-doas pacman --noconfirm -S xdg-user-dirs rsync
-xdg-user-dirs-update
-#+end_src
 ** Bringing dotfiles from github
 Managing dotfiles using a git bare repository is referenced from [[https://www.anand-iyer.com/blog/2018/a-simpler-way-to-manage-your-dotfiles.html][this Anand Iyer's blog]]
 #+begin_src bash :tangle dotfile-setup.sh
+mkdir -p $HOME/desktop $HOME/dwn $HOME/templates $HOME/shared $HOME/doc $HOME/music $HOME/pic $HOME/vid $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config
+
 git clone --depth=1 --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
 rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
 #+end_src
+** Setting variables, links and neovim
+#+begin_src bash :tangle dotfile-setup.sh
+echo "setting a link to xresources"
+ln -sf ~/.config/Xresources/codedark ~/.Xresources
+doas pacman --noconfirm -S xdg-user-dirs
+xdg-user-dirs-update
+#+end_src
+** Setting up neovim
+#+begin_src bash :tangle dotfile-setup.sh
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+nvim -c PlugInstall
+#+end_src
 ** Installing icons and themes
 Installing [[https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git][papirus icons]] and materia dark theme
-#+begin_src bash
+#+begin_src bash :tangle dotfile-setup.sh
 git clone --depth=1 https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git /tmp/papirus-icons
-mkdir -p $HOME/.local/share/icons
 cp -r /tmp/papirus-icons/Papirus* $HOME/.local/share/icons/
 #+end_src
 ** Installing all the packages
 #+begin_src bash :tangle dotfile-setup.sh
 #!/bin/bash
 
-echo "
-#######################
-Installing the packages
-#######################
-"
+while [[ $installpkgs != 'y' ]]
+do
+   clear
+   echo "#######################"
+   echo "Installing the packages"
+   echo "#######################"
 
-doas pacman --needed -Syu $(cat packages.txt)
+   nvim packages.md
+   awk '/\- \[X\]/ {getline ; print}' packages.md | tr "\n" " " > /tmp/packages.txt
+   echo -e "Following packages will be installed:"
+   cat /tmp/packages.txt
+   read -p "Do you want to proceed (y/n): " installpkgs
+done
+
+
+noerror='n'
+while [[ $noerror != 'y'  ]]
+do
+    doas pacman --needed -Syu $(cat /tmp/packages.txt)
+    read -p "Installation ended successfully? (y/n): " noerror
+done
 #+end_src
