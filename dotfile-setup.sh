@@ -3,6 +3,8 @@ mkdir -p $HOME/desktop $HOME/dwn $HOME/templates $HOME/shared $HOME/doc $HOME/mu
 git clone --depth=1 --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
 rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
 
+git clone --depth=1 https://github.com/KanishakVaidya/wallpapers.git $HOME/pic/.wall
+
 echo "setting a link to xresources"
 ln -sf ~/.config/Xresources/codedark ~/.Xresources
 
@@ -13,19 +15,16 @@ cp -r /tmp/papirus-icons/Papirus* $HOME/.local/share/icons/
 
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-while [[ $installpkgs != 'y' ]]
-do
-   clear
-   echo "#######################"
-   echo "Installing the packages"
-   echo "#######################"
+nvim -c PlugInstall -c qa
+clear
+echo "#######################"
+echo "Installing the packages"
+echo "#######################"
 
-   nvim -c PlugInstall packages.md
-   awk '/\- \[X\]/ {getline ; print}' packages.md | tr "\n" " " > /tmp/packages.txt
-   clear ; echo -e "Following packages will be installed:"
-   cat /tmp/packages.txt
-   read -p "Do you want to proceed (y/n): " installpkgs
-done
+nvim packages.md
+awk '/\- \[X\]/ {getline ; print}' packages.md | tr "\n" " " > /tmp/packages.txt
+clear ; echo -e "\n Following packages will be installed: \n"
+cat /tmp/packages.txt
 
 
 noerror='n'
