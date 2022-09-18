@@ -1,10 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Put an X in between [ ] to download said packages % 
+% You can also remove packages or add by appending  %
+%    package names to a line in a [X] section       %
 %         Then save the file and exit               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 - [X] Base
-adobe-source-code-pro-fonts alacritty arandr autoconf automake base bison blueman btop dunst efibootmgr exa fakeroot feh firefox flameshot flex fzf gcc geany gvfs gvfs-mtp i3-gaps i3blocks i3lock kvantum libtool lxappearance-gtk3 lxqt-archiver lxsession-gtk3 m4 make materia-gtk-theme network-manager-applet nodejs ntfs-3g otf-font-awesome patch pavucontrol-qt pcmanfm-qt picom pkgconf pulseaudio pulseaudio-alsa pulseaudio-bluetooth qt5ct ranger ripgrep rofi sshfs ttf-dejavu ttf-hack ttf-indic-otf udiskie unzip v4l2loopback-dkms v4l2loopback-utils volumeicon vte3 which xarchiver xcolor xdg-user-dirs yarn zathura zathura-pdf-mupdf zip zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting zsh-theme-powerlevel10k
+adobe-source-code-pro-fonts alacritty arandr autoconf automake base bison blueman btop dunst efibootmgr exa fakeroot feh firefox flameshot flex fzf gcc geany gvfs gvfs-mtp i3-gaps i3blocks i3lock kvantum libtool lxappearance-gtk3 lxqt-archiver lxsession-gtk3 m4 make materia-gtk-theme network-manager-applet nodejs ntfs-3g otf-font-awesome patch pavucontrol-qt pcmanfm-qt picom pkgconf pulseaudio pulseaudio-alsa pulseaudio-bluetooth qt5ct ranger ripgrep rofi sshfs starship ttf-dejavu ttf-hack ttf-indic-otf ttf-nerd-fonts-symbols-2048-em-mono udiskie unzip v4l2loopback-dkms v4l2loopback-utils vlc volumeicon vte3 which xarchiver xcolor xdg-user-dirs yarn zathura zathura-pdf-mupdf zip zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting
 
 - [X] Utilities
 imagemagick rclone smplayer w3m xournalpp youtube-dl
