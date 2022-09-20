@@ -25,9 +25,15 @@ ln -sf /bin/doas /bin/sudo
 
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
-echo "Setting up GRUB"
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=myArch
-grub-mkconfig -o /boot/grub/grub.cfg
+if [[ $grubanswer == "y" ]] ; then
+    echo "Setting up GRUB"
+    case $bios in
+        UEFI ) grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=myArch ;;
+        BIOS ) grub-install --target=i386-pc $drive ;;
+    esac
+    grub-mkconfig -o /boot/grub/grub.cfg
+fi
+    
 
 systemctl enable NetworkManager.service
 

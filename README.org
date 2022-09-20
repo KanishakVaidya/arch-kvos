@@ -1,10 +1,27 @@
 #+title: Custom arch based distribution
 
 * Introduction
-This repository installs my custom Arch based distribution on a computer
-** What is in this script
-- After successful execution, you will be left with a Arch System that contains i3wm
-** Prerequisite
+This repository contains installation and setup scripts for my custom arch linux based linux distribution
+** What are the scripts
+This repository have 3 scripts.
+- ~base-installation.sh~ will guide through disk partitioning and install ~base~ ~linux~ kernel ~linux-headers~ and some other packages on the OS. Following additional packages are installed after this script
+  + ~opendoas~: for super user access (sudo alternative)
+  + ~neovim~: basic command line text editor
+  + ~networkmanager~: for managing networks (duh??)
+  + ~zsh~: I like colors when I type. Bash was not enough
+  + ~git~: Arjuna had Gandeev, I must have git.
+  + ~sed~ and ~rsync~: GNU guys already shipped one, and ~cp~ don't have enough options
+  + ~grub efibootmgr os-prober~: well, the system have to turn on.
+- ~configuration-script.sh~ will handle the most boring and time consuming part of arch installation. It will set locale, timezone (hardcoded to Asia/Kolkata) and hostname. It will also guide you through user creation and passwords and install grub bootloader.
+  Script will terminate after this step, and you will be left with a clean arch install (except for the packages stated earlier).
+- ~dotfile-setup.sh~ will install my personal customized i3wm setup. Some of the included things are:
+  + ~Alacritty~ as my terminal emulator
+  + ~zsh~ as user shell with customized starship prompt
+  + ~Firefox~ as default web browser
+  + ~ranger~ for terminal based and ~pcmanfm-qt~ as gui file browser
+  + ~geany~ as gui text editor and ~neovim~ as terminal text editor. ~emacs~ can be installed too. Custom doom emacs configuration is there in ~\~/.config/doom~ directory.
+  + Papirus icon set and materia dark as gtk and qt theme.
+** How to use these scripts
 - Download an Arch Linux ISO and write it to a USB
 - Boot from the live USB and connect to the internet
 - From the command line execute following commands
@@ -14,7 +31,10 @@ pacman -S git
 git clone --depth=1 https://github.com/KanishakVaidya/arch-KVOS.git
   #+end_src
 - From the ~arch-KVOS~ directory copy all the files to the current directory
-- Start by executing the ~base-installation.sh~ script
+- Execute the ~base-installation.sh~ script
+- This will guide you through base arch install.
+- After completion, unmount the mounted partitions and reboot.
+- Now run the ~dotfiles-setup.sh~ script in the home folder for my custom i3wm desktop. Or install your own desktop.
 
 * Base installation
 ** Basic setup
@@ -30,16 +50,48 @@ sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 pacman --noconfirm -Sy archlinux-keyring
 loadkeys us
 timedatectl set-ntp true
+pkgs="base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git sed rsync"
 #+end_src
 ** Partitioning and mounting drives
 A good partitioning scheme is as follows:
 | Mount point | Partition | Partition type        | Size of partition |
-| ----------- | --------- | --------------------- | ----------------- |
+|-------------+-----------+-----------------------+-------------------|
 | /mnt/boot   | /dev/sda1 | EFI syste partition   | 512 MB            |
 | [SWAP]      | /dev/sda2 | Linux swap            | 2x RAM            |
 | /mnt        | /dev/sda3 | Linux x86_64 root (/) | Rest of device    |
 
 #+begin_src bash :tangle base-installation.sh
+clear
+echo "Do you want to install grub bootloader?"
+select yn in "Yes, install grub" "No, don't install grub"
+do
+    case $yn in
+        "Yes, install grub" )
+            grubanswer="y"
+            pkgs+=" grub os-prober"
+            if [ -d /sys/firmware/efi ]
+            then
+                pkgs+=" efibootmgr"
+                bios="UEFI"
+                echo "You have an $bios system"
+                echo "You have to create an EFI system partition"
+                read -p "press enter to continue "
+            else
+                bios="BIOS"
+                echo "You have a $bios system."
+                echo "Create a bios boot partition for GPT. No need for separate boot partition for MBR"
+                read -p "press enter to continue "
+            fi
+            break
+            ;;
+        "No, don't install grub" )
+            grubanswer="n"
+            break
+            ;;
+        ,* ) echo "Please enter either 1 or 2" ;;
+    esac
+done
+
 clear
 lsblk
 echo -e "\n"
@@ -54,23 +106,29 @@ mkfs.ext4 $partition
 mount $partition /mnt
 
 clear
-read -p "Create efi partition? [y/n]: " efianswer
-if [[ $efianswer = y ]] ; then
-  lsblk
-  echo -e "\n"
-  read -p "Enter EFI partition (e.g. /dev/sda1 or /dev/nvme0n1p1): " efipartition
-  mkfs.fat -F 32 $efipartition
-  mount --mkdir $efipartition /mnt/boot
+if [[ $grubanswer == "y" ]]
+then
+    if [[ $bios == "UEFI" ]]
+    then
+        lsblk
+        echo -e "\n"
+        read -p "Enter EFI partition (e.g. /dev/sda1 or /dev/nvme0n1p1): " efipartition
+        mkfs.fat -F 32 $efipartition
+        mount --mkdir $efipartition /mnt/boot
+    fi
+    sed --expression "2s|^|grubanswer=$grubanswer\nbios=$bios\ndrive=$drive\n|" configuration-script.sh > /mnt/configuration-script.sh
+else
+    sed --expression "2s|^|grubanswer=$grubanswer\nbios=\"not installing\"\ndrive=$drive\n|" configuration-script.sh > /mnt/configuration-script.sh
 fi
 
 clear
 read -p "Create swap partition? [y/n]: " swpanswer
 if [[ $swpanswer = y ]] ; then
-  lsblk
-  echo -e "\n"
-  read -p "Enter swap partition (e.g. /dev/sda3 or /dev/nvme0n1p3): " swap_partition
-  mkswap $swap_partition
-  swapon $swap_partition
+    lsblk
+    echo -e "\n"
+    read -p "Enter swap partition (e.g. /dev/sda3 or /dev/nvme0n1p3): " swap_partition
+    mkswap $swap_partition
+    swapon $swap_partition
 fi
 #+end_src
 
@@ -86,7 +144,7 @@ clear
 noerror='n'
 while [[ $noerror != 'y'  ]]
 do
-    pacstrap /mnt base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git sed rsync grub efibootmgr os-prober
+    pacstrap /mnt $(echo $pkgs)
     read -p "Installation ended successfully? (y/n): " noerror
 done
 
@@ -94,7 +152,7 @@ clear ; echo -e "\n Generating fstab..."
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo -e "copying configuration script..."
-cp packages.md dotfile-setup.sh configuration-script.sh /mnt/
+cp packages.md dotfile-setup.sh /mnt/
 
 chmod +x /mnt/configuration-script.sh
 
@@ -136,9 +194,15 @@ ln -sf /bin/doas /bin/sudo
 #+begin_src bash :tangle configuration-script.sh
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
-echo "Setting up GRUB"
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=myArch
-grub-mkconfig -o /boot/grub/grub.cfg
+if [[ $grubanswer == "y" ]] ; then
+    echo "Setting up GRUB"
+    case $bios in
+        UEFI ) grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=myArch ;;
+        BIOS ) grub-install --target=i386-pc $drive ;;
+    esac
+    grub-mkconfig -o /boot/grub/grub.cfg
+fi
+    
 
 systemctl enable NetworkManager.service
 
@@ -150,7 +214,7 @@ echo "Now you can exit out of the chrooted environment. Unmount the drives mount
 ** Bringing dotfiles from github
 Managing dotfiles using a git bare repository is referenced from [[https://www.anand-iyer.com/blog/2018/a-simpler-way-to-manage-your-dotfiles.html][this Anand Iyer's blog]]
 #+begin_src bash :tangle dotfile-setup.sh
-mkdir -p $HOME/desktop $HOME/dwn $HOME/templates $HOME/shared $HOME/doc $HOME/music $HOME/pic/.wall $HOME/vid $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config
+mkdir -p $HOME/desktop $HOME/dwn $HOME/templates $HOME/shared $HOME/doc $HOME/music $HOME/pic/.wall $HOME/vid $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config $HOME/.local/share/AppImages
 
 git clone --depth=1 --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
 rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
@@ -184,7 +248,7 @@ nvim packages.md
 awk '/\- \[X\]/ {getline ; print}' packages.md | tr "\n" " " > /tmp/packages.txt
 clear ; echo -e "\n Following packages will be installed: \n"
 cat /tmp/packages.txt
-
+echo -e "\n"
 
 noerror='n'
 while [[ $noerror != 'y'  ]]
@@ -193,4 +257,5 @@ do
     xdg-user-dirs-update
     read -p "Installation ended successfully? (y/n): " noerror
 done
+echo "Now you can restart the system. Log into your account and start the session using startx command"
 #+end_src
