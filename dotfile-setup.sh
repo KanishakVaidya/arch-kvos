@@ -6,7 +6,7 @@ rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
 git clone --depth=1 https://github.com/KanishakVaidya/wallpapers.git $HOME/pic/.wall
 
 echo "setting a link to xresources"
-ln -sf ~/.config/Xresources/codedark ~/.Xresources
+ln -sf $HOME/.config/Xresources/codedark $HOME/.Xresources
 
 git clone --depth=1 https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git /tmp/papirus-icons
 cp -r /tmp/papirus-icons/Papirus* $HOME/.local/share/icons/
@@ -21,8 +21,8 @@ echo "#######################"
 echo "Installing the packages"
 echo "#######################"
 
-nvim packages.md
-awk '/\- \[X\]/ {getline ; print}' packages.md | tr "\n" " " > /tmp/packages.txt
+nvim $HOME/packages.md
+awk '/\- \[X\]/ {getline ; print}' $HOME/packages.md | tr "\n" " " > /tmp/packages.txt
 clear ; echo -e "\n Following packages will be installed: \n"
 cat /tmp/packages.txt
 echo -e "\n"
@@ -30,8 +30,8 @@ echo -e "\n"
 noerror='n'
 while [[ $noerror != 'y'  ]]
 do
-    doas pacman --needed --noconfirm -Syu $(cat /tmp/packages.txt)
-    xdg-user-dirs-update
+    su -c "pacman --needed -Syu $(cat /tmp/packages.txt)" root
     read -p "Installation ended successfully? (y/n): " noerror
 done
+xdg-user-dirs-update
 echo "Now you can restart the system. Log into your account and start the session using startx command"

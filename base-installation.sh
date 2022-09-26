@@ -6,7 +6,6 @@ This is KV's arch installation script
 
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
-pacman --noconfirm -Sy archlinux-keyring
 loadkeys us
 timedatectl set-ntp true
 pkgs="base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git sed rsync"
@@ -98,3 +97,6 @@ cp packages.md dotfile-setup.sh /mnt/
 chmod +x /mnt/configuration-script.sh
 
 arch-chroot /mnt ./configuration-script.sh
+
+[[ $bios == "UEFI" ]] && umount /mnt/boot
+umount /mnt

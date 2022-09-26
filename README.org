@@ -47,7 +47,6 @@ This is KV's arch installation script
 
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
-pacman --noconfirm -Sy archlinux-keyring
 loadkeys us
 timedatectl set-ntp true
 pkgs="base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git sed rsync"
@@ -157,10 +156,13 @@ cp packages.md dotfile-setup.sh /mnt/
 chmod +x /mnt/configuration-script.sh
 
 arch-chroot /mnt ./configuration-script.sh
+
+[[ $bios == "UEFI" ]] && umount /mnt/boot
+umount /mnt
 #+end_src
 * Configuring the system
 This should be run after chrooting into the arch system
-** Time zone, Localization and Network configuration
+** Time zone, Localization, Touchpad and Network configuration
 #+begin_src bash :tangle configuration-script.sh
 #!/bin/bash
 ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
@@ -174,6 +176,17 @@ echo $hostname > /etc/hostname
 echo "127.0.0.1       localhost" >> /etc/hosts
 echo "::1             localhost" >> /etc/hosts
 echo "127.0.1.1       $hostname.localdomain $hostname" >> /etc/hosts
+
+mkdir -p /etc/X11/xorg.conf.d/
+echo 'Section "InputClass"' > /etc/X11/xorg.conf.d/30-touchpad.conf
+echo '    Identifier "touchpad"' >> /etc/X11/xorg.conf.d/30-touchpad.conf
+echo '    Driver "libinput"' >> /etc/X11/xorg.conf.d/30-touchpad.conf
+echo '    MatchIsTouchpad "on"' >> /etc/X11/xorg.conf.d/30-touchpad.conf
+echo '    	Option "Tapping" "on"' >> /etc/X11/xorg.conf.d/30-touchpad.conf
+echo '	Option "ScrollMethod" "twofinger"' >> /etc/X11/xorg.conf.d/30-touchpad.conf
+echo '	Option "NaturalScrolling" "true"' >> /etc/X11/xorg.conf.d/30-touchpad.conf
+echo 'EndSection' >> /etc/X11/xorg.conf.d/30-touchpad.conf
+
 #+end_src
 ** Users and passwords
 #+begin_src bash :tangle configuration-script.sh
@@ -205,8 +218,24 @@ fi
     
 
 systemctl enable NetworkManager.service
-
+chown $username dotfile-setup.sh packages.md 
 mv dotfile-setup.sh packages.md /home/$username
+
+echo -e "A base arch system is installed \nDo you want to install custom i3wm desktop (KVOS)"
+select yn in "Yes, install KVOS" "No, continue with vanilla arch"
+do
+    case $yn in
+        "Yes, install KVOS" )
+            su -s /bin/bash -c /home/$username/dotfile-setup.sh $username
+            break
+            ;;
+        "No, continue with vanilla arch")
+            echo "Hasta la Vista, $username"
+            break
+            ;;
+        ,* ) echo "Please enter 1 or 2" ;;
+    esac
+done
 
 echo "Now you can exit out of the chrooted environment. Unmount the drives mounted in /mnt and reboot."
 #+end_src
@@ -224,9 +253,9 @@ git clone --depth=1 https://github.com/KanishakVaidya/wallpapers.git $HOME/pic/.
 ** Setting variables and links
 #+begin_src bash :tangle dotfile-setup.sh
 echo "setting a link to xresources"
-ln -sf ~/.config/Xresources/codedark ~/.Xresources
+ln -sf $HOME/.config/Xresources/codedark $HOME/.Xresources
 #+end_src
-** Installing icons and themes
+** Installing icons
 Installing [[https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git][papirus icons]] and materia dark theme
 #+begin_src bash :tangle dotfile-setup.sh
 git clone --depth=1 https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git /tmp/papirus-icons
@@ -244,8 +273,8 @@ echo "#######################"
 echo "Installing the packages"
 echo "#######################"
 
-nvim packages.md
-awk '/\- \[X\]/ {getline ; print}' packages.md | tr "\n" " " > /tmp/packages.txt
+nvim $HOME/packages.md
+awk '/\- \[X\]/ {getline ; print}' $HOME/packages.md | tr "\n" " " > /tmp/packages.txt
 clear ; echo -e "\n Following packages will be installed: \n"
 cat /tmp/packages.txt
 echo -e "\n"
@@ -253,9 +282,36 @@ echo -e "\n"
 noerror='n'
 while [[ $noerror != 'y'  ]]
 do
-    doas pacman --needed --noconfirm -Syu $(cat /tmp/packages.txt)
-    xdg-user-dirs-update
+    su -c "pacman --needed -Syu $(cat /tmp/packages.txt)" root
     read -p "Installation ended successfully? (y/n): " noerror
 done
+xdg-user-dirs-update
 echo "Now you can restart the system. Log into your account and start the session using startx command"
+#+end_src
+
+* After KVOS installation
+** Changing keyboard and display brightness
+- [[https://superuser.com/a/1393488][Writing to file /sys/class/backlight/<vendor>/brightness]]
+- [[https://unix.stackexchange.com/a/593121][How to set permissions in /sys/ permanent?]]
+Only root can change the brightness by editing files in ~/sys/class/backlight~. To allow users in the video group to change the brightness, a udev rule such as the following can be used (replace the <vendor> with your vendor id. E.g. amdgpu_bl0 acpi_video0, intel_backlight. Find it using ~ls /sys/class/backlight~)
+
+** Wacom
+*** Install the driver
+#+begin_src shell
+pacman -S xf86-input-wacom
+#+end_src
+This provides xsetwacom command.
+*** Mapping the tablet to a displa
+First list the wacom devices using the comand
+#+begin_src shell
+xsetwacom list devices
+#+end_src
+A sample output is
+#+begin_src
+# Wacom One by Wacom S Pen stylus 	id: 15	type: STYLUS
+# Wacom One by Wacom S Pen eraser 	id: 23	type: ERASER
+#+end_src
+To map wacom tablet with ID 15 to display named HDMI-1, use following command
+#+begin_src shell
+xsetwacom --set "15" MapToOutput HDMI-1
 #+end_src
