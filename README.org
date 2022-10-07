@@ -243,7 +243,7 @@ echo "Now you can exit out of the chrooted environment. Unmount the drives mount
 ** Bringing dotfiles from github
 Managing dotfiles using a git bare repository is referenced from [[https://www.anand-iyer.com/blog/2018/a-simpler-way-to-manage-your-dotfiles.html][this Anand Iyer's blog]]
 #+begin_src bash :tangle dotfile-setup.sh
-mkdir -p $HOME/desktop $HOME/dwn $HOME/templates $HOME/shared $HOME/doc $HOME/music $HOME/pic/.wall $HOME/vid $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config $HOME/.local/share/AppImages
+mkdir -p $HOME/desktop $HOME/dwn $HOME/templates $HOME/shared $HOME/doc $HOME/music $HOME/pic/.wall $HOME/vid $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config $HOME/.local/share/AppImages $HOME/.local/share/fonts
 
 git clone --depth=1 --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
 rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
@@ -286,6 +286,7 @@ do
     read -p "Installation ended successfully? (y/n): " noerror
 done
 xdg-user-dirs-update
+fc-cache -fv
 echo "Now you can restart the system. Log into your account and start the session using startx command"
 #+end_src
 

@@ -1,4 +1,4 @@
-mkdir -p $HOME/desktop $HOME/dwn $HOME/templates $HOME/shared $HOME/doc $HOME/music $HOME/pic/.wall $HOME/vid $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config $HOME/.local/share/AppImages
+mkdir -p $HOME/desktop $HOME/dwn $HOME/templates $HOME/shared $HOME/doc $HOME/music $HOME/pic/.wall $HOME/vid $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config $HOME/.local/share/AppImages $HOME/.local/share/fonts
 
 git clone --depth=1 --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
 rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
@@ -34,4 +34,5 @@ do
     read -p "Installation ended successfully? (y/n): " noerror
 done
 xdg-user-dirs-update
+fc-cache -fv
 echo "Now you can restart the system. Log into your account and start the session using startx command"
