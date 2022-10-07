@@ -24,17 +24,14 @@ This repository have 3 scripts.
 ** How to use these scripts
 - Download an Arch Linux ISO and write it to a USB
 - Boot from the live USB and connect to the internet
-- From the command line execute following commands
+- From the command line execute following command
   #+begin_src bash
-pacman -Sy archlinux-keyring
-pacman -S git
-git clone --depth=1 https://github.com/KanishakVaidya/arch-KVOS.git
+bash <(curl -s https://raw.githubusercontent.com/kanishakvaidya/arch-kvos/main/base-installation.sh)
   #+end_src
-- From the ~arch-KVOS~ directory copy all the files to the current directory
-- Execute the ~base-installation.sh~ script
+- This will execute the ~base-installation.sh~ script
 - This will guide you through base arch install.
 - After completion, unmount the mounted partitions and reboot.
-- Now run the ~dotfiles-setup.sh~ script in the home folder for my custom i3wm desktop. Or install your own desktop.
+- On an existing arch based install you can install packages listed under [X] base in ~packages.md~ and then run the ~dotfiles-setup.sh~ script in the home folder for my custom i3wm desktop.
 
 * Base installation
 ** Basic setup
@@ -49,7 +46,7 @@ sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
 loadkeys us
 timedatectl set-ntp true
-pkgs="base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git sed rsync"
+pkgs="base linux linux-firmware linux-headers "
 #+end_src
 ** Partitioning and mounting drives
 A good partitioning scheme is as follows:
@@ -61,24 +58,47 @@ A good partitioning scheme is as follows:
 
 #+begin_src bash :tangle base-installation.sh
 clear
+echo -e "A base arch system will be installed \nDo you also want to install custom i3wm desktop (KVOS)"
+select yn in "Yes, install KVOS" "No, continue with vanilla arch"
+do
+    case $yn in
+        "Yes, install KVOS" )
+            curl -fLo /tmp/packages.md https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/packages.md
+            curl -fLo /tmp/dotfile-setup.sh https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/dotfile-setup.sh
+            vim /tmp/packages.md
+            pkgs+=$(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
+            kvos=true
+            break
+            ;;
+        "No, continue with vanilla arch")
+            kvos=false
+            break
+            ;;
+        * ) echo "Please enter 1 or 2" ;;
+    esac
+done
+curl -fLo /tmp/configuration-script.sh https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/configuration-script.sh
+clear
 echo "Do you want to install grub bootloader?"
 select yn in "Yes, install grub" "No, don't install grub"
 do
     case $yn in
         "Yes, install grub" )
             grubanswer="y"
-            pkgs+=" grub os-prober"
+            pkgs+="grub os-prober "
             if [ -d /sys/firmware/efi ]
             then
-                pkgs+=" efibootmgr"
+                pkgs+="efibootmgr "
                 bios="UEFI"
                 echo "You have an $bios system"
                 echo "You have to create an EFI system partition"
+                echo "Create a swap partition if you want one"
                 read -p "press enter to continue "
             else
                 bios="BIOS"
                 echo "You have a $bios system."
                 echo "Create a bios boot partition for GPT. No need for separate boot partition for MBR"
+                echo "Create a swap partition if you want one"
                 read -p "press enter to continue "
             fi
             break
@@ -115,9 +135,9 @@ then
         mkfs.fat -F 32 $efipartition
         mount --mkdir $efipartition /mnt/boot
     fi
-    sed --expression "2s|^|grubanswer=$grubanswer\nbios=$bios\ndrive=$drive\n|" configuration-script.sh > /mnt/configuration-script.sh
+    sed --expression "2s|^|grubanswer=$grubanswer\nbios=$bios\ndrive=$drive\nkvos=$kvos\n|" /tmp/configuration-script.sh > /mnt/configuration-script.sh
 else
-    sed --expression "2s|^|grubanswer=$grubanswer\nbios=\"not installing\"\ndrive=$drive\n|" configuration-script.sh > /mnt/configuration-script.sh
+    sed --expression "2s|^|grubanswer=$grubanswer\nbios=\"not installing\"\ndrive=$drive\nkvos=$kvos\n|" /tmp/configuration-script.sh > /mnt/configuration-script.sh
 fi
 
 clear
@@ -140,6 +160,7 @@ Installing
  - git
 #+begin_src bash :tangle base-installation.sh
 clear
+
 noerror='n'
 while [[ $noerror != 'y'  ]]
 do
@@ -151,7 +172,7 @@ clear ; echo -e "\n Generating fstab..."
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo -e "copying configuration script..."
-cp packages.md dotfile-setup.sh /mnt/
+cp /tmp/dotfile-setup.sh /mnt/
 
 chmod +x /mnt/configuration-script.sh
 
@@ -215,38 +236,33 @@ if [[ $grubanswer == "y" ]] ; then
     esac
     grub-mkconfig -o /boot/grub/grub.cfg
 fi
-    
+
 
 systemctl enable NetworkManager.service
-chown $username dotfile-setup.sh packages.md 
-mv dotfile-setup.sh packages.md /home/$username
+chown $username /dotfile-setup.sh
+chmod +x /dotfile-setup.sh
+mv /dotfile-setup.sh /home/$username
 
-echo -e "A base arch system is installed \nDo you want to install custom i3wm desktop (KVOS)"
-select yn in "Yes, install KVOS" "No, continue with vanilla arch"
-do
-    case $yn in
-        "Yes, install KVOS" )
-            su -s /bin/bash -c /home/$username/dotfile-setup.sh $username
-            break
-            ;;
-        "No, continue with vanilla arch")
-            echo "Hasta la Vista, $username"
-            break
-            ;;
-        ,* ) echo "Please enter 1 or 2" ;;
-    esac
-done
-
-echo "Now you can exit out of the chrooted environment. Unmount the drives mounted in /mnt and reboot."
+if $kvos
+then
+    su -s /bin/bash -c /home/$username/dotfile-setup.sh $username
+else
+    echo "Hasta la vista! $username"
+fi
+exit
 #+end_src
 * dotfiles setup
 ** Bringing dotfiles from github
 Managing dotfiles using a git bare repository is referenced from [[https://www.anand-iyer.com/blog/2018/a-simpler-way-to-manage-your-dotfiles.html][this Anand Iyer's blog]]
 #+begin_src bash :tangle dotfile-setup.sh
+#!/bin/bash
 mkdir -p $HOME/desktop $HOME/dwn $HOME/templates $HOME/shared $HOME/doc $HOME/music $HOME/pic/.wall $HOME/vid $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config $HOME/.local/share/AppImages $HOME/.local/share/fonts
 
 git clone --depth=1 --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
 rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
+
+xdg-user-dirs-update
+fc-cache -fv
 
 git clone --depth=1 https://github.com/KanishakVaidya/wallpapers.git $HOME/pic/.wall
 #+end_src
@@ -263,31 +279,12 @@ cp -r /tmp/papirus-icons/Papirus* $HOME/.local/share/icons/
 #+end_src
 ** Setting up neovim and Installing packages
 #+begin_src bash :tangle dotfile-setup.sh
-#!/bin/bash
-
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim -c PlugInstall -c qa
 clear
-echo "#######################"
-echo "Installing the packages"
-echo "#######################"
-
-nvim $HOME/packages.md
-awk '/\- \[X\]/ {getline ; print}' $HOME/packages.md | tr "\n" " " > /tmp/packages.txt
-clear ; echo -e "\n Following packages will be installed: \n"
-cat /tmp/packages.txt
-echo -e "\n"
-
-noerror='n'
-while [[ $noerror != 'y'  ]]
-do
-    su -c "pacman --needed -Syu $(cat /tmp/packages.txt)" root
-    read -p "Installation ended successfully? (y/n): " noerror
-done
-xdg-user-dirs-update
-fc-cache -fv
 echo "Now you can restart the system. Log into your account and start the session using startx command"
+exit
 #+end_src
 
 * After KVOS installation
@@ -302,7 +299,7 @@ Only root can change the brightness by editing files in ~/sys/class/backlight~. 
 pacman -S xf86-input-wacom
 #+end_src
 This provides xsetwacom command.
-*** Mapping the tablet to a displa
+*** Mapping the tablet to a display
 First list the wacom devices using the comand
 #+begin_src shell
 xsetwacom list devices

@@ -8,8 +8,29 @@ sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
 loadkeys us
 timedatectl set-ntp true
-pkgs="base linux linux-firmware linux-headers opendoas neovim networkmanager zsh git sed rsync"
+pkgs="base linux linux-firmware linux-headers "
 
+clear
+echo -e "A base arch system will be installed \nDo you also want to install custom i3wm desktop (KVOS)"
+select yn in "Yes, install KVOS" "No, continue with vanilla arch"
+do
+    case $yn in
+        "Yes, install KVOS" )
+            curl -fLo /tmp/packages.md https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/packages.md
+            curl -fLo /tmp/dotfile-setup.sh https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/dotfile-setup.sh
+            vim /tmp/packages.md
+            pkgs+=$(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
+            kvos=true
+            break
+            ;;
+        "No, continue with vanilla arch")
+            kvos=false
+            break
+            ;;
+        * ) echo "Please enter 1 or 2" ;;
+    esac
+done
+curl -fLo /tmp/configuration-script.sh https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/configuration-script.sh
 clear
 echo "Do you want to install grub bootloader?"
 select yn in "Yes, install grub" "No, don't install grub"
@@ -17,18 +38,20 @@ do
     case $yn in
         "Yes, install grub" )
             grubanswer="y"
-            pkgs+=" grub os-prober"
+            pkgs+="grub os-prober "
             if [ -d /sys/firmware/efi ]
             then
-                pkgs+=" efibootmgr"
+                pkgs+="efibootmgr "
                 bios="UEFI"
                 echo "You have an $bios system"
                 echo "You have to create an EFI system partition"
+                echo "Create a swap partition if you want one"
                 read -p "press enter to continue "
             else
                 bios="BIOS"
                 echo "You have a $bios system."
                 echo "Create a bios boot partition for GPT. No need for separate boot partition for MBR"
+                echo "Create a swap partition if you want one"
                 read -p "press enter to continue "
             fi
             break
@@ -65,9 +88,9 @@ then
         mkfs.fat -F 32 $efipartition
         mount --mkdir $efipartition /mnt/boot
     fi
-    sed --expression "2s|^|grubanswer=$grubanswer\nbios=$bios\ndrive=$drive\n|" configuration-script.sh > /mnt/configuration-script.sh
+    sed --expression "2s|^|grubanswer=$grubanswer\nbios=$bios\ndrive=$drive\nkvos=$kvos\n|" /tmp/configuration-script.sh > /mnt/configuration-script.sh
 else
-    sed --expression "2s|^|grubanswer=$grubanswer\nbios=\"not installing\"\ndrive=$drive\n|" configuration-script.sh > /mnt/configuration-script.sh
+    sed --expression "2s|^|grubanswer=$grubanswer\nbios=\"not installing\"\ndrive=$drive\nkvos=$kvos\n|" /tmp/configuration-script.sh > /mnt/configuration-script.sh
 fi
 
 clear
@@ -81,6 +104,7 @@ if [[ $swpanswer = y ]] ; then
 fi
 
 clear
+
 noerror='n'
 while [[ $noerror != 'y'  ]]
 do
@@ -92,7 +116,7 @@ clear ; echo -e "\n Generating fstab..."
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo -e "copying configuration script..."
-cp packages.md dotfile-setup.sh /mnt/
+cp /tmp/dotfile-setup.sh /mnt/
 
 chmod +x /mnt/configuration-script.sh
 

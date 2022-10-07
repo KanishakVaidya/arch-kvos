@@ -43,26 +43,17 @@ if [[ $grubanswer == "y" ]] ; then
     esac
     grub-mkconfig -o /boot/grub/grub.cfg
 fi
-    
+
 
 systemctl enable NetworkManager.service
-chown $username dotfile-setup.sh packages.md 
-mv dotfile-setup.sh packages.md /home/$username
+chown $username /dotfile-setup.sh
+chmod +x /dotfile-setup.sh
+mv /dotfile-setup.sh /home/$username
 
-echo -e "A base arch system is installed \nDo you want to install custom i3wm desktop (KVOS)"
-select yn in "Yes, install KVOS" "No, continue with vanilla arch"
-do
-    case $yn in
-        "Yes, install KVOS" )
-            su -s /bin/bash -c /home/$username/dotfile-setup.sh $username
-            break
-            ;;
-        "No, continue with vanilla arch")
-            echo "Hasta la Vista, $username"
-            break
-            ;;
-        * ) echo "Please enter 1 or 2" ;;
-    esac
-done
-
-echo "Now you can exit out of the chrooted environment. Unmount the drives mounted in /mnt and reboot."
+if $kvos
+then
+    su -s /bin/bash -c /home/$username/dotfile-setup.sh $username
+else
+    echo "Hasta la vista! $username"
+fi
+exit
