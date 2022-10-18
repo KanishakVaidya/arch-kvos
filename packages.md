@@ -6,15 +6,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 - [X] Base
-alacritty arandr autoconf automake base bison blueman conky dunst efibootmgr exa fakeroot feh firefox flameshot flex fzf gcc geany git gvfs gvfs-mtp htop i3-gaps i3blocks i3lock kvantum libtool lxappearance-gtk3 lxqt-archiver lxsession-gtk3 m4 make materia-gtk-theme neovim networkmanager network-manager-applet nodejs ntfs-3g opendoas otf-font-awesome patch pavucontrol-qt pcmanfm-qt picom pkgconf pulseaudio pulseaudio-alsa pulseaudio-bluetooth qt5ct ranger ripgrep rofi rsync sed sshfs starship ttf-dejavu ttf-hack ttf-indic-otf ttf-nerd-fonts-symbols-2048-em-mono udiskie unzip vlc vte3 which xarchiver xcolor xdg-user-dirs yarn zathura zathura-pdf-mupdf zip zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting 
+alacritty arandr autoconf automake base bison blueman conky dunst efibootmgr exa fakeroot feh firefox flameshot flex fzf gcc geany git gvfs gvfs-mtp htop i3-gaps i3blocks i3lock kvantum libtool lxappearance-gtk3 lxqt-archiver lxsession-gtk3 m4 make materia-gtk-theme neovim networkmanager network-manager-applet nodejs ntfs-3g opendoas otf-font-awesome patch pavucontrol-qt pcmanfm-qt picom pkgconf pulseaudio pulseaudio-alsa pulseaudio-bluetooth qt5ct ranger ripgrep rofi rsync sed smplayer smplayer-skins smplayer-themes sshfs starship ttf-dejavu ttf-hack ttf-indic-otf ttf-nerd-fonts-symbols-2048-em-mono udiskie unzip vte3 which xcolor xdg-user-dirs yarn zathura zathura-pdf-mupdf zip zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting 
 
-- [X] Utilities
-imagemagick rclone smplayer v4l2loopback-dkms v4l2loopback-utils w3m xournalpp youtube-dl
+- [ ] Utilities
+imagemagick rclone vlc v4l2loopback-dkms v4l2loopback-utils w3m xournalpp youtube-dl xf86-input-wacom 
 
 - [X] Xorg
-xf86-input-wacom xorg-server xorg-xinit
+xorg-server xorg-xinit
 
-- [X] amd-drivers
+- [ ] amd-drivers
 amd-ucode mesa xf86-video-amdgpu
 
 - [ ] intel-drivers
