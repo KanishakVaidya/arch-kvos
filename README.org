@@ -38,15 +38,33 @@ bash <(curl -s https://raw.githubusercontent.com/kanishakvaidya/arch-kvos/main/b
 #+begin_src bash :tangle base-installation.sh
 #!/bin/bash
 clear
-echo "#############################
-This is KV's arch installation script
-#############################"
+echo "
+░█████╗░██████╗░░█████╗░██╗░░██╗
+██╔══██╗██╔══██╗██╔══██╗██║░░██║
+███████║██████╔╝██║░░╚═╝███████║
+██╔══██║██╔══██╗██║░░██╗██╔══██║
+██║░░██║██║░░██║╚█████╔╝██║░░██║
+╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝
+
+██╗███╗░░██╗░██████╗████████╗░█████╗░██╗░░░░░██╗░░░░░
+██║████╗░██║██╔════╝╚══██╔══╝██╔══██╗██║░░░░░██║░░░░░
+██║██╔██╗██║╚█████╗░░░░██║░░░███████║██║░░░░░██║░░░░░
+██║██║╚████║░╚═══██╗░░░██║░░░██╔══██║██║░░░░░██║░░░░░
+██║██║░╚███║██████╔╝░░░██║░░░██║░░██║███████╗███████╗
+╚═╝╚═╝░░╚══╝╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚══════╝╚══════╝
+
+░██████╗░█████╗░██████╗░██╗██████╗░████████╗
+██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝
+╚█████╗░██║░░╚═╝██████╔╝██║██████╔╝░░░██║░░░
+░╚═══██╗██║░░██╗██╔══██╗██║██╔═══╝░░░░██║░░░
+██████╔╝╚█████╔╝██║░░██║██║██║░░░░░░░░██║░░░
+╚═════╝░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░░░░░░░╚═╝░░░"
 
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
 loadkeys us
 timedatectl set-ntp true
-pkgs="base linux linux-firmware linux-headers "
+pkgs="base linux linux-firmware linux-headers neovim opendoas networkmanager "
 #+end_src
 ** Partitioning and mounting drives
 A good partitioning scheme is as follows:
@@ -57,26 +75,6 @@ A good partitioning scheme is as follows:
 | /mnt        | /dev/sda3 | Linux x86_64 root (/) | Rest of device    |
 
 #+begin_src bash :tangle base-installation.sh
-clear
-echo -e "A base arch system will be installed \nDo you also want to install custom i3wm desktop (KVOS)"
-select yn in "Yes, install KVOS" "No, continue with vanilla arch"
-do
-    case $yn in
-        "Yes, install KVOS" )
-            curl -fLo /tmp/packages.md https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/packages.md
-            curl -fLo /tmp/dotfile-setup.sh https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/dotfile-setup.sh
-            vim /tmp/packages.md
-            pkgs+=$(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
-            kvos=true
-            break
-            ;;
-        "No, continue with vanilla arch")
-            kvos=false
-            break
-            ;;
-        * ) echo "Please enter 1 or 2" ;;
-    esac
-done
 curl -fLo /tmp/configuration-script.sh https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/configuration-script.sh
 clear
 echo "Do you want to install grub bootloader?"
@@ -135,9 +133,9 @@ then
         mkfs.fat -F 32 $efipartition
         mount --mkdir $efipartition /mnt/boot
     fi
-    sed --expression "2s|^|grubanswer=$grubanswer\nbios=$bios\ndrive=$drive\nkvos=$kvos\n|" /tmp/configuration-script.sh > /mnt/configuration-script.sh
+    sed --expression "2s|^|grubanswer=$grubanswer\nbios=$bios\ndrive=$drive\n|" /tmp/configuration-script.sh > /mnt/configuration-script.sh
 else
-    sed --expression "2s|^|grubanswer=$grubanswer\nbios=\"not installing\"\ndrive=$drive\nkvos=$kvos\n|" /tmp/configuration-script.sh > /mnt/configuration-script.sh
+    sed --expression "2s|^|grubanswer=$grubanswer\nbios=\"not installing\"\ndrive=$drive\n|" /tmp/configuration-script.sh > /mnt/configuration-script.sh
 fi
 
 clear
@@ -172,7 +170,6 @@ clear ; echo -e "\n Generating fstab..."
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo -e "copying configuration script..."
-cp /tmp/dotfile-setup.sh /mnt/
 
 chmod +x /mnt/configuration-script.sh
 
@@ -216,10 +213,9 @@ passwd
 
 echo -e "\n Setting up a user...\n"
 read -p "Enter a username: " username
-useradd -m -G audio,video,storage,optical,wheel -s /usr/bin/zsh $username
+useradd -m -G audio,video,storage,optical,wheel $username
 passwd $username
 echo "permit persist $username as root" > /etc/doas.conf
-echo 'export ZDOTDIR="$HOME"/.config/zsh' > /etc/zsh/zshenv
 echo "setting a link to doas"
 ln -sf /bin/doas /bin/sudo
 #+end_src
@@ -239,30 +235,90 @@ fi
 
 
 systemctl enable NetworkManager.service
-chown $username /dotfile-setup.sh
-chmod +x /dotfile-setup.sh
-mv /dotfile-setup.sh /home/$username
-
-if $kvos
-then
-    su -s /bin/bash -c /home/$username/dotfile-setup.sh $username
-else
-    echo "Hasta la vista! $username"
-fi
 exit
 #+end_src
 * dotfiles setup
+** Installing packages
+For KVOS installation, following packages will be installed:
+#+begin_src markdown :tangle packages.md
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Put an X in between [ ] to download said packages %
+% You can also remove packages or add by appending  %
+%    package names to a line in a [X] section       %
+%         Then save the file and exit               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- [X] Base
+alacritty arandr autoconf automake base bison blueman conky dunst efibootmgr exa fakeroot feh firefox flameshot flex fzf gcc geany git gvfs gvfs-mtp htop i3-gaps i3blocks i3lock jack2 kvantum libtool lxappearance-gtk3 lxqt-archiver lxsession-gtk3 m4 make man-db materia-gtk-theme neovim networkmanager network-manager-applet nodejs ntfs-3g otf-font-awesome patch pavucontrol-qt pcmanfm-qt picom pkgconf pulseaudio pulseaudio-alsa pulseaudio-bluetooth qt5ct ranger ripgrep rofi rsync sed smplayer smplayer-skins smplayer-themes sshfs starship ttf-dejavu ttf-hack ttf-indic-otf ttf-nerd-fonts-symbols-2048-em-mono udiskie unzip vte3 which xcolor xdg-user-dirs yarn zathura zathura-pdf-mupdf zip zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting
+
+- [ ] Utilities
+imagemagick rclone vlc v4l2loopback-dkms v4l2loopback-utils w3m xournalpp youtube-dl xf86-input-wacom
+
+- [X] Xorg
+xorg-server xorg-xinit
+
+- [ ] amd-drivers
+amd-ucode mesa xf86-video-amdgpu
+
+- [ ] intel-drivers
+intel-ucode mesa xf86-video-intel
+
+- [ ] nvidia drivers
+nvidia nvidia-prime nvidia-utils nvtop
+
+- [ ] Office suit (remove unwanted packages)
+libreoffice-fresh
+
+- [ ] Development
+emacs pyright python-pip
+
+- [ ] TeX/LaTeX
+texlive-most
+#+end_src
+
+This is the KVOS installation script
+#+begin_src bash :tangle dotfile-setup.sh
+echo "
+██╗░░██╗██╗░░░██╗░█████╗░░██████╗  ██╗███╗░░██╗░██████╗████████╗░█████╗░██╗░░░░░██╗░░░░░███████╗██████╗░
+██║░██╔╝██║░░░██║██╔══██╗██╔════╝  ██║████╗░██║██╔════╝╚══██╔══╝██╔══██╗██║░░░░░██║░░░░░██╔════╝██╔══██╗
+█████═╝░╚██╗░██╔╝██║░░██║╚█████╗░  ██║██╔██╗██║╚█████╗░░░░██║░░░███████║██║░░░░░██║░░░░░█████╗░░██████╔╝
+██╔═██╗░░╚████╔╝░██║░░██║░╚═══██╗  ██║██║╚████║░╚═══██╗░░░██║░░░██╔══██║██║░░░░░██║░░░░░██╔══╝░░██╔══██╗
+██║░╚██╗░░╚██╔╝░░╚█████╔╝██████╔╝  ██║██║░╚███║██████╔╝░░░██║░░░██║░░██║███████╗███████╗███████╗██║░░██║
+╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░╚═════╝░  ╚═╝╚═╝░░╚══╝╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚══════╝╚══════╝╚══════╝╚═╝░░╚═╝
+        "
+
+echo "Please grant root priveliges to $USER"
+
+curl -fLo /tmp/packages.md https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/packages.md
+nvim /tmp/packages.md
+
+noerror='n'
+while [[ $noerror != 'y'  ]]
+do
+    doas pacman -S --needed --noconfirm $(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
+    read -p "Installation ended successfully? (y/n): " noerror
+done
+echo 'export ZDOTDIR="$HOME"/.config/zsh' | doas tee /etc/zsh/zshenv
+xdg-user-dirs-update
+fc-cache -fv
+
+#+end_src
 ** Bringing dotfiles from github
 Managing dotfiles using a git bare repository is referenced from [[https://www.anand-iyer.com/blog/2018/a-simpler-way-to-manage-your-dotfiles.html][this Anand Iyer's blog]]
 #+begin_src bash :tangle dotfile-setup.sh
 #!/bin/bash
-mkdir -p $HOME/desktop $HOME/dwn $HOME/templates $HOME/shared $HOME/doc $HOME/music $HOME/pic/.wall $HOME/vid $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config $HOME/.local/share/AppImages $HOME/.local/share/fonts
+[[ -d $HOME/Desktop ]] && mv $HOME/Desktop $HOME/desktop || mkdir -p $HOME/desktop
+[[ -d $HOME/Downloads ]] && mv $HOME/Downloads $HOME/dwn || mkdir -p $HOME/dwn
+[[ -d $HOME/Templates ]] && mv $HOME/Templates $HOME/templates || mkdir -p $HOME/templates
+[[ -d $HOME/Public ]] && mv $HOME/Public $HOME/shared || mkdir -p $HOME/shared
+[[ -d $HOME/Documents ]] && mv $HOME/Documents $HOME/doc || mkdir -p $HOME/doc
+[[ -d $HOME/Music ]] && mv $HOME/Music $HOME/music || mkdir -p $HOME/music
+[[ -d $HOME/Pictures ]] && mv $HOME/Pictures $HOME/pic || mkdir -p $HOME/pic
+[[ -d $HOME/Videos ]] && mv $HOME/Videos $HOME/vid || mkdir -p $HOME/vid
+mkdir -p $HOME/pic/.wall $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config $HOME/.local/share/AppImages $HOME/.local/share/fonts
 
 git clone --depth=1 --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
 rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
-
-xdg-user-dirs-update
-fc-cache -fv
 
 git clone --depth=1 https://github.com/KanishakVaidya/wallpapers.git $HOME/pic/.wall
 #+end_src
@@ -283,6 +339,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim -c PlugInstall -c qa
 clear
+
 echo "Now you can restart the system. Log into your account and start the session using startx command"
 exit
 #+end_src

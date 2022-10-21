@@ -26,10 +26,9 @@ passwd
 
 echo -e "\n Setting up a user...\n"
 read -p "Enter a username: " username
-useradd -m -G audio,video,storage,optical,wheel -s /usr/bin/zsh $username
+useradd -m -G audio,video,storage,optical,wheel $username
 passwd $username
 echo "permit persist $username as root" > /etc/doas.conf
-echo 'export ZDOTDIR="$HOME"/.config/zsh' > /etc/zsh/zshenv
 echo "setting a link to doas"
 ln -sf /bin/doas /bin/sudo
 
@@ -46,14 +45,4 @@ fi
 
 
 systemctl enable NetworkManager.service
-chown $username /dotfile-setup.sh
-chmod +x /dotfile-setup.sh
-mv /dotfile-setup.sh /home/$username
-
-if $kvos
-then
-    su -s /bin/bash -c /home/$username/dotfile-setup.sh $username
-else
-    echo "Hasta la vista! $username"
-fi
 exit

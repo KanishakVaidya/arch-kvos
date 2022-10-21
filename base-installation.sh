@@ -1,35 +1,33 @@
 #!/bin/bash
 clear
-echo "#############################
-This is KV's arch installation script
-#############################"
+echo "
+░█████╗░██████╗░░█████╗░██╗░░██╗
+██╔══██╗██╔══██╗██╔══██╗██║░░██║
+███████║██████╔╝██║░░╚═╝███████║
+██╔══██║██╔══██╗██║░░██╗██╔══██║
+██║░░██║██║░░██║╚█████╔╝██║░░██║
+╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝
+
+██╗███╗░░██╗░██████╗████████╗░█████╗░██╗░░░░░██╗░░░░░
+██║████╗░██║██╔════╝╚══██╔══╝██╔══██╗██║░░░░░██║░░░░░
+██║██╔██╗██║╚█████╗░░░░██║░░░███████║██║░░░░░██║░░░░░
+██║██║╚████║░╚═══██╗░░░██║░░░██╔══██║██║░░░░░██║░░░░░
+██║██║░╚███║██████╔╝░░░██║░░░██║░░██║███████╗███████╗
+╚═╝╚═╝░░╚══╝╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚══════╝╚══════╝
+
+░██████╗░█████╗░██████╗░██╗██████╗░████████╗
+██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝
+╚█████╗░██║░░╚═╝██████╔╝██║██████╔╝░░░██║░░░
+░╚═══██╗██║░░██╗██╔══██╗██║██╔═══╝░░░░██║░░░
+██████╔╝╚█████╔╝██║░░██║██║██║░░░░░░░░██║░░░
+╚═════╝░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░░░░░░░╚═╝░░░"
 
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
 loadkeys us
 timedatectl set-ntp true
-pkgs="base linux linux-firmware linux-headers "
+pkgs="base linux linux-firmware linux-headers neovim opendoas networkmanager "
 
-clear
-echo -e "A base arch system will be installed \nDo you also want to install custom i3wm desktop (KVOS)"
-select yn in "Yes, install KVOS" "No, continue with vanilla arch"
-do
-    case $yn in
-        "Yes, install KVOS" )
-            curl -fLo /tmp/packages.md https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/packages.md
-            curl -fLo /tmp/dotfile-setup.sh https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/dotfile-setup.sh
-            vim /tmp/packages.md
-            pkgs+=$(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
-            kvos=true
-            break
-            ;;
-        "No, continue with vanilla arch")
-            kvos=false
-            break
-            ;;
-        * ) echo "Please enter 1 or 2" ;;
-    esac
-done
 curl -fLo /tmp/configuration-script.sh https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/configuration-script.sh
 clear
 echo "Do you want to install grub bootloader?"
@@ -88,9 +86,9 @@ then
         mkfs.fat -F 32 $efipartition
         mount --mkdir $efipartition /mnt/boot
     fi
-    sed --expression "2s|^|grubanswer=$grubanswer\nbios=$bios\ndrive=$drive\nkvos=$kvos\n|" /tmp/configuration-script.sh > /mnt/configuration-script.sh
+    sed --expression "2s|^|grubanswer=$grubanswer\nbios=$bios\ndrive=$drive\n|" /tmp/configuration-script.sh > /mnt/configuration-script.sh
 else
-    sed --expression "2s|^|grubanswer=$grubanswer\nbios=\"not installing\"\ndrive=$drive\nkvos=$kvos\n|" /tmp/configuration-script.sh > /mnt/configuration-script.sh
+    sed --expression "2s|^|grubanswer=$grubanswer\nbios=\"not installing\"\ndrive=$drive\n|" /tmp/configuration-script.sh > /mnt/configuration-script.sh
 fi
 
 clear
@@ -116,7 +114,6 @@ clear ; echo -e "\n Generating fstab..."
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo -e "copying configuration script..."
-cp /tmp/dotfile-setup.sh /mnt/
 
 chmod +x /mnt/configuration-script.sh
 
