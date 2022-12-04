@@ -19,8 +19,6 @@ do
     read -p "Installation ended successfully? (y/n): " noerror
 done
 echo 'export ZDOTDIR="$HOME"/.config/zsh' | doas tee /etc/zsh/zshenv
-xdg-user-dirs-update
-fc-cache -fv
 
 #!/bin/bash
 [[ -d $HOME/Desktop ]] && mv $HOME/Desktop $HOME/desktop || mkdir -p $HOME/desktop
@@ -32,6 +30,9 @@ fc-cache -fv
 [[ -d $HOME/Pictures ]] && mv $HOME/Pictures $HOME/pic || mkdir -p $HOME/pic
 [[ -d $HOME/Videos ]] && mv $HOME/Videos $HOME/vid || mkdir -p $HOME/vid
 mkdir -p $HOME/pic/.wall $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config $HOME/.local/share/AppImages $HOME/.local/share/fonts
+
+xdg-user-dirs-update
+fc-cache -fv
 
 git clone --depth=1 --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
 rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
