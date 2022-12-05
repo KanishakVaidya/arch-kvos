@@ -1,4 +1,12 @@
 #!/bin/bash
+config_text="
+░██████╗██╗░░░██╗░██████╗████████╗███████╗███╗░░░███╗  ░█████╗░░█████╗░███╗░░██╗███████╗██╗░██████╗░
+██╔════╝╚██╗░██╔╝██╔════╝╚══██╔══╝██╔════╝████╗░████║  ██╔══██╗██╔══██╗████╗░██║██╔════╝██║██╔════╝░
+╚█████╗░░╚████╔╝░╚█████╗░░░░██║░░░█████╗░░██╔████╔██║  ██║░░╚═╝██║░░██║██╔██╗██║█████╗░░██║██║░░██╗░
+░╚═══██╗░░╚██╔╝░░░╚═══██╗░░░██║░░░██╔══╝░░██║╚██╔╝██║  ██║░░██╗██║░░██║██║╚████║██╔══╝░░██║██║░░╚██╗
+██████╔╝░░░██║░░░██████╔╝░░░██║░░░███████╗██║░╚═╝░██║  ╚█████╔╝╚█████╔╝██║░╚███║██║░░░░░██║╚██████╔╝
+╚═════╝░░░░╚═╝░░░╚═════╝░░░░╚═╝░░░╚══════╝╚═╝░░░░░╚═╝  ░╚════╝░░╚════╝░╚═╝░░╚══╝╚═╝░░░░░╚═╝░╚═════╝░"
+echo $config_text
 ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 hwclock --systohc
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
@@ -21,7 +29,9 @@ echo '	Option "ScrollMethod" "twofinger"' >> /etc/X11/xorg.conf.d/30-touchpad.co
 echo '	Option "NaturalScrolling" "true"' >> /etc/X11/xorg.conf.d/30-touchpad.conf
 echo 'EndSection' >> /etc/X11/xorg.conf.d/30-touchpad.conf
 
-clear ; echo -e "Setting Root Password \n"
+clear
+echo $config_text
+echo -e "Setting Root Password \n"
 passwd
 
 echo -e "\n Setting up a user...\n"

@@ -1,4 +1,4 @@
-echo "
+dotfile_text="
 ██╗░░██╗██╗░░░██╗░█████╗░░██████╗  ██╗███╗░░██╗░██████╗████████╗░█████╗░██╗░░░░░██╗░░░░░███████╗██████╗░
 ██║░██╔╝██║░░░██║██╔══██╗██╔════╝  ██║████╗░██║██╔════╝╚══██╔══╝██╔══██╗██║░░░░░██║░░░░░██╔════╝██╔══██╗
 █████═╝░╚██╗░██╔╝██║░░██║╚█████╗░  ██║██╔██╗██║╚█████╗░░░░██║░░░███████║██║░░░░░██║░░░░░█████╗░░██████╔╝
@@ -6,6 +6,7 @@ echo "
 ██║░╚██╗░░╚██╔╝░░╚█████╔╝██████╔╝  ██║██║░╚███║██████╔╝░░░██║░░░██║░░██║███████╗███████╗███████╗██║░░██║
 ╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░╚═════╝░  ╚═╝╚═╝░░╚══╝╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚══════╝╚══════╝╚══════╝╚═╝░░╚═╝
         "
+echo $dofile_text
 
 echo "Please grant root priveliges to $USER"
 
@@ -19,6 +20,7 @@ do
     read -p "Installation ended successfully? (y/n): " noerror
 done
 echo 'export ZDOTDIR="$HOME"/.config/zsh' | doas tee /etc/zsh/zshenv
+chsh -s /usr/bin/zsh
 
 #!/bin/bash
 [[ -d $HOME/Desktop ]] && mv $HOME/Desktop $HOME/desktop || mkdir -p $HOME/desktop
@@ -31,11 +33,11 @@ echo 'export ZDOTDIR="$HOME"/.config/zsh' | doas tee /etc/zsh/zshenv
 [[ -d $HOME/Videos ]] && mv $HOME/Videos $HOME/vid || mkdir -p $HOME/vid
 mkdir -p $HOME/pic/.wall $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config $HOME/.local/share/AppImages $HOME/.local/share/fonts
 
-xdg-user-dirs-update
-fc-cache -fv
-
 git clone --depth=1 --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
 rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
+
+xdg-user-dirs-update
+fc-cache -fv
 
 git clone --depth=1 https://github.com/KanishakVaidya/wallpapers.git $HOME/pic/.wall
 

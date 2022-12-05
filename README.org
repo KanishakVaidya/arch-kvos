@@ -38,7 +38,7 @@ bash <(curl -s https://raw.githubusercontent.com/kanishakvaidya/arch-kvos/main/b
 #+begin_src bash :tangle base-installation.sh
 #!/bin/bash
 clear
-echo "
+install_text="
 ░█████╗░██████╗░░█████╗░██╗░░██╗
 ██╔══██╗██╔══██╗██╔══██╗██║░░██║
 ███████║██████╔╝██║░░╚═╝███████║
@@ -60,6 +60,7 @@ echo "
 ██████╔╝╚█████╔╝██║░░██║██║██║░░░░░░░░██║░░░
 ╚═════╝░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░░░░░░░╚═╝░░░"
 
+echo $install_text
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
 loadkeys us
@@ -77,6 +78,7 @@ A good partitioning scheme is as follows:
 #+begin_src bash :tangle base-installation.sh
 curl -fLo /tmp/configuration-script.sh https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/configuration-script.sh
 clear
+echo $install_text
 echo "Do you want to install grub bootloader?"
 select yn in "Yes, install grub" "No, don't install grub"
 do
@@ -110,12 +112,14 @@ do
 done
 
 clear
+echo $install_text
 lsblk
 echo -e "\n"
 read -p "Enter the drive (e.g. /dev/sda or /dev/nvme0n1): " drive
 cfdisk $drive
 
 clear
+echo $install_text
 lsblk
 echo -e "\n"
 read -p "Enter the root partition (e.g. /dev/sda2 or /dev/nvme0n1p2): " partition
@@ -123,6 +127,7 @@ mkfs.ext4 $partition
 mount $partition /mnt
 
 clear
+echo $install_text
 if [[ $grubanswer == "y" ]]
 then
     if [[ $bios == "UEFI" ]]
@@ -139,6 +144,7 @@ else
 fi
 
 clear
+echo $install_text
 read -p "Create swap partition? [y/n]: " swpanswer
 if [[ $swpanswer = y ]] ; then
     lsblk
@@ -158,6 +164,7 @@ Installing
  - git
 #+begin_src bash :tangle base-installation.sh
 clear
+echo $install_text
 
 noerror='n'
 while [[ $noerror != 'y'  ]]
@@ -166,7 +173,9 @@ do
     read -p "Installation ended successfully? (y/n): " noerror
 done
 
-clear ; echo -e "\n Generating fstab..."
+clear
+echo $install_text
+echo -e "\n Generating fstab..."
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo -e "copying configuration script..."
@@ -183,6 +192,14 @@ This should be run after chrooting into the arch system
 ** Time zone, Localization, Touchpad and Network configuration
 #+begin_src bash :tangle configuration-script.sh
 #!/bin/bash
+config_text="
+░██████╗██╗░░░██╗░██████╗████████╗███████╗███╗░░░███╗  ░█████╗░░█████╗░███╗░░██╗███████╗██╗░██████╗░
+██╔════╝╚██╗░██╔╝██╔════╝╚══██╔══╝██╔════╝████╗░████║  ██╔══██╗██╔══██╗████╗░██║██╔════╝██║██╔════╝░
+╚█████╗░░╚████╔╝░╚█████╗░░░░██║░░░█████╗░░██╔████╔██║  ██║░░╚═╝██║░░██║██╔██╗██║█████╗░░██║██║░░██╗░
+░╚═══██╗░░╚██╔╝░░░╚═══██╗░░░██║░░░██╔══╝░░██║╚██╔╝██║  ██║░░██╗██║░░██║██║╚████║██╔══╝░░██║██║░░╚██╗
+██████╔╝░░░██║░░░██████╔╝░░░██║░░░███████╗██║░╚═╝░██║  ╚█████╔╝╚█████╔╝██║░╚███║██║░░░░░██║╚██████╔╝
+╚═════╝░░░░╚═╝░░░╚═════╝░░░░╚═╝░░░╚══════╝╚═╝░░░░░╚═╝  ░╚════╝░░╚════╝░╚═╝░░╚══╝╚═╝░░░░░╚═╝░╚═════╝░"
+echo $config_text
 ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 hwclock --systohc
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
@@ -208,7 +225,9 @@ echo 'EndSection' >> /etc/X11/xorg.conf.d/30-touchpad.conf
 #+end_src
 ** Users and passwords
 #+begin_src bash :tangle configuration-script.sh
-clear ; echo -e "Setting Root Password \n"
+clear
+echo $config_text
+echo -e "Setting Root Password \n"
 passwd
 
 echo -e "\n Setting up a user...\n"
@@ -255,7 +274,7 @@ alacritty arandr autoconf automake base bison blueman conky dunst efibootmgr exa
 imagemagick rclone vlc v4l2loopback-dkms v4l2loopback-utils w3m xournalpp youtube-dl xf86-input-wacom
 
 - [X] Xorg
-xorg-server xorg-xinit
+xorg xorg-xinit
 
 - [ ] amd-drivers
 amd-ucode mesa xf86-video-amdgpu
@@ -278,7 +297,7 @@ texlive-most
 
 This is the KVOS installation script
 #+begin_src bash :tangle dotfile-setup.sh
-echo "
+dotfile_text="
 ██╗░░██╗██╗░░░██╗░█████╗░░██████╗  ██╗███╗░░██╗░██████╗████████╗░█████╗░██╗░░░░░██╗░░░░░███████╗██████╗░
 ██║░██╔╝██║░░░██║██╔══██╗██╔════╝  ██║████╗░██║██╔════╝╚══██╔══╝██╔══██╗██║░░░░░██║░░░░░██╔════╝██╔══██╗
 █████═╝░╚██╗░██╔╝██║░░██║╚█████╗░  ██║██╔██╗██║╚█████╗░░░░██║░░░███████║██║░░░░░██║░░░░░█████╗░░██████╔╝
@@ -286,6 +305,7 @@ echo "
 ██║░╚██╗░░╚██╔╝░░╚█████╔╝██████╔╝  ██║██║░╚███║██████╔╝░░░██║░░░██║░░██║███████╗███████╗███████╗██║░░██║
 ╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░╚═════╝░  ╚═╝╚═╝░░╚══╝╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚══════╝╚══════╝╚══════╝╚═╝░░╚═╝
         "
+echo $dofile_text
 
 echo "Please grant root priveliges to $USER"
 
@@ -299,6 +319,7 @@ do
     read -p "Installation ended successfully? (y/n): " noerror
 done
 echo 'export ZDOTDIR="$HOME"/.config/zsh' | doas tee /etc/zsh/zshenv
+chsh -s /usr/bin/zsh
 
 #+end_src
 ** Bringing dotfiles from github
@@ -315,11 +336,11 @@ Managing dotfiles using a git bare repository is referenced from [[https://www.a
 [[ -d $HOME/Videos ]] && mv $HOME/Videos $HOME/vid || mkdir -p $HOME/vid
 mkdir -p $HOME/pic/.wall $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config $HOME/.local/share/AppImages $HOME/.local/share/fonts
 
-xdg-user-dirs-update
-fc-cache -fv
-
 git clone --depth=1 --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
 rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
+
+xdg-user-dirs-update
+fc-cache -fv
 
 git clone --depth=1 https://github.com/KanishakVaidya/wallpapers.git $HOME/pic/.wall
 #+end_src

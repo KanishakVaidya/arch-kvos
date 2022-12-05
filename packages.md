@@ -12,7 +12,7 @@ alacritty arandr autoconf automake base bison blueman conky dunst efibootmgr exa
 imagemagick rclone vlc v4l2loopback-dkms v4l2loopback-utils w3m xournalpp youtube-dl xf86-input-wacom
 
 - [X] Xorg
-xorg-server xorg-xinit
+xorg xorg-xinit
 
 - [ ] amd-drivers
 amd-ucode mesa xf86-video-amdgpu
