@@ -16,10 +16,10 @@ nvim /tmp/packages.md
 noerror='n'
 while [[ $noerror != 'y'  ]]
 do
-    doas pacman -S --needed --noconfirm $(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
+    sudo pacman -S --needed --noconfirm $(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
     read -p "Installation ended successfully? (y/n): " noerror
 done
-echo 'export ZDOTDIR="$HOME"/.config/zsh' | doas tee /etc/zsh/zshenv
+echo 'export ZDOTDIR="$HOME"/.config/zsh' | sudo tee /etc/zsh/zshenv
 chsh -s /usr/bin/zsh
 
 #!/bin/bash
