@@ -12,7 +12,7 @@ echo "Please grant root priveliges to $USER"
 echo "
 [kv-arch-repo]
 SigLevel = Optional TrustAll
-Server = https://kanishakvaidya.github.io/$repo/$arch" | sudo tee -a /etc/pacman.conf
+Server = https://kanishakvaidya.github.io/\$repo/\$arch" | sudo tee -a /etc/pacman.conf
 
 curl -fLo /tmp/packages.md https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/packages.md
 nvim /tmp/packages.md
@@ -20,7 +20,7 @@ nvim /tmp/packages.md
 noerror='n'
 while [[ $noerror != 'y'  ]]
 do
-    sudo pacman -S --needed --noconfirm $(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
+    sudo pacman -Syu --needed --noconfirm $(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
     read -p "Installation ended successfully? (y/n): " noerror
 done
 echo 'export ZDOTDIR="$HOME"/.config/zsh' | sudo tee /etc/zsh/zshenv
@@ -35,7 +35,7 @@ chsh -s /usr/bin/zsh
 [[ -d $HOME/Music ]] && mv $HOME/Music $HOME/music || mkdir -p $HOME/music
 [[ -d $HOME/Pictures ]] && mv $HOME/Pictures $HOME/pic || mkdir -p $HOME/pic
 [[ -d $HOME/Videos ]] && mv $HOME/Videos $HOME/vid || mkdir -p $HOME/vid
-mkdir -p $HOME/pic/.wall $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config $HOME/.local/share/AppImages $HOME/.local/share/fonts
+mkdir -p $HOME/.local/state/zsh $HOME/.local/share $HOME/.local/bin $HOME/.local/share/icons/ $HOME/.config $HOME/.local/share/AppImages $HOME/.local/share/fonts
 
 git clone --depth=1 --separate-git-dir=$HOME/.config/my_dotfiles https://github.com/KanishakVaidya/dotfiles.git /tmp/tmpdotfiles
 rsync --recursive --verbose --exclude '.git' /tmp/tmpdotfiles/ $HOME/
@@ -57,7 +57,7 @@ nvim -c PlugInstall -c qa
 clear
 
 git clone https://aur.archlinux.org/paru-bin.git /tmp/paru-bin
-(cd /tmp/paru-git ; makepkg -si)
+(cd /tmp/paru-bin ; makepkg -si)
 
 echo "
 _/\\\________/\\\_____/\\\\\\\\\________/\\\\\\\\\\\____/\\\\\\\\\\\\\\\_____/\\\\\\\\\____
