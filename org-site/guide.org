@@ -1,6 +1,6 @@
-#+title:
+#+title: KVOS Guides
 #+HTML_HEAD: <link rel="stylesheet" href="./style.css">
-#+OPTIONS: toc:nil num:nil timestamp:nil html-style:nil
+#+OPTIONS: toc:nil num:nil timestamp:nil html-style:nil title:nil
 
 #+begin_export html
 <nav id="nav">
@@ -19,3 +19,32 @@
 </nav>
 
 #+end_export
+
+* After KVOS installation
+** Changing keyboard and display brightness
+Only root can change the brightness by editing files in ~/sys/class/backlight~. To allow users in the video group to change the brightness, a udev rule such as the following can be used (replace the <vendor> with your vendor id. E.g. amdgpu_bl0 acpi_video0, intel_backlight. Find it using ~ls /sys/class/backlight~)
+*** References
+- [[https://superuser.com/a/1393488][Writing to file /sys/class/backlight/<vendor>/brightness]]
+- [[https://unix.stackexchange.com/a/593121][How to set permissions in /sys permanently?]]
+
+** Using Wacom
+*** Install the driver
+#+begin_src shell
+pacman -S xf86-input-wacom
+#+end_src
+This provides xsetwacom command.
+*** Mapping the tablet to a display (for multi-monitor)
+First list the wacom devices using the command
+#+begin_src shell
+xsetwacom list devices
+#+end_src
+A sample output is
+#+begin_src
+# Wacom One by Wacom S Pen stylus 	id: 15	type: STYLUS
+# Wacom One by Wacom S Pen eraser 	id: 23	type: ERASER
+#+end_src
+To map wacom tablet with ID 15 to display named HDMI-1, use following command
+#+begin_src shell
+xsetwacom --set "15" MapToOutput HDMI-1
+#+end_src
+Sometimes output names "HEAD-0" and "HEAD-1" have to be used insted of HDMI-1
