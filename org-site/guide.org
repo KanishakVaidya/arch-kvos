@@ -1,0 +1,21 @@
+#+title:
+#+HTML_HEAD: <link rel="stylesheet" href="./style.css">
+#+OPTIONS: toc:nil num:nil timestamp:nil html-style:nil
+
+#+begin_export html
+<nav id="nav">
+    <ul>
+       <li class="">
+           <a href="./index.html">Home</a>
+       <li class="">
+           <a href="./screenshots.html">Screenshots</a>
+       <li class="">
+           <a href="./installation.html">Install KVOS</a>
+       <li class="current">
+           <a href="./guide.html">Guide</a>
+       <li class="">
+           <a href="./software.html">Pre-Installed</a>
+    </ul>
+</nav>
+
+#+end_export

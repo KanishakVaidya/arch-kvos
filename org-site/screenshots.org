@@ -1,0 +1,56 @@
+#+title: Screenshots
+#+HTML_HEAD: <link rel="stylesheet" href="./style.css">
+#+OPTIONS: toc:nil num:nil timestamp:nil html-style:nil title:nil
+
+#+begin_export html
+<nav id="nav">
+    <ul>
+       <li class="">
+           <a href="./index.html">Home</a>
+       <li class="current">
+           <a href="./screenshots.html">Screenshots</a>
+       <li class="">
+           <a href="./installation.html">Install KVOS</a>
+       <li class="">
+           <a href="./guide.html">Guide</a>
+       <li class="">
+           <a href="./software.html">Pre-Installed</a>
+    </ul>
+</nav>
+#+end_export
+
+#+CAPTION: The Desktop
+[[./static/01-desktop.png]]
+-----
+
+#+CAPTION: Clicking on date time module opens this month calendar
+[[./static/02-date.png]]
+-----
+
+#+CAPTION: Right-Clicking on date time module opens this year calendar
+[[./static/03-date-year.png]]
+-----
+
+#+CAPTION: Clicking network module opens [[https://github.com/firecat53/networkmanager-dmenu][networkmanager-dmenu]]
+[[./static/04-network.png]]
+-----
+
+#+CAPTION: Rofi applauncher lists desktop entries as well as appimages in ~$HOME/.local/share/AppImages~
+[[./static/05-rofi.png]]
+-----
+
+#+CAPTION: Using ~alacritty~ terminal emulator. Default user shell is ~zsh~
+[[./static/06-terminal.png]]
+-----
+
+#+CAPTION: Some commands are aliased. Aliases are put in ~$HOME/.config/alias.sh~
+[[./static/07-shell.png]]
+-----
+
+#+CAPTION: ~zsh~ is configured with syntax highlighting and autosuggestions
+[[./static/08-shell.png]]
+-----
+
+#+CAPTION: Default theme is materia dark gtk and default icon theme is papirus icon theme
+[[./static/09-theme.png]]
+-----
