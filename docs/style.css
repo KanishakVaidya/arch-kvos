@@ -33,7 +33,7 @@ background-color: var(--background);
 font-family: "Monaco", monospace;
 font-size:16pt;
 font-weight:100;
-line-height:1.00em
+line-height:1.50em
 }
 
 ol li{
@@ -135,11 +135,13 @@ padding: 10px;
 h2{
 color: var(--magenta);
 font-size: 200%;
+line-height: 1.2em;
 }
 
 h3{
 color: var(--blue);
 font-size: 180%;
+line-height: 1.2em;
 }
 
 code {
