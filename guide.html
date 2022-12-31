@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KVOS Guides</title>
+<meta name="author" content="Kanishak Vaidya" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="content" class="content">
+<nav id="nav">
+    <ul>
+       <li class="">
+           <a href="./index.html">Home</a>
+       <li class="">
+           <a href="./screenshots.html">Screenshots</a>
+       <li class="">
+           <a href="./installation.html">Install KVOS</a>
+       <li class="current">
+           <a href="./guide.html">Guide</a>
+       <li class="">
+           <a href="./software.html">Pre-Installed</a>
+    </ul>
+</nav>
+
+<div id="outline-container-org37cdf92" class="outline-2">
+<h2 id="org37cdf92">After KVOS installation</h2>
+<div class="outline-text-2" id="text-org37cdf92">
+</div>
+<div id="outline-container-orgf1f0670" class="outline-3">
+<h3 id="orgf1f0670">Changing keyboard and display brightness</h3>
+<div class="outline-text-3" id="text-orgf1f0670">
+<p>
+Only root can change the brightness by editing files in <code>/sys/class/backlight</code>. To allow users in the video group to change the brightness, a udev rule such as the following can be used (replace the &lt;vendor&gt; with your vendor id. E.g. amdgpu_bl0 acpi_video0, intel_backlight. Find it using <code>ls /sys/class/backlight</code>)
+</p>
+</div>
+<div id="outline-container-org8359bb7" class="outline-4">
+<h4 id="org8359bb7">References</h4>
+<div class="outline-text-4" id="text-org8359bb7">
+<ul class="org-ul">
+<li><a href="https://superuser.com/a/1393488">Writing to file /sys/class/backlight/&lt;vendor&gt;/brightness</a></li>
+<li><a href="https://unix.stackexchange.com/a/593121">How to set permissions in /sys permanently?</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf77593f" class="outline-3">
+<h3 id="orgf77593f">Using Wacom</h3>
+<div class="outline-text-3" id="text-orgf77593f">
+</div>
+<div id="outline-container-orgf440898" class="outline-4">
+<h4 id="orgf440898">Install the driver</h4>
+<div class="outline-text-4" id="text-orgf440898">
+<div class="org-src-container">
+<pre class="src src-shell">pacman -S xf86-input-wacom
+</pre>
+</div>
+<p>
+This provides xsetwacom command.
+</p>
+</div>
+</div>
+<div id="outline-container-org049097f" class="outline-4">
+<h4 id="org049097f">Mapping the tablet to a display (for multi-monitor)</h4>
+<div class="outline-text-4" id="text-org049097f">
+<p>
+First list the wacom devices using the command
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">xsetwacom list devices
+</pre>
+</div>
+<p>
+A sample output is
+</p>
+<pre class="example">
+# Wacom One by Wacom S Pen stylus 	id: 15	type: STYLUS
+# Wacom One by Wacom S Pen eraser 	id: 23	type: ERASER
+</pre>
+<p>
+To map wacom tablet with ID 15 to display named HDMI-1, use following command
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">xsetwacom --set <span style="color: #b5bd68;">"15"</span> MapToOutput HDMI-1
+</pre>
+</div>
+<p>
+Sometimes output names &ldquo;HEAD-0&rdquo; and &ldquo;HEAD-1&rdquo; have to be used insted of HDMI-1
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Kanishak Vaidya</p>
+</div>
+</body>
+</html>
