@@ -35,7 +35,7 @@
 <h3 id="orgf1f0670">Changing keyboard and display brightness</h3>
 <div class="outline-text-3" id="text-orgf1f0670">
 <p>
-Only root can change the brightness by editing files in <code>/sys/class/backlight</code>. To allow users in the video group to change the brightness, a udev rule such as the following can be used (replace the &lt;vendor&gt; with your vendor id. E.g. amdgpu<sub>bl0</sub> acpi<sub>video0</sub>, intel<sub>backlight</sub>. Find it using <code>ls /sys/class/backlight</code>)
+Only root can change the brightness by editing files in <code>/sys/class/backlight</code>. To allow users in the video group to change the brightness, a udev rule such as the following can be used (replace the &lt;vendor&gt; with your vendor id. E.g. amdgpu_bl0 acpi_video0, intel_backlight. Find it using <code>ls /sys/class/backlight</code>)
 </p>
 </div>
 <div id="outline-container-org8359bb7" class="outline-4">

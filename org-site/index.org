@@ -36,7 +36,7 @@ bash <(curl -s https://raw.githubusercontent.com/kanishakvaidya/arch-kvos/main/b
   #+end_src
 - This will execute the ~base-installation.sh~ script
 - This script will guide you through base arch install. (partitions and ~pacstrap~)
-- Read the details about the scripts from the repository.
+- Read the details about the scripts from the [[https://github.com/KanishakVaidya/arch-KVOS][repository]].
 - ~configuration-script.sh~ will be executed automatically by this script. Here you need to configure
   + Hostname
   + root user password

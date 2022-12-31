@@ -1,6 +1,6 @@
 #+title: KVOS Guides
 #+HTML_HEAD: <link rel="stylesheet" href="./style.css">
-#+OPTIONS: toc:nil num:nil timestamp:nil html-style:nil title:nil
+#+OPTIONS: toc:nil num:nil timestamp:nil html-style:nil title:nil ^:nil
 
 #+begin_export html
 <nav id="nav">
