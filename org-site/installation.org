@@ -29,7 +29,7 @@ There is also a script provided for installing vanilla arch. Let's start with th
 - Boot from the live USB and connect to the internet
 - From the command line execute following command
   #+begin_src bash
-bash <(curl -s https://raw.githubusercontent.com/kanishakvaidya/arch-kvos/main/base-installation.sh)
+bash <(curl -s https://kanishakvaidya.github.io/arch-KVOS/static/scripts/base-installation.sh)
   #+end_src
 - This will execute the [[file:static/scripts/base-installation.sh][base-installation.sh]] script
 - This script will guide you through base arch install. (partitions and ~pacstrap~)
@@ -42,7 +42,7 @@ bash <(curl -s https://raw.githubusercontent.com/kanishakvaidya/arch-kvos/main/b
 ** KVOS installation
 - Download the [[file:static/scripts/kvos-setup.sh][kvos-setup.sh]] script and run it from your user account. You can use the following command to download and run the setup file:
   #+begin_src bash
-bash <(curl -s https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/dotfile-setup.sh)
+bash <(curl -s https://kanishakvaidya.github.io/arch-KVOS/static/scripts/kvos-setup.sh)
   #+end_src
 - This script will add [[https://github.com/KanishakVaidya/kv-arch-repo][kv-arch-repo]] to the repository list. It will open [[file:static/scripts/packages.md][packages.md]] file in ~vim~, check the boxes corresponding to the softwares you want to install. You can also add your own software to the list by appending them to a section with -[X]
 - The directories in your ~$HOME~ will have shortened names.
