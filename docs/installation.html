@@ -27,11 +27,11 @@
     </ul>
 </nav>
 
-<div id="outline-container-org2235e8b" class="outline-2">
-<h2 id="org2235e8b">Installing KVOS</h2>
-<div class="outline-text-2" id="text-org2235e8b">
+<div id="outline-container-orgf45ceeb" class="outline-2">
+<h2 id="orgf45ceeb">Installing KVOS</h2>
+<div class="outline-text-2" id="text-orgf45ceeb">
 <p>
-One can setup KVOS on a fresh setup of vanilla arch install by running the <code>dotfile-setup.sh</code> script.
+One can setup KVOS on a fresh setup of vanilla arch install by running the <a href="static/scripts/kvos-setup.sh">dotfile-setup.sh</a> script.
 </p>
 
 <p>
@@ -39,9 +39,9 @@ There is also a script provided for installing vanilla arch. Let&rsquo;s start w
 </p>
 <hr />
 </div>
-<div id="outline-container-org6d605ab" class="outline-3">
-<h3 id="org6d605ab">Install base arch linux</h3>
-<div class="outline-text-3" id="text-org6d605ab">
+<div id="outline-container-orge033e0e" class="outline-3">
+<h3 id="orge033e0e">Install base arch linux</h3>
+<div class="outline-text-3" id="text-orge033e0e">
 <ul class="org-ul">
 <li>Download an Arch Linux ISO and write it to a USB</li>
 <li>Boot from the live USB and connect to the internet</li>
@@ -52,10 +52,10 @@ From the command line execute following command
 <pre class="src src-bash">bash &lt;<span style="color: #b294bb;">(</span><span style="color: #f0c674;">curl</span> -s https://raw.githubusercontent.com/kanishakvaidya/arch-kvos/main/base-installation.sh<span style="color: #b294bb;">)</span>
 </pre>
 </div></li>
-<li>This will execute the <code>base-installation.sh</code> script</li>
+<li>This will execute the <a href="static/scripts/base-installation.sh">base-installation.sh</a> script</li>
 <li>This script will guide you through base arch install. (partitions and <code>pacstrap</code>)</li>
 <li>Read the details about the scripts from the repository.</li>
-<li><code>configuration-script.sh</code> will be executed automatically by this script. Here you need to configure
+<li><a href="static/scripts/configuration-script.sh">configuration-script.sh</a> will be executed automatically by this script. Here you need to configure
 <ul class="org-ul">
 <li>Hostname</li>
 <li>root user password</li>
@@ -65,18 +65,18 @@ From the command line execute following command
 <hr />
 </div>
 </div>
-<div id="outline-container-org6fa9836" class="outline-3">
-<h3 id="org6fa9836">KVOS installation</h3>
-<div class="outline-text-3" id="text-org6fa9836">
+<div id="outline-container-orgb25b7b4" class="outline-3">
+<h3 id="orgb25b7b4">KVOS installation</h3>
+<div class="outline-text-3" id="text-orgb25b7b4">
 <ul class="org-ul">
 <li><p>
-Download the <code>dotfile-setup.sh</code> script and run it from your user account. You can use the following command to download and run the setup file:
+Download the <a href="static/scripts/kvos-setup.sh">kvos-setup.sh</a> script and run it from your user account. You can use the following command to download and run the setup file:
 </p>
 <div class="org-src-container">
 <pre class="src src-bash">bash &lt;<span style="color: #b294bb;">(</span><span style="color: #f0c674;">curl</span> -s https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/dotfile-setup.sh<span style="color: #b294bb;">)</span>
 </pre>
 </div></li>
-<li>This script will add <a href="https://github.com/KanishakVaidya/kv-arch-repo">kv-arch-repo</a> to the repository list. It will open <code>packages.md</code> file in <code>vim</code>, check the boxes corresponding to the softwares you want to install. You can also add your own software to the list by appending them to a section with -[X]</li>
+<li>This script will add <a href="https://github.com/KanishakVaidya/kv-arch-repo">kv-arch-repo</a> to the repository list. It will open <a href="static/scripts/packages.md">packages.md</a> file in <code>vim</code>, check the boxes corresponding to the softwares you want to install. You can also add your own software to the list by appending them to a section with -[X]</li>
 <li>The directories in your <code>$HOME</code> will have shortened names.</li>
 <li>Default theme is Materia Dark and default icon theme is Papirus.</li>
 <li>Customize qt based apps using <code>qt5ct</code> and <code>kvantum</code>, customize gtk apps using <code>lxappearance</code>.</li>

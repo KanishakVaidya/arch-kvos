@@ -14,7 +14,7 @@ echo "
 SigLevel = Optional TrustAll
 Server = https://kanishakvaidya.github.io/\$repo/\$arch" | sudo tee -a /etc/pacman.conf
 
-curl -fLo /tmp/packages.md https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/packages.md
+curl -fLo /tmp/packages.md https://kanishakvaidya.github.io/arch-KVOS/static/scripts/packages.md
 nvim /tmp/packages.md || vim /tmp/packages.md || micro /tmp/packages.md || nano /tmp/packages.md || vi /tmp/packages.md || $EDITOR /tmp/packages.md || $VISUAL /tmp/packages.md
 
 noerror='n'

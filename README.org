@@ -4,7 +4,7 @@
 This repository contains installation and setup scripts for my custom arch linux based linux distribution
 ** What are the scripts
 This repository have 3 scripts.
-- ~base-installation.sh~ will guide through disk partitioning and install ~base~ ~linux~ kernel ~linux-headers~ and some other packages on the OS. Following additional packages are installed after this script
+- [[file:docs/static/scripts/base-installation.sh][base-installation.sh]] will guide through disk partitioning and install ~base~ ~linux~ kernel ~linux-headers~ and some other packages on the OS. Following additional packages are installed after this script
   + ~opendoas~: for super user access (sudo alternative)
   + ~neovim~: basic command line text editor
   + ~networkmanager~: for managing networks (duh??)
@@ -12,9 +12,9 @@ This repository have 3 scripts.
   + ~git~: Arjuna had Gandeev, I must have git.
   + ~sed~ and ~rsync~: GNU guys already shipped one, and ~cp~ don't have enough options
   + ~grub efibootmgr os-prober~: well, the system have to turn on.
-- ~configuration-script.sh~ will handle the most boring and time consuming part of arch installation. It will set locale, timezone (hardcoded to Asia/Kolkata) and hostname. It will also guide you through user creation and passwords and install grub bootloader.
+- [[file:docs/static/scripts/configuration-script.sh][configuration-script.sh]] will handle the most boring and time consuming part of arch installation. It will set locale, timezone (hardcoded to Asia/Kolkata) and hostname. It will also guide you through user creation and passwords and install grub bootloader.
   Script will terminate after this step, and you will be left with a clean arch install (except for the packages stated earlier).
-- ~dotfile-setup.sh~ will install my personal customized i3wm setup. Some of the included things are:
+- [[file:docs/static/scripts/kvos-setup.sh][kvos-setup.sh]] will install my personal customized i3wm setup. Some of the included things are:
   + ~Alacritty~ as my terminal emulator
   + ~zsh~ as user shell with customized starship prompt
   + ~Firefox~ as default web browser
@@ -26,40 +26,52 @@ This repository have 3 scripts.
 - Boot from the live USB and connect to the internet
 - From the command line execute following command
   #+begin_src bash
-bash <(curl -s https://raw.githubusercontent.com/kanishakvaidya/arch-kvos/main/base-installation.sh)
+bash <(curl -s https://kanishakvaidya.github.io/arch-KVOS/static/scripts/base-installation.sh)
   #+end_src
-- This will execute the ~base-installation.sh~ script
+- This will execute the [[file:docs/static/scripts/base-installation.sh][base-installation.sh]] script
 - This will guide you through base arch install.
 - After completion, unmount the mounted partitions and reboot.
-- On an existing arch based install you can install packages listed under [X] base in ~packages.md~ and then run the ~dotfiles-setup.sh~ script in the home folder for my custom i3wm desktop.
+- On an existing arch based install you can install packages listed under [X] base in [[file:docs/static/scripts/packages.md][packages.md]] and then run the [[file:docs/static/scripts/kvos-setup.sh][kvos-setup.sh]] script in the home folder for my custom i3wm desktop.
 
 * Base installation
 ** Basic setup
-#+begin_src bash :tangle base-installation.sh
+#+begin_src bash :tangle docs/static/scripts/base-installation.sh
 #!/bin/bash
 clear
 install_text="
-░█████╗░██████╗░░█████╗░██╗░░██╗
-██╔══██╗██╔══██╗██╔══██╗██║░░██║
-███████║██████╔╝██║░░╚═╝███████║
-██╔══██║██╔══██╗██║░░██╗██╔══██║
-██║░░██║██║░░██║╚█████╔╝██║░░██║
-╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝
-
-██╗███╗░░██╗░██████╗████████╗░█████╗░██╗░░░░░██╗░░░░░
-██║████╗░██║██╔════╝╚══██╔══╝██╔══██╗██║░░░░░██║░░░░░
-██║██╔██╗██║╚█████╗░░░░██║░░░███████║██║░░░░░██║░░░░░
-██║██║╚████║░╚═══██╗░░░██║░░░██╔══██║██║░░░░░██║░░░░░
-██║██║░╚███║██████╔╝░░░██║░░░██║░░██║███████╗███████╗
-╚═╝╚═╝░░╚══╝╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚══════╝╚══════╝
-
-░██████╗░█████╗░██████╗░██╗██████╗░████████╗
-██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝
-╚█████╗░██║░░╚═╝██████╔╝██║██████╔╝░░░██║░░░
-░╚═══██╗██║░░██╗██╔══██╗██║██╔═══╝░░░░██║░░░
-██████╔╝╚█████╔╝██║░░██║██║██║░░░░░░░░██║░░░
-╚═════╝░░╚════╝░╚═╝░░╚═╝╚═╝╚═╝░░░░░░░░╚═╝░░░"
-
+ $$$$$$\\                      $$\\                       
+$$  __$$\\                     $$ |                      
+$$ /  $$ | $$$$$$\\   $$$$$$$\\ $$$$$$$\\                  
+$$$$$$$$ |$$  __$$\\ $$  _____|$$  __$$\\                 
+$$  __$$ |$$ |  \\__|$$ /      $$ |  $$ |                
+$$ |  $$ |$$ |      $$ |      $$ |  $$ |                
+$$ |  $$ |$$ |      \\$$$$$$$\\ $$ |  $$ |                
+\\__|  \\__|\\__|       \\_______|\\__|  \\__|                
+                                                        
+                                                        
+                                                        
+$$$$$$\\                       $$\\               $$\\ $$\\ 
+\\_$$  _|                      $$ |              $$ |$$ |
+  $$ |  $$$$$$$\\   $$$$$$$\\ $$$$$$\\    $$$$$$\\  $$ |$$ |
+  $$ |  $$  __$$\\ $$  _____|\\_$$  _|   \\____$$\\ $$ |$$ |
+  $$ |  $$ |  $$ |\\$$$$$$\\    $$ |     $$$$$$$ |$$ |$$ |
+  $$ |  $$ |  $$ | \\____$$\\   $$ |$$\\ $$  __$$ |$$ |$$ |
+$$$$$$\\ $$ |  $$ |$$$$$$$  |  \\$$$$  |\\$$$$$$$ |$$ |$$ |
+\\______|\\__|  \\__|\\_______/    \\____/  \\_______|\\__|\\__|
+                                                        
+                                                        
+                                                        
+ $$$$$$\\                      $$\\            $$\\        
+$$  __$$\\                     \\__|           $$ |       
+$$ /  \\__| $$$$$$$\\  $$$$$$\\  $$\\  $$$$$$\\ $$$$$$\\      
+\\$$$$$$\\  $$  _____|$$  __$$\\ $$ |$$  __$$\\\\_$$  _|     
+ \\____$$\\ $$ /      $$ |  \\__|$$ |$$ /  $$ | $$ |       
+$$\\   $$ |$$ |      $$ |      $$ |$$ |  $$ | $$ |$$\\    
+\\$$$$$$  |\\$$$$$$$\\ $$ |      $$ |$$$$$$$  | \\$$$$  |   
+ \\______/  \\_______|\\__|      \\__|$$  ____/   \\____/    
+                                  $$ |                  
+                                  $$ |                  
+                                  \\__|" 
 echo $install_text
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
@@ -75,8 +87,8 @@ A good partitioning scheme is as follows:
 | [SWAP]      | /dev/sda2 | Linux swap            | 2x RAM            |
 | /mnt        | /dev/sda3 | Linux x86_64 root (/) | Rest of device    |
 
-#+begin_src bash :tangle base-installation.sh
-curl -fLo /tmp/configuration-script.sh https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/configuration-script.sh
+#+begin_src bash :tangle docs/static/scripts/base-installation.sh
+curl -fLo /tmp/configuration-script.sh https://kanishakvaidya.github.io/arch-KVOS/static/scripts/configuration-script.sh
 clear
 echo $install_text
 echo "Do you want to install grub bootloader?"
@@ -162,7 +174,7 @@ Installing
  - nvim text editor
  - a network manager
  - git
-#+begin_src bash :tangle base-installation.sh
+#+begin_src bash :tangle docs/static/scripts/base-installation.sh
 clear
 echo $install_text
 
@@ -190,7 +202,7 @@ umount /mnt
 * Configuring the system
 This should be run after chrooting into the arch system
 ** Time zone, Localization, Touchpad and Network configuration
-#+begin_src bash :tangle configuration-script.sh
+#+begin_src bash :tangle docs/static/scripts/configuration-script.sh
 #!/bin/bash
 config_text="
 ░██████╗██╗░░░██╗░██████╗████████╗███████╗███╗░░░███╗  ░█████╗░░█████╗░███╗░░██╗███████╗██╗░██████╗░
@@ -224,7 +236,7 @@ echo 'EndSection' >> /etc/X11/xorg.conf.d/30-touchpad.conf
 
 #+end_src
 ** Users and passwords
-#+begin_src bash :tangle configuration-script.sh
+#+begin_src bash :tangle docs/static/scripts/configuration-script.sh
 clear
 echo $config_text
 echo -e "Setting Root Password \n"
@@ -240,7 +252,7 @@ ln -sf /bin/doas /bin/sudo
 #+end_src
 
 ** Grub configuration and startup daemons
-#+begin_src bash :tangle configuration-script.sh
+#+begin_src bash :tangle docs/static/scripts/configuration-script.sh
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
 if [[ $grubanswer == "y" ]] ; then
@@ -259,7 +271,7 @@ exit
 * dotfiles setup
 ** List of packages
 For KVOS installation, following packages will be installed:
-#+begin_src markdown :tangle packages.md
+#+begin_src markdown :tangle docs/static/scripts/packages.md
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Put an X in between [ ] to download said packages %
 % You can also remove packages or add by appending  %
@@ -297,7 +309,7 @@ texlive-most
 
 ** Installer
 This is the KVOS installation script
-#+begin_src bash :tangle dotfile-setup.sh
+#+begin_src bash :tangle docs/static/scripts/kvos-setup.sh
 dotfile_text="
 ██╗░░██╗██╗░░░██╗░█████╗░░██████╗  ██╗███╗░░██╗░██████╗████████╗░█████╗░██╗░░░░░██╗░░░░░███████╗██████╗░
 ██║░██╔╝██║░░░██║██╔══██╗██╔════╝  ██║████╗░██║██╔════╝╚══██╔══╝██╔══██╗██║░░░░░██║░░░░░██╔════╝██╔══██╗
@@ -314,7 +326,7 @@ echo "
 SigLevel = Optional TrustAll
 Server = https://kanishakvaidya.github.io/\$repo/\$arch" | sudo tee -a /etc/pacman.conf
 
-curl -fLo /tmp/packages.md https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/packages.md
+curl -fLo /tmp/packages.md https://kanishakvaidya.github.io/arch-KVOS/static/scripts/packages.md
 nvim /tmp/packages.md || vim /tmp/packages.md || micro /tmp/packages.md || nano /tmp/packages.md || vi /tmp/packages.md || $EDITOR /tmp/packages.md || $VISUAL /tmp/packages.md
 
 noerror='n'
@@ -329,7 +341,7 @@ chsh -s /usr/bin/zsh
 #+end_src
 ** Bringing dotfiles from github
 Managing dotfiles using a git bare repository is referenced from [[https://www.anand-iyer.com/blog/2018/a-simpler-way-to-manage-your-dotfiles.html][this Anand Iyer's blog]]
-#+begin_src bash :tangle dotfile-setup.sh
+#+begin_src bash :tangle docs/static/scripts/kvos-setup.sh
 #!/bin/bash
 [[ -d $HOME/Desktop ]] && mv $HOME/Desktop $HOME/desktop || mkdir -p $HOME/desktop
 [[ -d $HOME/Downloads ]] && mv $HOME/Downloads $HOME/dwn || mkdir -p $HOME/dwn
@@ -350,18 +362,18 @@ fc-cache -fv
 # git clone --depth=1 https://github.com/KanishakVaidya/wallpapers.git $HOME/pic/.wall
 #+end_src
 ** Setting variables and links
-#+begin_src bash :tangle dotfile-setup.sh
+#+begin_src bash :tangle docs/static/scripts/kvos-setup.sh
 echo "setting a link to xresources"
 ln -sf $HOME/.config/Xresources/codedark $HOME/.Xresources
 #+end_src
 ** Installing icons
 Installing [[https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git][papirus icons]] and materia dark theme
-#+begin_src bash :tangle dotfile-setup.sh
+#+begin_src bash :tangle docs/static/scripts/kvos-setup.sh
 git clone --depth=1 https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git /tmp/papirus-icons
 cp -r /tmp/papirus-icons/Papirus* $HOME/.local/share/icons/
 #+end_src
 ** Setting up neovim and paru AUR helper
-#+begin_src bash :tangle dotfile-setup.sh
+#+begin_src bash :tangle docs/static/scripts/kvos-setup.sh
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim -c PlugInstall -c qa

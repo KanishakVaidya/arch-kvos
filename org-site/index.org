@@ -24,7 +24,7 @@ This is my custom i3wm based desktop. This is tested on an vanilla arch install.
 
 -----
 * Install KVOS
-One can setup KVOS on a fresh setup of vanilla arch install by running the ~dotfile-setup.sh~ script.
+One can setup KVOS on a fresh setup of vanilla arch install by running the [[file:static/scripts/kvos-setup.sh][kvos-setup.sh]] script.
 
 There is also a script provided for installing vanilla arch. Let's start with that.
 ** Install base arch linux
@@ -34,19 +34,19 @@ There is also a script provided for installing vanilla arch. Let's start with th
   #+begin_src bash
 bash <(curl -s https://raw.githubusercontent.com/kanishakvaidya/arch-kvos/main/base-installation.sh)
   #+end_src
-- This will execute the ~base-installation.sh~ script
+- This will execute the [[file:static/scripts/base-installation.sh][base-installation.sh]] script
 - This script will guide you through base arch install. (partitions and ~pacstrap~)
 - Read the details about the scripts from the [[https://github.com/KanishakVaidya/arch-KVOS][repository]].
-- ~configuration-script.sh~ will be executed automatically by this script. Here you need to configure
+- [[file:static/scripts/configuration-script.sh][configuration-script.sh]] will be executed automatically by this script. Here you need to configure
   + Hostname
   + root user password
   + New user with its password
 ** KVOS installation
-- Download the ~dotfile-setup.sh~ script and run it from your user account. You can use the following command to download and run the setup file:
+- Download the [[file:static/scripts/kvos-setup.sh][kvos-setup.sh]] script and run it from your user account. You can use the following command to download and run the setup file:
   #+begin_src bash
 bash <(curl -s https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/dotfile-setup.sh)
   #+end_src
-- This script will add [[https://github.com/KanishakVaidya/kv-arch-repo][kv-arch-repo]] to the repository list. It will open ~packages.md~ file in ~vim~, check the boxes corresponding to the softwares you want to install. You can also add your own software to the list by appending them to a section with -[X]
+- This script will add [[https://github.com/KanishakVaidya/kv-arch-repo][kv-arch-repo]] to the repository list. It will open [[file:static/scripts/packages.md][packages.md]] file in ~vim~, check the boxes corresponding to the softwares you want to install. You can also add your own software to the list by appending them to a section with -[X]
 - The directories in your ~$HOME~ will have shortened names.
 - Default theme is Materia Dark and default icon theme is Papirus.
 - Customize qt based apps using ~qt5ct~ and ~kvantum~, customize gtk apps using ~lxappearance~.
