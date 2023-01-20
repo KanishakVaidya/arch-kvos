@@ -1,40 +1,28 @@
 #!/bin/bash
 clear
 install_text="
- $$$$$$\\                      $$\\                       
-$$  __$$\\                     $$ |                      
-$$ /  $$ | $$$$$$\\   $$$$$$$\\ $$$$$$$\\                  
-$$$$$$$$ |$$  __$$\\ $$  _____|$$  __$$\\                 
-$$  __$$ |$$ |  \\__|$$ /      $$ |  $$ |                
-$$ |  $$ |$$ |      $$ |      $$ |  $$ |                
-$$ |  $$ |$$ |      \\$$$$$$$\\ $$ |  $$ |                
-\\__|  \\__|\\__|       \\_______|\\__|  \\__|                
-                                                        
-                                                        
-                                                        
-$$$$$$\\                       $$\\               $$\\ $$\\ 
-\\_$$  _|                      $$ |              $$ |$$ |
-  $$ |  $$$$$$$\\   $$$$$$$\\ $$$$$$\\    $$$$$$\\  $$ |$$ |
-  $$ |  $$  __$$\\ $$  _____|\\_$$  _|   \\____$$\\ $$ |$$ |
-  $$ |  $$ |  $$ |\\$$$$$$\\    $$ |     $$$$$$$ |$$ |$$ |
-  $$ |  $$ |  $$ | \\____$$\\   $$ |$$\\ $$  __$$ |$$ |$$ |
-$$$$$$\\ $$ |  $$ |$$$$$$$  |  \\$$$$  |\\$$$$$$$ |$$ |$$ |
-\\______|\\__|  \\__|\\_______/    \\____/  \\_______|\\__|\\__|
-                                                        
-                                                        
-                                                        
- $$$$$$\\                      $$\\            $$\\        
-$$  __$$\\                     \\__|           $$ |       
-$$ /  \\__| $$$$$$$\\  $$$$$$\\  $$\\  $$$$$$\\ $$$$$$\\      
-\\$$$$$$\\  $$  _____|$$  __$$\\ $$ |$$  __$$\\\\_$$  _|     
- \\____$$\\ $$ /      $$ |  \\__|$$ |$$ /  $$ | $$ |       
-$$\\   $$ |$$ |      $$ |      $$ |$$ |  $$ | $$ |$$\\    
-\\$$$$$$  |\\$$$$$$$\\ $$ |      $$ |$$$$$$$  | \\$$$$  |   
- \\______/  \\_______|\\__|      \\__|$$  ____/   \\____/    
-                                  $$ |                  
-                                  $$ |                  
-                                  \\__|" 
-echo $install_text
+╭━━━╮╱╱╱╱╱╱╱╭╮
+┃╭━╮┃╱╱╱╱╱╱╱┃┃
+┃┃╱┃┃╭━╮╭━━╮┃╰━╮
+┃╰━╯┃┃╭╯┃╭━╯┃╭╮┃
+┃╭━╮┃┃┃╱┃╰━╮┃┃┃┃
+╰╯╱╰╯╰╯╱╰━━╯╰╯╰╯
+╭━━╮╱╱╱╱╱╱╱╱╱╭╮╱╱╱╱╱╭╮╱╭╮
+╰┫┣╯╱╱╱╱╱╱╱╱╭╯╰╮╱╱╱╱┃┃╱┃┃
+╱┃┃╱╭━╮╱╭━━╮╰╮╭╯╭━━╮┃┃╱┃┃
+╱┃┃╱┃╭╮╮┃━━┫╱┃┃╱┃╭╮┃┃┃╱┃┃
+╭┫┣╮┃┃┃┃┣━━┃╱┃╰╮┃╭╮┃┃╰╮┃╰╮
+╰━━╯╰╯╰╯╰━━╯╱╰━╯╰╯╰╯╰━╯╰━╯
+╭━━━╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭╮
+┃╭━╮┃╱╱╱╱╱╱╱╱╱╱╱╱╱╭╯╰╮
+┃╰━━╮╭━━╮╭━╮╭╮╭━━╮╰╮╭╯
+╰━━╮┃┃╭━╯┃╭╯┣┫┃╭╮┃╱┃┃
+┃╰━╯┃┃╰━╮┃┃╱┃┃┃╰╯┃╱┃╰╮
+╰━━━╯╰━━╯╰╯╱╰╯┃╭━╯╱╰━╯
+╱╱╱╱╱╱╱╱╱╱╱╱╱╱┃┃
+╱╱╱╱╱╱╱╱╱╱╱╱╱╱╰╯"
+
+echo "$install_text"
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
 loadkeys us
@@ -43,7 +31,7 @@ pkgs="base linux linux-firmware linux-headers neovim opendoas networkmanager "
 
 curl -fLo /tmp/configuration-script.sh https://kanishakvaidya.github.io/arch-KVOS/static/scripts/configuration-script.sh
 clear
-echo $install_text
+echo "$install_text"
 echo "Do you want to install grub bootloader?"
 select yn in "Yes, install grub" "No, don't install grub"
 do
@@ -77,14 +65,14 @@ do
 done
 
 clear
-echo $install_text
+echo "$install_text"
 lsblk
 echo -e "\n"
 read -p "Enter the drive (e.g. /dev/sda or /dev/nvme0n1): " drive
 cfdisk $drive
 
 clear
-echo $install_text
+echo "$install_text"
 lsblk
 echo -e "\n"
 read -p "Enter the root partition (e.g. /dev/sda2 or /dev/nvme0n1p2): " partition
@@ -92,7 +80,7 @@ mkfs.ext4 $partition
 mount $partition /mnt
 
 clear
-echo $install_text
+echo "$install_text"
 if [[ $grubanswer == "y" ]]
 then
     if [[ $bios == "UEFI" ]]
@@ -109,7 +97,7 @@ else
 fi
 
 clear
-echo $install_text
+echo "$install_text"
 read -p "Create swap partition? [y/n]: " swpanswer
 if [[ $swpanswer = y ]] ; then
     lsblk
@@ -120,7 +108,7 @@ if [[ $swpanswer = y ]] ; then
 fi
 
 clear
-echo $install_text
+echo "$install_text"
 
 noerror='n'
 while [[ $noerror != 'y'  ]]
@@ -130,7 +118,7 @@ do
 done
 
 clear
-echo $install_text
+echo "$install_text"
 echo -e "\n Generating fstab..."
 genfstab -U /mnt >> /mnt/etc/fstab
 
