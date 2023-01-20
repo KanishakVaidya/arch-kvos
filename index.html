@@ -27,9 +27,9 @@
     </ul>
 </nav>
 
-<div id="outline-container-orgaa47620" class="outline-2">
-<h2 id="orgaa47620">KVOS</h2>
-<div class="outline-text-2" id="text-orgaa47620">
+<div id="outline-container-orgde1730c" class="outline-2">
+<h2 id="orgde1730c">KVOS</h2>
+<div class="outline-text-2" id="text-orgde1730c">
 <p>
 This is my custom i3wm based desktop. This is tested on an vanilla arch install. This is a lightweight and fast desktop. It is light on system resources and <a href="./software.html">didn&rsquo;t install many packages</a>.
 </p>
@@ -37,20 +37,20 @@ This is my custom i3wm based desktop. This is tested on an vanilla arch install.
 <hr />
 </div>
 </div>
-<div id="outline-container-org8c3de4f" class="outline-2">
-<h2 id="org8c3de4f">Install KVOS</h2>
-<div class="outline-text-2" id="text-org8c3de4f">
+<div id="outline-container-orga6f1d73" class="outline-2">
+<h2 id="orga6f1d73">Install KVOS</h2>
+<div class="outline-text-2" id="text-orga6f1d73">
 <p>
-One can setup KVOS on a fresh setup of vanilla arch install by running the <code>dotfile-setup.sh</code> script.
+One can setup KVOS on a fresh setup of vanilla arch install by running the <a href="static/scripts/kvos-setup.sh">kvos-setup.sh</a> script.
 </p>
 
 <p>
 There is also a script provided for installing vanilla arch. Let&rsquo;s start with that.
 </p>
 </div>
-<div id="outline-container-orga6b36ef" class="outline-3">
-<h3 id="orga6b36ef">Install base arch linux</h3>
-<div class="outline-text-3" id="text-orga6b36ef">
+<div id="outline-container-orgfbd8764" class="outline-3">
+<h3 id="orgfbd8764">Install base arch linux</h3>
+<div class="outline-text-3" id="text-orgfbd8764">
 <ul class="org-ul">
 <li>Download an Arch Linux ISO and write it to a USB</li>
 <li>Boot from the live USB and connect to the internet</li>
@@ -61,10 +61,10 @@ From the command line execute following command
 <pre class="src src-bash">bash &lt;<span style="color: #b294bb;">(</span><span style="color: #f0c674;">curl</span> -s https://raw.githubusercontent.com/kanishakvaidya/arch-kvos/main/base-installation.sh<span style="color: #b294bb;">)</span>
 </pre>
 </div></li>
-<li>This will execute the <code>base-installation.sh</code> script</li>
+<li>This will execute the <a href="static/scripts/base-installation.sh">base-installation.sh</a> script</li>
 <li>This script will guide you through base arch install. (partitions and <code>pacstrap</code>)</li>
 <li>Read the details about the scripts from the <a href="https://github.com/KanishakVaidya/arch-KVOS">repository</a>.</li>
-<li><code>configuration-script.sh</code> will be executed automatically by this script. Here you need to configure
+<li><a href="static/scripts/configuration-script.sh">configuration-script.sh</a> will be executed automatically by this script. Here you need to configure
 <ul class="org-ul">
 <li>Hostname</li>
 <li>root user password</li>
@@ -73,18 +73,18 @@ From the command line execute following command
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd646ee3" class="outline-3">
-<h3 id="orgd646ee3">KVOS installation</h3>
-<div class="outline-text-3" id="text-orgd646ee3">
+<div id="outline-container-org8647787" class="outline-3">
+<h3 id="org8647787">KVOS installation</h3>
+<div class="outline-text-3" id="text-org8647787">
 <ul class="org-ul">
 <li><p>
-Download the <code>dotfile-setup.sh</code> script and run it from your user account. You can use the following command to download and run the setup file:
+Download the <a href="static/scripts/kvos-setup.sh">kvos-setup.sh</a> script and run it from your user account. You can use the following command to download and run the setup file:
 </p>
 <div class="org-src-container">
 <pre class="src src-bash">bash &lt;<span style="color: #b294bb;">(</span><span style="color: #f0c674;">curl</span> -s https://raw.githubusercontent.com/KanishakVaidya/arch-KVOS/main/dotfile-setup.sh<span style="color: #b294bb;">)</span>
 </pre>
 </div></li>
-<li>This script will add <a href="https://github.com/KanishakVaidya/kv-arch-repo">kv-arch-repo</a> to the repository list. It will open <code>packages.md</code> file in <code>vim</code>, check the boxes corresponding to the softwares you want to install. You can also add your own software to the list by appending them to a section with -[X]</li>
+<li>This script will add <a href="https://github.com/KanishakVaidya/kv-arch-repo">kv-arch-repo</a> to the repository list. It will open <a href="static/scripts/packages.md">packages.md</a> file in <code>vim</code>, check the boxes corresponding to the softwares you want to install. You can also add your own software to the list by appending them to a section with -[X]</li>
 <li>The directories in your <code>$HOME</code> will have shortened names.</li>
 <li>Default theme is Materia Dark and default icon theme is Papirus.</li>
 <li>Customize qt based apps using <code>qt5ct</code> and <code>kvantum</code>, customize gtk apps using <code>lxappearance</code>.</li>
