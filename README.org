@@ -78,6 +78,7 @@ install_text='
         ' 
 echo "$install_text"
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
+pacman -Sy archlinux-keyring
 
 loadkeys us
 timedatectl set-ntp true
@@ -161,7 +162,7 @@ fi
 
 clear
 echo "$install_text"
-read -p "Create swap partition? [y/n]: " swpanswer
+read -p "Are you setting a swap partition? [y/n]: " swpanswer
 if [[ $swpanswer = y ]] ; then
     lsblk
     echo -e "\n"
@@ -184,7 +185,7 @@ echo "$install_text"
 
 while ! pacstrap /mnt $(echo $pkgs)
 do
-    read "There were some errors installing packages. Please rectify them and press enter to continue"
+    read -p "There were some errors installing packages. Please rectify them [ENTER to continue] "
 done
 
 clear
@@ -218,7 +219,11 @@ config_text='
            /$$  | $$                                                                                               /$$  \ $$
           |  $$$$$$/                                                                                              |  $$$$$$/
            \______/                                                                                                \______/
+=============================================================================================================================
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+=============================================================================================================================
                                                                                                                    '
+clear
 echo "$config_text"
 ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 hwclock --systohc
@@ -288,7 +293,7 @@ For KVOS installation, following packages will be installed:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 - [X] Base
-alacritty arandr autoconf automake base bat bison blueman conky dunst efibootmgr exa fakeroot feh firefox flameshot flex fzf gcc geany git gvfs gvfs-mtp htop i3-wm i3blocks i3lock jack2 kvantum kvos-wallpapers libtool lxappearance-gtk3 lxqt-archiver lxqt-policykit lxsession-gtk3 m4 make man-db materia-gtk-theme neovim networkmanager network-manager-applet nodejs ntfs-3g otf-font-awesome patch pavucontrol-qt pcmanfm-qt picom pkgconf pulseaudio pulseaudio-alsa pulseaudio-bluetooth qt5ct ranger ripgrep rofi rsync sed smplayer smplayer-skins smplayer-themes sshfs starship ttf-dejavu ttf-hack ttf-indic-otf ttf-nerd-fonts-symbols-2048-em-mono udiskie unzip vte3 which xcolor xdg-user-dirs yarn zathura zathura-pdf-mupdf zip zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting
+alacritty arandr autoconf automake base bat bison blueman conky dunst efibootmgr exa fakeroot feh firefox flameshot flex fzf gcc geany git gvfs gvfs-mtp htop i3-wm i3blocks i3lock jack2 kvantum kvos-wallpapers libtool lxappearance-gtk3 lxqt-archiver lxqt-policykit lxsession-gtk3 m4 make man-db materia-gtk-theme neovim networkmanager network-manager-applet nodejs ntfs-3g otf-font-awesome patch pavucontrol-qt pcmanfm-qt picom pkgconf pulseaudio pulseaudio-alsa pulseaudio-bluetooth qt5ct ranger ripgrep rofi rsync sed smplayer smplayer-skins smplayer-themes sshfs starship ttf-dejavu ttf-hack ttf-indic-otf ttf-nerd-fonts-symbols udiskie unzip vte3 which xcolor xdg-user-dirs yarn zathura zathura-pdf-mupdf zip zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting
 
 - [ ] Utilities
 imagemagick rclone vlc v4l2loopback-dkms v4l2loopback-utils w3m xournalpp youtube-dl xf86-input-wacom
@@ -328,11 +333,15 @@ dotfile_text='
 | $$\  $$   \  $$$/  | $$  | $$ /$$  \ $$        | $$  | $$  | $$ \____  $$  | $$ /$$ /$$__  $$| $$| $$| $$_____/| $$      
 | $$ \  $$   \  $/   |  $$$$$$/|  $$$$$$/       /$$$$$$| $$  | $$ /$$$$$$$/  |  $$$$/|  $$$$$$$| $$| $$|  $$$$$$$| $$      
 |__/  \__/    \_/     \______/  \______/       |______/|__/  |__/|_______/    \___/   \_______/|__/|__/ \_______/|__/      
+=============================================================================================================================
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+=============================================================================================================================
 '
+clear
 echo "$dotfile_text"
 
 echo "Please grant root priveliges to $USER"
-echo "
+grep kv-arch-repo /etc/pacman.conf > /dev/null || echo "
 [kv-arch-repo]
 SigLevel = Optional TrustAll
 Server = https://kanishakvaidya.github.io/\$repo/\$arch" | sudo tee -a /etc/pacman.conf
@@ -340,12 +349,14 @@ Server = https://kanishakvaidya.github.io/\$repo/\$arch" | sudo tee -a /etc/pacm
 curl -fLo /tmp/packages.md https://kanishakvaidya.github.io/arch-KVOS/static/scripts/packages.md
 while ! ( nvim /tmp/packages.md || vim /tmp/packages.md || micro /tmp/packages.md || nano /tmp/packages.md || vi /tmp/packages.md || $EDITOR /tmp/packages.md || $VISUAL /tmp/packages.md )
 do
-    echo "No text editor found. Installing nano now. Suffer, or atleast set an EDITOR"
+    echo "No text editor found. Installing nano now. Suffer. Atleast set an EDITOR from now"
+    sleep 2
 done
 
 while ! sudo pacman -Syu --needed --noconfirm $(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
 do
-    read "Some errors occured while installing packages. Rectify them and press ENTER to continue."
+    read -p "Some errors occured while installing packages. Rectify them and press ENTER to continue."
+    sleep 2
 done
 
 echo 'export ZDOTDIR="$HOME"/.config/zsh' | sudo tee /etc/zsh/zshenv

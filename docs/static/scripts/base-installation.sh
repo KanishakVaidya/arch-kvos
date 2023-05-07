@@ -40,6 +40,7 @@ install_text='
         ' 
 echo "$install_text"
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
+pacman -Sy archlinux-keyring
 
 loadkeys us
 timedatectl set-ntp true
@@ -114,7 +115,7 @@ fi
 
 clear
 echo "$install_text"
-read -p "Create swap partition? [y/n]: " swpanswer
+read -p "Are you setting a swap partition? [y/n]: " swpanswer
 if [[ $swpanswer = y ]] ; then
     lsblk
     echo -e "\n"
@@ -128,7 +129,7 @@ echo "$install_text"
 
 while ! pacstrap /mnt $(echo $pkgs)
 do
-    read "There were some errors installing packages. Please rectify them and press enter to continue"
+    read -p "There were some errors installing packages. Please rectify them [ENTER to continue] "
 done
 
 clear
