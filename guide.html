@@ -27,20 +27,20 @@
     </ul>
 </nav>
 
-<div id="outline-container-orgc06c764" class="outline-2">
-<h2 id="orgc06c764">After KVOS installation</h2>
-<div class="outline-text-2" id="text-orgc06c764">
+<div id="outline-container-org1c589a9" class="outline-2">
+<h2 id="org1c589a9">After KVOS installation</h2>
+<div class="outline-text-2" id="text-org1c589a9">
 </div>
-<div id="outline-container-org68d4711" class="outline-3">
-<h3 id="org68d4711">Changing keyboard and display brightness</h3>
-<div class="outline-text-3" id="text-org68d4711">
+<div id="outline-container-orgecaf2bc" class="outline-3">
+<h3 id="orgecaf2bc">Changing keyboard and display brightness</h3>
+<div class="outline-text-3" id="text-orgecaf2bc">
 <p>
 Only root can change the brightness by editing files in <code>/sys/class/backlight</code>. To allow users in the video group to change the brightness, a udev rule such as the following can be used (replace the &lt;vendor&gt; with your vendor id. E.g. amdgpu_bl0 acpi_video0, intel_backlight. Find it using <code>ls /sys/class/backlight</code>)
 </p>
 </div>
-<div id="outline-container-org072e5ff" class="outline-4">
-<h4 id="org072e5ff">References</h4>
-<div class="outline-text-4" id="text-org072e5ff">
+<div id="outline-container-orgebb0d78" class="outline-4">
+<h4 id="orgebb0d78">References</h4>
+<div class="outline-text-4" id="text-orgebb0d78">
 <ul class="org-ul">
 <li><a href="https://superuser.com/a/1393488">Writing to file /sys/class/backlight/&lt;vendor&gt;/brightness</a></li>
 <li><a href="https://unix.stackexchange.com/a/593121">How to set permissions in /sys permanently?</a></li>
@@ -49,13 +49,13 @@ Only root can change the brightness by editing files in <code>/sys/class/backlig
 </div>
 </div>
 
-<div id="outline-container-orgb135dd6" class="outline-3">
-<h3 id="orgb135dd6">Using Wacom</h3>
-<div class="outline-text-3" id="text-orgb135dd6">
+<div id="outline-container-org8437719" class="outline-3">
+<h3 id="org8437719">Using Wacom</h3>
+<div class="outline-text-3" id="text-org8437719">
 </div>
-<div id="outline-container-orgdb8c89c" class="outline-4">
-<h4 id="orgdb8c89c">Install the driver</h4>
-<div class="outline-text-4" id="text-orgdb8c89c">
+<div id="outline-container-org5cfe827" class="outline-4">
+<h4 id="org5cfe827">Install the driver</h4>
+<div class="outline-text-4" id="text-org5cfe827">
 <div class="org-src-container">
 <pre class="src src-shell">pacman -S xf86-input-wacom
 </pre>
@@ -65,9 +65,9 @@ This provides xsetwacom command.
 </p>
 </div>
 </div>
-<div id="outline-container-org2e594a2" class="outline-4">
-<h4 id="org2e594a2">Mapping the tablet to a display (for multi-monitor)</h4>
-<div class="outline-text-4" id="text-org2e594a2">
+<div id="outline-container-org3fb7f92" class="outline-4">
+<h4 id="org3fb7f92">Mapping the tablet to a display (for multi-monitor)</h4>
+<div class="outline-text-4" id="text-org3fb7f92">
 <p>
 First list the wacom devices using the command
 </p>
