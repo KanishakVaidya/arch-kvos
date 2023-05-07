@@ -8,24 +8,32 @@ dotfile_text='
 | $$\  $$   \  $$$/  | $$  | $$ /$$  \ $$        | $$  | $$  | $$ \____  $$  | $$ /$$ /$$__  $$| $$| $$| $$_____/| $$      
 | $$ \  $$   \  $/   |  $$$$$$/|  $$$$$$/       /$$$$$$| $$  | $$ /$$$$$$$/  |  $$$$/|  $$$$$$$| $$| $$|  $$$$$$$| $$      
 |__/  \__/    \_/     \______/  \______/       |______/|__/  |__/|_______/    \___/   \_______/|__/|__/ \_______/|__/      
+=============================================================================================================================
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+=============================================================================================================================
 '
+clear
 echo "$dotfile_text"
 
 echo "Please grant root priveliges to $USER"
-echo "
+grep kv-arch-repo /etc/pacman.conf > /dev/null || echo "
 [kv-arch-repo]
 SigLevel = Optional TrustAll
 Server = https://kanishakvaidya.github.io/\$repo/\$arch" | sudo tee -a /etc/pacman.conf
 
 curl -fLo /tmp/packages.md https://kanishakvaidya.github.io/arch-KVOS/static/scripts/packages.md
-nvim /tmp/packages.md || vim /tmp/packages.md || micro /tmp/packages.md || nano /tmp/packages.md || vi /tmp/packages.md || $EDITOR /tmp/packages.md || $VISUAL /tmp/packages.md
-
-noerror='n'
-while [[ $noerror != 'y'  ]]
+while ! ( nvim /tmp/packages.md || vim /tmp/packages.md || micro /tmp/packages.md || nano /tmp/packages.md || vi /tmp/packages.md || $EDITOR /tmp/packages.md || $VISUAL /tmp/packages.md )
 do
-    sudo pacman -Syu --needed --noconfirm $(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
-    read -p "Installation ended successfully? (y/n): " noerror
+    echo "No text editor found. Installing nano now. Suffer. Atleast set an EDITOR from now"
+    sleep 2
 done
+
+while ! sudo pacman -Syu --needed --noconfirm $(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
+do
+    read -p "Some errors occured while installing packages. Rectify them and press ENTER to continue."
+    sleep 2
+done
+
 echo 'export ZDOTDIR="$HOME"/.config/zsh' | sudo tee /etc/zsh/zshenv
 chsh -s /usr/bin/zsh
 
