@@ -39,39 +39,43 @@ bash <(curl -s https://kanishakvaidya.github.io/arch-KVOS/static/scripts/base-in
 #!/bin/bash
 clear
 install_text='
-  /$$$$$$                      /$$                             
- /$$__  $$                    | $$                             
-| $$  \ $$  /$$$$$$   /$$$$$$$| $$$$$$$                        
-| $$$$$$$$ /$$__  $$ /$$_____/| $$__  $$                       
-| $$__  $$| $$  \__/| $$      | $$  \ $$                       
-| $$  | $$| $$      | $$      | $$  | $$                       
-| $$  | $$| $$      |  $$$$$$$| $$  | $$                       
-|__/  |__/|__/       \_______/|__/  |__/                       
-                                                               
-                                                               
-                                                               
- /$$$$$$                       /$$               /$$ /$$       
-|_  $$_/                      | $$              | $$| $$       
-  | $$   /$$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$ | $$| $$       
-  | $$  | $$__  $$ /$$_____/|_  $$_/   |____  $$| $$| $$       
-  | $$  | $$  \ $$|  $$$$$$   | $$      /$$$$$$$| $$| $$       
-  | $$  | $$  | $$ \____  $$  | $$ /$$ /$$__  $$| $$| $$       
- /$$$$$$| $$  | $$ /$$$$$$$/  |  $$$$/|  $$$$$$$| $$| $$       
-|______/|__/  |__/|_______/    \___/   \_______/|__/|__/       
-                                                               
-                                                               
-                                                               
-  /$$$$$$                      /$$             /$$             
- /$$__  $$                    |__/            | $$             
+  /$$$$$$                      /$$
+ /$$__  $$                    | $$
+| $$  \ $$  /$$$$$$   /$$$$$$$| $$$$$$$
+| $$$$$$$$ /$$__  $$ /$$_____/| $$__  $$
+| $$__  $$| $$  \__/| $$      | $$  \ $$
+| $$  | $$| $$      | $$      | $$  | $$
+| $$  | $$| $$      |  $$$$$$$| $$  | $$
+|__/  |__/|__/       \_______/|__/  |__/
+
+
+
+ /$$$$$$                       /$$               /$$ /$$
+|_  $$_/                      | $$              | $$| $$
+  | $$   /$$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$ | $$| $$
+  | $$  | $$__  $$ /$$_____/|_  $$_/   |____  $$| $$| $$
+  | $$  | $$  \ $$|  $$$$$$   | $$      /$$$$$$$| $$| $$
+  | $$  | $$  | $$ \____  $$  | $$ /$$ /$$__  $$| $$| $$
+ /$$$$$$| $$  | $$ /$$$$$$$/  |  $$$$/|  $$$$$$$| $$| $$
+|______/|__/  |__/|_______/    \___/   \_______/|__/|__/
+
+
+
+  /$$$$$$                      /$$             /$$
+ /$$__  $$                    |__/            | $$
 | $$  \__/  /$$$$$$$  /$$$$$$  /$$  /$$$$$$  /$$$$$$   /$$$$$$$
 |  $$$$$$  /$$_____/ /$$__  $$| $$ /$$__  $$|_  $$_/  /$$_____/
- \____  $$| $$      | $$  \__/| $$| $$  \ $$  | $$   |  $$$$$$ 
+ \____  $$| $$      | $$  \__/| $$| $$  \ $$  | $$   |  $$$$$$
  /$$  \ $$| $$      | $$      | $$| $$  | $$  | $$ /$$\____  $$
 |  $$$$$$/|  $$$$$$$| $$      | $$| $$$$$$$/  |  $$$$//$$$$$$$/
- \______/  \_______/|__/      |__/| $$____/    \___/ |_______/ 
-                                  | $$                         
-                                  | $$                         
-                                  |__/                        ' 
+ \______/  \_______/|__/      |__/| $$____/    \___/ |_______/
+                                  | $$
+                                  | $$
+                                  |__/
+==================================================================
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+==================================================================
+        ' 
 echo "$install_text"
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
 
@@ -178,11 +182,9 @@ Installing
 clear
 echo "$install_text"
 
-noerror='n'
-while [[ $noerror != 'y'  ]]
+while ! pacstrap /mnt $(echo $pkgs)
 do
-    pacstrap /mnt $(echo $pkgs)
-    read -p "Installation ended successfully? (y/n): " noerror
+    read "There were some errors installing packages. Please rectify them and press enter to continue"
 done
 
 clear
@@ -286,7 +288,7 @@ For KVOS installation, following packages will be installed:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 - [X] Base
-alacritty arandr autoconf automake base bison blueman conky dunst efibootmgr exa fakeroot feh firefox flameshot flex fzf gcc geany git gvfs gvfs-mtp htop i3-wm i3blocks i3lock jack2 kvantum kvos-wallpapers libtool lxappearance-gtk3 lxqt-archiver lxqt-policykit lxsession-gtk3 m4 make man-db materia-gtk-theme neovim networkmanager network-manager-applet nodejs ntfs-3g otf-font-awesome patch pavucontrol-qt pcmanfm-qt picom pkgconf pulseaudio pulseaudio-alsa pulseaudio-bluetooth qt5ct ranger ripgrep rofi rsync sed smplayer smplayer-skins smplayer-themes sshfs starship ttf-dejavu ttf-hack ttf-indic-otf ttf-nerd-fonts-symbols-2048-em-mono udiskie unzip vte3 which xcolor xdg-user-dirs yarn zathura zathura-pdf-mupdf zip zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting
+alacritty arandr autoconf automake base bat bison blueman conky dunst efibootmgr exa fakeroot feh firefox flameshot flex fzf gcc geany git gvfs gvfs-mtp htop i3-wm i3blocks i3lock jack2 kvantum kvos-wallpapers libtool lxappearance-gtk3 lxqt-archiver lxqt-policykit lxsession-gtk3 m4 make man-db materia-gtk-theme neovim networkmanager network-manager-applet nodejs ntfs-3g otf-font-awesome patch pavucontrol-qt pcmanfm-qt picom pkgconf pulseaudio pulseaudio-alsa pulseaudio-bluetooth qt5ct ranger ripgrep rofi rsync sed smplayer smplayer-skins smplayer-themes sshfs starship ttf-dejavu ttf-hack ttf-indic-otf ttf-nerd-fonts-symbols-2048-em-mono udiskie unzip vte3 which xcolor xdg-user-dirs yarn zathura zathura-pdf-mupdf zip zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting
 
 - [ ] Utilities
 imagemagick rclone vlc v4l2loopback-dkms v4l2loopback-utils w3m xournalpp youtube-dl xf86-input-wacom
@@ -336,14 +338,16 @@ SigLevel = Optional TrustAll
 Server = https://kanishakvaidya.github.io/\$repo/\$arch" | sudo tee -a /etc/pacman.conf
 
 curl -fLo /tmp/packages.md https://kanishakvaidya.github.io/arch-KVOS/static/scripts/packages.md
-nvim /tmp/packages.md || vim /tmp/packages.md || micro /tmp/packages.md || nano /tmp/packages.md || vi /tmp/packages.md || $EDITOR /tmp/packages.md || $VISUAL /tmp/packages.md
-
-noerror='n'
-while [[ $noerror != 'y'  ]]
+while ! ( nvim /tmp/packages.md || vim /tmp/packages.md || micro /tmp/packages.md || nano /tmp/packages.md || vi /tmp/packages.md || $EDITOR /tmp/packages.md || $VISUAL /tmp/packages.md )
 do
-    sudo pacman -Syu --needed --noconfirm $(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
-    read -p "Installation ended successfully? (y/n): " noerror
+    echo "No text editor found. Installing nano now. Suffer, or atleast set an EDITOR"
 done
+
+while ! sudo pacman -Syu --needed --noconfirm $(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
+do
+    read "Some errors occured while installing packages. Rectify them and press ENTER to continue."
+done
+
 echo 'export ZDOTDIR="$HOME"/.config/zsh' | sudo tee /etc/zsh/zshenv
 chsh -s /usr/bin/zsh
 

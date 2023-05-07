@@ -18,14 +18,16 @@ SigLevel = Optional TrustAll
 Server = https://kanishakvaidya.github.io/\$repo/\$arch" | sudo tee -a /etc/pacman.conf
 
 curl -fLo /tmp/packages.md https://kanishakvaidya.github.io/arch-KVOS/static/scripts/packages.md
-nvim /tmp/packages.md || vim /tmp/packages.md || micro /tmp/packages.md || nano /tmp/packages.md || vi /tmp/packages.md || $EDITOR /tmp/packages.md || $VISUAL /tmp/packages.md
-
-noerror='n'
-while [[ $noerror != 'y'  ]]
+while ! ( nvim /tmp/packages.md || vim /tmp/packages.md || micro /tmp/packages.md || nano /tmp/packages.md || vi /tmp/packages.md || $EDITOR /tmp/packages.md || $VISUAL /tmp/packages.md )
 do
-    sudo pacman -Syu --needed --noconfirm $(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
-    read -p "Installation ended successfully? (y/n): " noerror
+    echo "No text editor found. Installing nano now. Suffer, or atleast set an EDITOR"
 done
+
+while ! sudo pacman -Syu --needed --noconfirm $(awk '/\- \[X\]/ {getline ; print}' /tmp/packages.md | tr "\n" " " )
+do
+    read "Some errors occured while installing packages. Rectify them and press ENTER to continue."
+done
+
 echo 'export ZDOTDIR="$HOME"/.config/zsh' | sudo tee /etc/zsh/zshenv
 chsh -s /usr/bin/zsh
 
