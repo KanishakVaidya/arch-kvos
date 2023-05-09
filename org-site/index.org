@@ -20,6 +20,9 @@
 #+end_export
 
 * KVOS
+:PROPERTIES:
+:HTML_CONTAINER_CLASS: boxed
+:END:
 This is my custom i3wm based desktop. This is tested on an vanilla arch install. This is a lightweight and fast desktop. It is light on system resources and [[./software.org][didn't install many packages]].
 
 -----
@@ -28,8 +31,10 @@ This is my custom i3wm based desktop. This is tested on an vanilla arch install.
 :HTML_CONTAINER_CLASS: boxed
 :END:
 ** Lightweigth
-*** Very lightweight distro. Low memory and storage overhead.
-** Arch based
-*** Just some i3 config filed on top of vanilla arch. And one extra repository.
-** Made for productivity
-*** Tiling window managers are objectively better than floating window manager. If you disagree, I will find youm and I will kick ur Ass.
+Lightweigth linux distro. Small memory and storage overhead. Even the processors are at ease.
+** Arch BTW!
+Just some i3 config filed on top of vanilla arch. And one extra repository to get you some beautiful wallpapers.
+** Productive
+Tiling window managers are objectively better than floating window managers. And manual better than dynamic.
+** Customizable
+Customising KVOS is extremely easy. All custumization is done inside config files. That too inside emacs org mode.

@@ -20,7 +20,7 @@ html,body,div,span,ul,li,footer,header{
 margin:0;
 padding:0;
 border:0;
-font-family: "Monaco", monospace;
+font-family: "Hack", monospace;
 vertical-align:baseline
 }
 
@@ -36,8 +36,8 @@ text-decoration: none;
 body,input,select,textarea {
 color:var(--foreground);
 background-color: var(--background);
-font-family: "Monaco", monospace;
-font-size:16pt;
+font-family: "Hack", monospace;
+font-size:12pt;
 font-weight:100;
 line-height:1.50em
 }
@@ -135,9 +135,8 @@ margin-left: 30px;
 }
 
 .content{
-width: 75%;
+width: 70%;
 margin: auto;
-padding: 10px;
 }
 
 .outline-2{
