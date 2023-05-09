@@ -1,0 +1,40 @@
+nav {
+  width: 100%;
+  font-family: "Monaco", monospace;
+  font-size: 1.25em;
+}
+
+#nav>ul {
+  width: 100%;
+}
+
+#nav>ul>li {
+  position:relative;
+  display:inline-block;
+  /*background-color: #111;*/
+  padding-left: 1.0em;
+  padding-right: 1.0em;
+}
+
+#nav>ul>li>a{
+  color:var(--cursorcolor);
+  display:inline-block;
+  text-decoration:none;
+  border:0;
+  display:block;
+  padding:1.5em 0.5em 0.35em 0.5em;
+  border-style: solid;
+  border-width: 0px 0px 5px 0px;
+  border-color: var(--blue);
+}
+
+#nav>ul>li:hover>a{
+  color: #fff;
+  border-color: var(--cyan);
+}
+
+#nav ul li.current a{
+  font-weight: bold;
+  border-color: var(--yellow);
+  background: linear-gradient(var(--black1) 0%, var(--background) 100%);
+}

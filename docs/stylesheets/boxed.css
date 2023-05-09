@@ -1,0 +1,20 @@
+div.boxed h2 {
+    text-align: center;
+}
+
+div.boxed div.outline-3 {
+    display: inline-block;
+    width: 400px;
+    height: 200px;
+    padding: 0px 1% 0px 1%;
+    vertical-align: top;
+    /*border: 2px dashed red;*/
+}
+
+div.boxed div.outline-3 h3 {
+    font: 1.25em monospace;
+    background-color: var(--black1);
+    margin-top: 0;
+    padding-top: 5px;
+    text-align: center;
+}
