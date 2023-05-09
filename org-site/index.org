@@ -1,10 +1,13 @@
 #+title: KVOS
 #+HTML_HEAD: <link rel="stylesheet" href="./style.css">
+#+HTML_HEAD: <script src="./menu.js"></script>
 #+OPTIONS: toc:nil num:nil timestamp:nil html-style:nil title:nil
 
 #+begin_export html
-<nav id="nav">
+<nav class="nav" id="nav">
     <ul>
+       <li>
+           <a href="javascript:void(0);" id='navicon' onclick="myFunction()"><b>MENU</b></a>
        <li class="current">
            <a href="./index.html">Home</a>
        <li class="">
@@ -19,11 +22,11 @@
 </nav>
 #+end_export
 
-* KVOS
-:PROPERTIES:
-:HTML_CONTAINER_CLASS: boxed
-:END:
-This is my custom i3wm based desktop. This is tested on an vanilla arch install. This is a lightweight and fast desktop. It is light on system resources and [[./software.org][didn't install many packages]].
+#+attr_html: alt: kvos-banner title: KVOS :align center :style width:100%;height:300px;
+[[./static/kvos-banner.png]]
+
+#+attr_html: :align center :style font-size:1.2em;line-height:1.5em;
+KVOS is based on vanilla arch linux. This is a lightweight and fast desktop. It is light on system resources and [[./software.org][didn't install many packages]] by default.
 
 -----
 * Get Started
@@ -38,3 +41,7 @@ Just some i3 config filed on top of vanilla arch. And one extra repository to ge
 Tiling window managers are objectively better than floating window managers. And manual better than dynamic.
 ** Customizable
 Customising KVOS is extremely easy. All custumization is done inside config files. That too inside emacs org mode.
+** Free(eeedom)
+Ofcourse its free but specifically its libre. You can use, change, improve, make it worse, burn, destroy, send to moon, sell any copy of this software.
+** Donate
+If you manage to sell KVOS and want to give me my share (40-60 is fine) OR if you want to donate to me anyway, please send money to [[img:upi.jpg][this UPI address.]]

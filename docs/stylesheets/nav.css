@@ -1,29 +1,34 @@
 nav {
+  position: sticky;
+  position: -webkit-sticky; /* Safari */
+  top: 0;
   width: 100%;
-  font-family: "Monaco", monospace;
-  font-size: 1.25em;
+  height: 31px;
+  background-color: var(--background);
+  font: 1.25em "Hack" , monospace;
+  margin: 20px 0 50px 0;
+  border-style: solid;
+  border-color: var(--blue);
+  border-width: 0 0 5px 0;
 }
 
 #nav>ul {
   width: 60%;
   margin: 0 auto 0 auto;
-  min-width: 870px;
+  min-width: 900px;
 }
 
 #nav>ul>li {
-  position:relative;
   display:inline-block;
-  /*background-color: #111;*/
   padding-left: 1.0em;
   padding-right: 1.0em;
 }
 
 #nav>ul>li>a{
   color:var(--cursorcolor);
-  display:inline-block;
+  background-color: var(--background);
   text-decoration:none;
   border:0;
-  display:block;
   padding:1.5em 0.5em 0.35em 0.5em;
   border-style: solid;
   border-width: 0px 0px 5px 0px;
@@ -37,6 +42,33 @@ nav {
 
 #nav ul li.current a{
   font-weight: bold;
-  border-color: var(--yellow);
+  border-color: var(--magenta);
   background: linear-gradient(var(--black1) 0%, var(--background) 100%);
+}
+
+#navicon {
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+  nav {
+    margin: 0 0 25px 0;
+    border: none;
+  }
+  #nav>ul {
+    min-width: 0;
+    width: 100%;
+  }
+  #nav>ul>li ,
+  #nav>ul>li>a {
+    display: block;
+    text-align: center;
+  }
+  #nav:not(.responsive)>ul>li>:not(#navicon) {
+    display: none;
+  }
+  #nav.responsive>ul>li,
+  #nav.responsive>ul>li>a {
+    display: block;
+  }
 }

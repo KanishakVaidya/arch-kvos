@@ -1,10 +1,13 @@
 #+title: Pre Installed packages
 #+HTML_HEAD: <link rel="stylesheet" href="./style.css">
+#+HTML_HEAD: <script src="./menu.js"></script>
 #+OPTIONS: toc:nil num:nil timestamp:nil html-style:nil title:nil
 
 #+begin_export html
-<nav id="nav">
+<nav class="nav" id="nav">
     <ul>
+       <li>
+           <a href="javascript:void(0);" id='navicon' onclick="myFunction()"><b>MENU</b></a>
        <li class="">
            <a href="./index.html">Home</a>
        <li class="">

@@ -6,13 +6,17 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>KVOS Guides</title>
+<meta name="author" content="Kanishak Vaidya" />
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" href="./style.css">
+<script src="./menu.js"></script>
 </head>
 <body>
 <div id="content" class="content">
-<nav id="nav">
+<nav class="nav" id="nav">
     <ul>
+       <li>
+           <a href="javascript:void(0);" id='navicon' onclick="myFunction()"><b>MENU</b></a>
        <li class="">
            <a href="./index.html">Home</a>
        <li class="">
@@ -26,20 +30,20 @@
     </ul>
 </nav>
 
-<div id="outline-container-orgb0c0bc4" class="outline-2">
-<h2 id="orgb0c0bc4">After KVOS installation</h2>
-<div class="outline-text-2" id="text-orgb0c0bc4">
+<div id="outline-container-org1c589a9" class="outline-2">
+<h2 id="org1c589a9">After KVOS installation</h2>
+<div class="outline-text-2" id="text-org1c589a9">
 </div>
-<div id="outline-container-org1dc351a" class="outline-3">
-<h3 id="org1dc351a">Changing keyboard and display brightness</h3>
-<div class="outline-text-3" id="text-org1dc351a">
+<div id="outline-container-orgecaf2bc" class="outline-3">
+<h3 id="orgecaf2bc">Changing keyboard and display brightness</h3>
+<div class="outline-text-3" id="text-orgecaf2bc">
 <p>
-Only root can change the brightness by editing files in <code>/sys/class/backlight</code>. To allow users in the video group to change the brightness, a udev rule such as the following can be used (replace the &lt;vendor&gt; with your vendor id. E.g. amdgpu_bl0 acpi_video0, intel_backlight. Find it using <code>ls /sys/class/backlight</code>)
+Only root can change the brightness by editing files in <code>/sys/class/backlight</code>. To allow users in the video group to change the brightness, a udev rule such as the following can be used (replace the &lt;vendor&gt; with your vendor id. E.g. amdgpu<sub>bl0</sub> acpi<sub>video0</sub>, intel<sub>backlight</sub>. Find it using <code>ls /sys/class/backlight</code>)
 </p>
 </div>
-<div id="outline-container-orga670ed5" class="outline-4">
-<h4 id="orga670ed5">References</h4>
-<div class="outline-text-4" id="text-orga670ed5">
+<div id="outline-container-orgebb0d78" class="outline-4">
+<h4 id="orgebb0d78">References</h4>
+<div class="outline-text-4" id="text-orgebb0d78">
 <ul class="org-ul">
 <li><a href="https://superuser.com/a/1393488">Writing to file /sys/class/backlight/&lt;vendor&gt;/brightness</a></li>
 <li><a href="https://unix.stackexchange.com/a/593121">How to set permissions in /sys permanently?</a></li>
@@ -48,13 +52,13 @@ Only root can change the brightness by editing files in <code>/sys/class/backlig
 </div>
 </div>
 
-<div id="outline-container-org9dcc6c7" class="outline-3">
-<h3 id="org9dcc6c7">Using Wacom</h3>
-<div class="outline-text-3" id="text-org9dcc6c7">
+<div id="outline-container-org8437719" class="outline-3">
+<h3 id="org8437719">Using Wacom</h3>
+<div class="outline-text-3" id="text-org8437719">
 </div>
-<div id="outline-container-org2501645" class="outline-4">
-<h4 id="org2501645">Install the driver</h4>
-<div class="outline-text-4" id="text-org2501645">
+<div id="outline-container-org5cfe827" class="outline-4">
+<h4 id="org5cfe827">Install the driver</h4>
+<div class="outline-text-4" id="text-org5cfe827">
 <div class="org-src-container">
 <pre class="src src-shell">pacman -S xf86-input-wacom
 </pre>
@@ -64,9 +68,9 @@ This provides xsetwacom command.
 </p>
 </div>
 </div>
-<div id="outline-container-org0768a03" class="outline-4">
-<h4 id="org0768a03">Mapping the tablet to a display (for multi-monitor)</h4>
-<div class="outline-text-4" id="text-org0768a03">
+<div id="outline-container-org3fb7f92" class="outline-4">
+<h4 id="org3fb7f92">Mapping the tablet to a display (for multi-monitor)</h4>
+<div class="outline-text-4" id="text-org3fb7f92">
 <p>
 First list the wacom devices using the command
 </p>
@@ -97,7 +101,7 @@ Sometimes output names &ldquo;HEAD-0&rdquo; and &ldquo;HEAD-1&rdquo; have to be 
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.2 (<a href="https://orgmode.org">Org</a> mode 9.6)</p>
+<p class="author">Author: Kanishak Vaidya</p>
 </div>
 </body>
 </html>
