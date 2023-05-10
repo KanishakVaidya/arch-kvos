@@ -29,7 +29,7 @@
 KVOS is based on vanilla arch linux. This is a lightweight and fast desktop. It is light on system resources and [[./software.org][didn't install many packages]] by default.
 
 -----
-* Get Started
+* [[./installation.org][Get Started]]
 :PROPERTIES:
 :HTML_CONTAINER_CLASS: boxed
 :END:
