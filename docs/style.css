@@ -33,6 +33,11 @@ color: var(--blue);
 text-decoration: none;
 }
 
+a:hover{
+color: var(--blue);
+text-decoration: underline;
+}
+
 body,input,select,textarea {
 color:var(--foreground);
 background-color: var(--background);
@@ -55,78 +60,6 @@ ul li{
 padding-left:0.5em;
 }
 
-/*#nav{
-  cursor:default;
-  background-color:#333;
-  background-image:-moz-linear-gradient(top, rgba(30,30,30,0), rgba(0,0,0,0.3)),url("images/bg01.png");
-  background-image:-webkit-linear-gradient(top, rgba(30,30,30,0), rgba(0,0,0,0.3)),url("images/bg01.png");
-  background-image:-ms-linear-gradient(top, rgba(30,30,30,0), rgba(0,0,0,0.3)),url("images/bg01.png");
-  background-image:linear-gradient(top, rgba(30,30,30,0), rgba(0,0,0,0.3)),url("images/bg01.png");
-  padding:0}
-
-  #nav:after{
-  content:'';
-  display:block;
-  width:100%;
-  height:0.75em;
-  background-color:var(--blue);
-  }
-
-  #nav>ul{
-  margin:0
-  }
-
-  #nav>ul>li{
-  position:relative;
-  display:inline-block;
-  margin-left:1em
-  }
-
-  #nav>ul>li a{
-  color:var(--cursorcolor);
-  text-decoration:none;
-  border:0;
-  display:block;
-  padding:1.5em 0.5em 1.35em 0.5em
-  }
-
-  #nav>ul>li:first-child{
-  margin-left:0}
-
-  #nav>ul>li:hover a{
-  color:#fff}
-
-  #nav>ul>li.current{
-  font-weight:600}
-
-  #nav>ul>li.current:before{
-  -moz-transform:rotateZ(45deg);
-  -webkit-transform:rotateZ(45deg);
-  -ms-transform:rotateZ(45deg);
-  transform:rotateZ(45deg);
-  width:0.75em;
-  height:0.75em;
-  content:'';
-  display:block;
-  position:absolute;
-  bottom:-0.5em;
-  left:50%;
-  margin-left:-0.375em;
-  background-color:var(--blue);
-  background-image:url("images/bg01.png")}
-
-  #nav>ul>li.current a{
-  color:#fff}
-
-  #nav>ul>li.active a{
-  color:#fff}
-
-  #nav>ul>li.active.current:before{
-  opacity:0}
-
-  #nav>ul>li>ul{
-  display:none}*/
-
 .title{
 color: #fff;
 cursor:default;
@@ -137,6 +70,21 @@ margin-left: 30px;
 .content{
 width: 70%;
 margin: auto;
+min-width: 961px;
+}
+
+@media screen and (max-width: 1130px) {
+    .content {
+        width: 85%;
+        min-width: 870px;
+    }
+}
+
+@media screen and (max-width: 870px) {
+    .content {
+        width: 100%;
+        min-width: 0px;
+    }
 }
 
 .outline-2{
@@ -163,9 +111,9 @@ padding: 2px;
 }
 
 pre.src {
-padding: 5px;
-border: true;
-border-color: var(--green);
+padding: 10px 0 10px 20px;
+border-left: 5px solid var(--green);
+border-radius: 0 10px 10px 0;
 background: var(--black1);
 white-space: pre-wrap;       /* Since CSS 2.1 */
 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */

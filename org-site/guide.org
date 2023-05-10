@@ -6,8 +6,8 @@
 #+begin_export html
 <nav class="nav" id="nav">
     <ul>
-       <li>
-           <a href="javascript:void(0);" id='navicon' onclick="myFunction()"><b>MENU</b></a>
+       <li id='navicon'>
+           <a href="javascript:void(0);" onclick="myFunction()"><b>MENU</b></a>
        <li class="">
            <a href="./index.html">Home</a>
        <li class="">
@@ -25,11 +25,26 @@
 
 * After KVOS installation
 ** Changing keyboard and display brightness
-Only root can change the brightness by editing files in ~/sys/class/backlight~. To allow users in the video group to change the brightness, a udev rule such as the following can be used (replace the <vendor> with your vendor id. E.g. amdgpu_bl0 acpi_video0, intel_backlight. Find it using ~ls /sys/class/backlight~)
+Only root can change the brightness by editing files in ~/sys/class/backlight~. To allow users in the video group to change the brightness, a udev rule such as the following can be used (a sample ~/etc/udev/rules.d/98-backlight.rules~ file)
+#+begin_src shell
+# allow screen brightness control for everyone
+ACTION=="add", SUBSYSTEM=="backlight", RUN+="/bin/chgrp video $sys$devpath/brightness", RUN+="/bin/chmod g+w $sys$devpath/brightness"
+#+end_src
+Make sure the user is in ~video~ group. If you used [[file:static/scripts/configuration-script.sh][my arch install script]] then user will be in the ~video~ group.
+
+To change keyboard brightness, following udev rule can be used (a sample ~/etc/udev/rules.d/99-asus.rules~ file):
+#+begin_src shell
+# allow keyboard brightness control for everyone
+ACTION=="add", SUBSYSTEM=="leds", KERNEL=="asus::kbd_backlight", RUN+="/bin/chmod a+w /sys/class/leds/%k/brightness"
+#+end_src
+Again change ~KERNEL==~ with appropriate entry from ~ls /sys/class/leds~.
+
 *** References
+- [[https://wiki.archlinux.org/title/backlight#ACPI][ArchWiki]]
 - [[https://superuser.com/a/1393488][Writing to file /sys/class/backlight/<vendor>/brightness]]
 - [[https://unix.stackexchange.com/a/593121][How to set permissions in /sys permanently?]]
 
+-----
 ** Using Wacom
 *** Install the driver
 #+begin_src shell

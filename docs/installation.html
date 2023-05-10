@@ -15,8 +15,8 @@
 <div id="content" class="content">
 <nav class="nav" id="nav">
     <ul>
-       <li>
-           <a href="javascript:void(0);" id='navicon' onclick="myFunction()"><b>MENU</b></a>
+       <li id='navicon'>
+           <a href="javascript:void(0);" onclick="myFunction()"><b>MENU</b></a>
        <li class="">
            <a href="./index.html">Home</a>
        <li class="">
@@ -34,7 +34,7 @@
 <h2 id="org5a39b14">Installing KVOS</h2>
 <div class="outline-text-2" id="text-org5a39b14">
 <p>
-One can setup KVOS on a fresh setup of vanilla arch install by running the <a href="static/scripts/kvos-setup.sh">dotfile-setup.sh</a> script.
+One can setup KVOS on a fresh setup of vanilla arch install by running the <a href="static/scripts/kvos-setup.sh">kvos-setup.sh</a> script.
 </p>
 
 <p>
@@ -80,7 +80,7 @@ Download the <a href="static/scripts/kvos-setup.sh">kvos-setup.sh</a> script and
 </pre>
 </div></li>
 <li>This script will add <a href="https://github.com/KanishakVaidya/kv-arch-repo">kv-arch-repo</a> to the repository list. It will open <a href="static/scripts/packages.md">packages.md</a> file in a text editor. Check the boxes corresponding to the softwares you want to install. You can also add your own software to the list by appending them to a section with -[X]</li>
-<li>The directories in your <code>$HOME</code> will have shortened names.</li>
+<li>The directories in your <code>$HOME</code> will have shortened names for better accessibility from terminal.</li>
 <li>Default theme is Materia Dark and default icon theme is Papirus.</li>
 <li>Customize qt based apps using <code>qt5ct</code> and <code>kvantum</code>, customize gtk apps using <code>lxappearance</code>.</li>
 </ul>

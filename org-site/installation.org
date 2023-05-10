@@ -6,8 +6,8 @@
 #+begin_export html
 <nav class="nav" id="nav">
     <ul>
-       <li>
-           <a href="javascript:void(0);" id='navicon' onclick="myFunction()"><b>MENU</b></a>
+       <li id='navicon'>
+           <a href="javascript:void(0);" onclick="myFunction()"><b>MENU</b></a>
        <li class="">
            <a href="./index.html">Home</a>
        <li class="">
@@ -23,7 +23,7 @@
 #+end_export
 
 * Installing KVOS
-One can setup KVOS on a fresh setup of vanilla arch install by running the [[file:static/scripts/kvos-setup.sh][dotfile-setup.sh]] script.
+One can setup KVOS on a fresh setup of vanilla arch install by running the [[file:static/scripts/kvos-setup.sh][kvos-setup.sh]] script.
 
 There is also a script provided for installing vanilla arch. Let's start with that.
 -----
@@ -48,6 +48,6 @@ bash <(curl -s https://kanishakvaidya.github.io/arch-install.sh)
 bash <(curl -s https://kanishakvaidya.github.io/kvos-setup.sh)
   #+end_src
 - This script will add [[https://github.com/KanishakVaidya/kv-arch-repo][kv-arch-repo]] to the repository list. It will open [[file:static/scripts/packages.md][packages.md]] file in a text editor. Check the boxes corresponding to the softwares you want to install. You can also add your own software to the list by appending them to a section with -[X]
-- The directories in your ~$HOME~ will have shortened names.
+- The directories in your ~$HOME~ will have shortened names for better accessibility from terminal.
 - Default theme is Materia Dark and default icon theme is Papirus.
 - Customize qt based apps using ~qt5ct~ and ~kvantum~, customize gtk apps using ~lxappearance~.
