@@ -35,7 +35,7 @@ bash <(curl -s https://kanishakvaidya.github.io/arch-KVOS/static/scripts/base-in
 
 * Base installation
 ** Basic setup
-#+begin_src bash :tangle docs/static/scripts/base-installation.sh
+#+begin_src bash :tangle docs/static/scripts/arch-install.sh
 #!/bin/bash
 clear
 install_text='
@@ -75,10 +75,13 @@ install_text='
 ==================================================================
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ==================================================================
-        ' 
+        '
 echo "$install_text"
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 5/" /etc/pacman.conf
-pacman -Sy archlinux-keyring
+while ! pacman -Sy archlinux-keyring
+do
+    read -p "Can't update archlinux-keyring. Please rectify and the continue [ENTER]"
+done
 
 loadkeys us
 timedatectl set-ntp true
@@ -92,7 +95,7 @@ A good partitioning scheme is as follows:
 | [SWAP]      | /dev/sda2 | Linux swap            | 2x RAM            |
 | /mnt        | /dev/sda3 | Linux x86_64 root (/) | Rest of device    |
 
-#+begin_src bash :tangle docs/static/scripts/base-installation.sh
+#+begin_src bash :tangle docs/static/scripts/arch-install.sh
 curl -fLo /tmp/configuration-script.sh https://kanishakvaidya.github.io/arch-KVOS/static/scripts/configuration-script.sh
 clear
 echo "$install_text"
@@ -179,7 +182,7 @@ Installing
  - nvim text editor
  - a network manager
  - git
-#+begin_src bash :tangle docs/static/scripts/base-installation.sh
+#+begin_src bash :tangle docs/static/scripts/arch-install.sh
 clear
 echo "$install_text"
 
