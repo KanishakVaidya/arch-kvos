@@ -9,11 +9,14 @@
 <meta name="author" content="Kanishak Vaidya" />
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" href="./style.css">
+<script src="./menu.js"></script>
 </head>
 <body>
 <div id="content" class="content">
-<nav id="nav">
+<nav class="nav" id="nav">
     <ul>
+       <li id='navicon'>
+           <a href="javascript:void(0);" onclick="myFunction()"><b>MENU</b></a>
        <li class="">
            <a href="./index.html">Home</a>
        <li class="">
@@ -35,20 +38,43 @@
 <h3 id="orgecaf2bc">Changing keyboard and display brightness</h3>
 <div class="outline-text-3" id="text-orgecaf2bc">
 <p>
-Only root can change the brightness by editing files in <code>/sys/class/backlight</code>. To allow users in the video group to change the brightness, a udev rule such as the following can be used (replace the &lt;vendor&gt; with your vendor id. E.g. amdgpu_bl0 acpi_video0, intel_backlight. Find it using <code>ls /sys/class/backlight</code>)
+Only root can change the brightness by editing files in <code>/sys/class/backlight</code>. To allow users in the video group to change the brightness, a udev rule such as the following can be used (a sample <code>/etc/udev/rules.d/98-backlight.rules</code> file)
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #5a5b5a;"># </span><span style="color: #5a5b5a;">allow screen brightness control for everyone</span>
+<span style="color: #cc6666;">ACTION</span>==<span style="color: #b5bd68;">"add"</span>, <span style="color: #cc6666;">SUBSYSTEM</span>==<span style="color: #b5bd68;">"backlight"</span>, <span style="color: #cc6666;">RUN</span>+=<span style="color: #b5bd68;">"/bin/chgrp video </span><span style="color: #de935f;">$</span><span style="color: #cc6666;">sys</span><span style="color: #b5bd68;">$devpath/brightness"</span>, <span style="color: #cc6666;">RUN</span>+=<span style="color: #b5bd68;">"/bin/chmod g+w </span><span style="color: #de935f;">$</span><span style="color: #cc6666;">sys</span><span style="color: #b5bd68;">$devpath/brightness"</span>
+</pre>
+</div>
+<p>
+Make sure the user is in <code>video</code> group. If you used <a href="static/scripts/configuration-script.sh">my arch install script</a> then user will be in the <code>video</code> group.
+</p>
+
+<p>
+To change keyboard brightness, following udev rule can be used (a sample <code>/etc/udev/rules.d/99-asus.rules</code> file):
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #5a5b5a;"># </span><span style="color: #5a5b5a;">allow keyboard brightness control for everyone</span>
+<span style="color: #cc6666;">ACTION</span>==<span style="color: #b5bd68;">"add"</span>, <span style="color: #cc6666;">SUBSYSTEM</span>==<span style="color: #b5bd68;">"leds"</span>, <span style="color: #cc6666;">KERNEL</span>==<span style="color: #b5bd68;">"asus::kbd_backlight"</span>, <span style="color: #cc6666;">RUN</span>+=<span style="color: #b5bd68;">"/bin/chmod a+w /sys/class/leds/%k/brightness"</span>
+</pre>
+</div>
+<p>
+Again change <code>KERNEL==</code> with appropriate entry from <code>ls /sys/class/leds</code>.
 </p>
 </div>
+
 <div id="outline-container-orgebb0d78" class="outline-4">
 <h4 id="orgebb0d78">References</h4>
 <div class="outline-text-4" id="text-orgebb0d78">
 <ul class="org-ul">
+<li><a href="https://wiki.archlinux.org/title/backlight#ACPI">ArchWiki</a></li>
 <li><a href="https://superuser.com/a/1393488">Writing to file /sys/class/backlight/&lt;vendor&gt;/brightness</a></li>
 <li><a href="https://unix.stackexchange.com/a/593121">How to set permissions in /sys permanently?</a></li>
 </ul>
-</div>
-</div>
-</div>
 
+<hr />
+</div>
+</div>
+</div>
 <div id="outline-container-org8437719" class="outline-3">
 <h3 id="org8437719">Using Wacom</h3>
 <div class="outline-text-3" id="text-org8437719">

@@ -9,11 +9,14 @@
 <meta name="author" content="Kanishak Vaidya" />
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" href="./style.css">
+<script src="./menu.js"></script>
 </head>
 <body>
 <div id="content" class="content">
-<nav id="nav">
+<nav class="nav" id="nav">
     <ul>
+       <li id='navicon'>
+           <a href="javascript:void(0);" onclick="myFunction()"><b>MENU</b></a>
        <li class="current">
            <a href="./index.html">Home</a>
        <li class="">
@@ -27,68 +30,67 @@
     </ul>
 </nav>
 
-<div id="outline-container-org84224ec" class="outline-2">
-<h2 id="org84224ec">KVOS</h2>
-<div class="outline-text-2" id="text-org84224ec">
-<p>
-This is my custom i3wm based desktop. This is tested on an vanilla arch install. This is a lightweight and fast desktop. It is light on system resources and <a href="./software.html">didn&rsquo;t install many packages</a>.
+
+<div id="org34ddf39" class="figure">
+<p><img src="./static/kvos-banner.png" alt="kvos-banner.png" align="center" style="width:100%;height:300px;" />
+</p>
+</div>
+
+<p align="center" style="font-size:1.2em;line-height:1.5em;">
+KVOS is based on vanilla arch linux. This is a lightweight and fast desktop. It is light on system resources and <a href="./software.html" align="center" style="font-size:1.2em;line-height:1.5em;">didn&rsquo;t install many packages</a> by default.
 </p>
 
 <hr />
+<div id="outline-container-org2b84f58" class="outline-2 boxed">
+<h2 id="org2b84f58"><a href="./installation.html">Get Started</a></h2>
+<div class="outline-text-2" id="text-org2b84f58">
 </div>
-</div>
-<div id="outline-container-org1467aae" class="outline-2">
-<h2 id="org1467aae">Install KVOS</h2>
-<div class="outline-text-2" id="text-org1467aae">
+<div id="outline-container-orgb19536b" class="outline-3">
+<h3 id="orgb19536b">Lightweigth</h3>
+<div class="outline-text-3" id="text-orgb19536b">
 <p>
-One can setup KVOS on a fresh setup of vanilla arch install by running the <a href="static/scripts/kvos-setup.sh">kvos-setup.sh</a> script.
+Lightweigth linux distro. Small memory and storage overhead. Even the processors are at ease.
 </p>
-
+</div>
+</div>
+<div id="outline-container-orgff07765" class="outline-3">
+<h3 id="orgff07765">Arch BTW!</h3>
+<div class="outline-text-3" id="text-orgff07765">
 <p>
-There is also a script provided for installing vanilla arch. Let&rsquo;s start with that.
+Just some i3 config filed on top of vanilla arch. And one extra repository to get you some beautiful wallpapers.
 </p>
 </div>
-<div id="outline-container-orgbe82895" class="outline-3">
-<h3 id="orgbe82895">Install base arch linux</h3>
-<div class="outline-text-3" id="text-orgbe82895">
-<ul class="org-ul">
-<li>Download an Arch Linux ISO and write it to a USB</li>
-<li>Boot from the live USB and connect to the internet</li>
-<li><p>
-From the command line execute following command
+</div>
+<div id="outline-container-org863de6e" class="outline-3">
+<h3 id="org863de6e">Productive</h3>
+<div class="outline-text-3" id="text-org863de6e">
+<p>
+Tiling window managers are objectively better than floating window managers. And manual better than dynamic.
 </p>
-<div class="org-src-container">
-<pre class="src src-bash">bash &lt;<span style="color: #b294bb;">(</span><span style="color: #f0c674;">curl</span> -s https://kanishakvaidya.github.io/arch-KVOS/static/scripts/base-installation.sh<span style="color: #b294bb;">)</span>
-</pre>
-</div></li>
-<li>This will execute the <a href="static/scripts/base-installation.sh">base-installation.sh</a> script</li>
-<li>This script will guide you through base arch install. (partitions and <code>pacstrap</code>)</li>
-<li>Read the details about the scripts from the <a href="https://github.com/KanishakVaidya/arch-KVOS">repository</a>.</li>
-<li><a href="static/scripts/configuration-script.sh">configuration-script.sh</a> will be executed automatically by this script. Here you need to configure
-<ul class="org-ul">
-<li>Hostname</li>
-<li>root user password</li>
-<li>New user with its password</li>
-</ul></li>
-</ul>
 </div>
 </div>
-<div id="outline-container-org5845004" class="outline-3">
-<h3 id="org5845004">KVOS installation</h3>
-<div class="outline-text-3" id="text-org5845004">
-<ul class="org-ul">
-<li><p>
-Download the <a href="static/scripts/kvos-setup.sh">kvos-setup.sh</a> script and run it from your user account. You can use the following command to download and run the setup file:
+<div id="outline-container-orga2ebba0" class="outline-3">
+<h3 id="orga2ebba0">Customizable</h3>
+<div class="outline-text-3" id="text-orga2ebba0">
+<p>
+Customising KVOS is extremely easy. All custumization is done inside config files. That too inside emacs org mode.
 </p>
-<div class="org-src-container">
-<pre class="src src-bash">bash &lt;<span style="color: #b294bb;">(</span><span style="color: #f0c674;">curl</span> -s https://kanishakvaidya.github.io/arch-KVOS/static/scripts/kvos-setup.sh<span style="color: #b294bb;">)</span>
-</pre>
-</div></li>
-<li>This script will add <a href="https://github.com/KanishakVaidya/kv-arch-repo">kv-arch-repo</a> to the repository list. It will open <a href="static/scripts/packages.md">packages.md</a> file in <code>vim</code>, check the boxes corresponding to the softwares you want to install. You can also add your own software to the list by appending them to a section with -[X]</li>
-<li>The directories in your <code>$HOME</code> will have shortened names.</li>
-<li>Default theme is Materia Dark and default icon theme is Papirus.</li>
-<li>Customize qt based apps using <code>qt5ct</code> and <code>kvantum</code>, customize gtk apps using <code>lxappearance</code>.</li>
-</ul>
+</div>
+</div>
+<div id="outline-container-org2ec8491" class="outline-3">
+<h3 id="org2ec8491">Free(eeedom)</h3>
+<div class="outline-text-3" id="text-org2ec8491">
+<p>
+Ofcourse its free but specifically its libre. You can use, change, improve, make it worse, burn, destroy, send to moon, sell any copy of this software.
+</p>
+</div>
+</div>
+<div id="outline-container-orgfa7e56f" class="outline-3">
+<h3 id="orgfa7e56f">Donate</h3>
+<div class="outline-text-3" id="text-orgfa7e56f">
+<p>
+If you manage to sell KVOS and want to give me my share (40-60 is fine) OR if you want to donate to me anyway, please send money to <a href="upi.jpg">this UPI address.</a>
+</p>
 </div>
 </div>
 </div>
