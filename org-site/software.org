@@ -4,23 +4,14 @@
 #+OPTIONS: toc:nil num:nil timestamp:nil html-style:nil title:nil
 
 #+begin_export html
-<nav class="nav" id="nav">
-    <ul>
-       <li id='navicon'>
-           <a href="javascript:void(0);" onclick="myFunction()"><b>MENU</b></a>
-       <li class="">
-           <a href="./index.html">Home</a>
-       <li class="">
-           <a href="./screenshots.html">Screenshots</a>
-       <li class="">
-           <a href="./installation.html">Install KVOS</a>
-       <li class="">
-           <a href="./guide.html">Guide</a>
-       <li class="current">
-           <a href="./software.html">Pre-Installed</a>
-    </ul>
-</nav>
-
+<div class="nav" id="nav">
+    <a href="javascript:void(0);" onclick="myFunction()" class="menuicon"><b>MENU</b></a>
+    <a href="./index.html">Home</a>
+    <a href="./screenshots.html">Screenshots</a>
+    <a href="./installation.html">Install KVOS</a>
+    <a href="./guide.html">Guide</a>
+    <a href="./software.html" class="current">Pre-Installed</a>
+</div>
 #+end_export
 
 The following packages will be installed with *KVOS installation script*.

@@ -45,7 +45,7 @@ div.boxed div.outline-3 div.outline-text-3 {
     }
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 720px) {
     div.boxed div.outline-3 {
         width: 70%;
         vertical-align: top;
