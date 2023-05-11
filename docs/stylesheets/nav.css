@@ -1,106 +1,61 @@
-nav {
-  position: sticky;
-  position: -webkit-sticky; /* Safari */
-  top: 0;
-  width: 100%;
-  height: 29px;
-  background-color: var(--background);
-  font: 1.15em "Hack" , monospace;
-  margin: 0 0 50px 0;
-  padding-top: 20px;
-  border-style: solid;
-  border-color: var(--blue);
-  border-width: 0 0 5px 0;
+.nav {
+    position: sticky;
+    top: 0;
+    border-bottom: 5px solid var(--yellow);
+    background: #1e1e1e;
+    padding: 15px 20px 5px 20px;
+    text-align: right;
 }
 
-.nav>ul {
-  text-align: right;
+.nav a {
+    padding: 15px 10px 5px 10px;
+    text-decoration: none;
+    color: var(--foreground);
+    font-size: 1.1em;
+    margin: 0px 4px 0px 4px;
 }
 
-.nav>ul>li:not(#navicon) {
-  display:inline-block;
-  /* padding-left: 1.0em; */
-  padding-right: 1.44%;
-}
-
-.nav>ul>li>a{
-  color:var(--cursorcolor);
-  background-color: var(--background);
-  text-decoration:none;
-  border:0;
-  padding:1.5em 0 0.35em 0;
-  border-style: solid;
-  border-width: 0px 0px 5px 0px;
-  border-color: var(--blue);
-}
-
-.nav>ul>li:hover>a{
-  color: #fff;
-  border-color: var(--cyan);
-}
-
-.nav ul li.current a{
-  font-weight: bold;
-  border-color: var(--magenta);
-  background: linear-gradient(var(--black1) 0%, var(--background) 100%);
-}
-
-#navicon,
-#navicon a {
-  display: none;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-@media screen and (max-width: 650px) {
-  /* nav {border: none;} */
-  .nav ul li:not(#navicon),
-  .nav ul li:not(#navicon) a{
-    display: none;
-  }
-  .nav ul li#navicon,
-  .nav ul li#navicon a {
-    padding: 0 10px 0 0;
-    display: block;
-    margin: 0 0 0 0;
-    border: none;
-  }
-  .nav.responsive ul li#navicon,
-  .nav.responsive ul li#navicon a {
-    margin: 0 0 11px 0;
-    border: none;
-  }
-  .nav.responsive ul {
-    display: block;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-  }
-  .nav.responsive ul li:not(#navicon),
-  .nav.responsive ul li:not(#navicon) a{
-    width: 100%;
-    display: block;
-    text-align: left;
-    border: none;
-  }
-  .nav.responsive ul li:not(#navicon) {
-    margin: 0 0 0 0;
-    /* border: 1px solid yellow; */
-    padding: 0 0 0 0;
-    height: 40px;
-  }
-
-  .nav.responsive ul li:not(#navicon,.current) a {
-    height: 40px;
-    padding: 12px 0 0 20px;
-    background-color: var(--black1);
-  }
-
-  .nav.responsive ul li.current a {
-    height: 40px;
-    padding: 12px 0 0 20px;
+.nav a.current {
+    color: var(--background);
     font-weight: bold;
-    background: none;
+    /* background: linear-gradient(var(--black1) 0%, var(--background) 100%);; */
     background-color: var(--yellow);
-    color: var(--black1);
-  }
+    border-bottom: 5px solid var(--yellow);
+}
+
+.nav a.menuicon {
+    display: none;
+}
+
+@media screen and (max-width: 720px) {
+    .nav a {
+        display: none;
+    }
+
+    .nav.responsive {
+      padding-bottom: 0px;
+    }
+
+    .nav.responsive a {
+        display: block;
+        float: none;
+        text-align: left;
+        padding: 10px 0px 10px 0px;
+    }
+
+    .nav.responsive a.current {
+      color: var(--background);
+        background: var(--yellow);
+        margin: 0px -20px 0px -20px;
+        padding: 10px 20px 10px 20px;
+        border: none;
+    }
+
+    .nav a.menuicon {
+        display: inline-block;
+        padding: 0px 10px 0px 10px;
+    }
+    .nav.responsive a.menuicon {
+        margin-bottom: 10px;
+    }
 }
