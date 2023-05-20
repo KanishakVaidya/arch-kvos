@@ -15,6 +15,31 @@
 #+end_export
 
 * After KVOS installation
+** Package cache cleaning
+- [[https://wiki.archlinux.org/title/pacman#Cleaning_the_package_cache][Reference: Archwiki Guide to package cachhe cleaning]]
+Pacman stores it downloaded packages in ~/var/cache/pacman/pkg~ and does not remove old versions automatically. This can cause this directory to grow very large, very fast. To keep the system clean, install the ~pacman-contrib~ package, and then
+#+begin_src shell
+doas paccache -r
+#+end_src
+This will delete all cached versions of installed and uninstalled packages, except for the most recent three.
+To specify how many recent versions you want to keep, use (~-rk1~ will keep only one previous generation)
+#+begin_src shell
+doas paccache -rk1
+#+end_src
+To limit the action of ~paccache~ to uninstalled packages only, add the ~-u~ flag.
+#+begin_src shell
+doas paccache -ruk0
+#+end_src
+*** Inbuilt pacman actions
+Pacman also has some built-in options to clean the cache and the leftover database files from repositories which are no longer listed in the configuration file ~/etc/pacman.conf~
+To remove all the cached packages that are not currently installed, and the unused sync database, execute:
+#+begin_src shell
+doas pacman -Sc
+#+end_src
+To remove all files from the cache, use the clean switch twice, this is the most aggressive approach and will leave nothing in the cache directory:
+#+begin_src shell
+doas pacman -Scc
+#+end_src
 ** Changing keyboard and display brightness
 Only root can change the brightness by editing files in ~/sys/class/backlight~. To allow users in the video group to change the brightness, a udev rule such as the following can be used (a sample ~/etc/udev/rules.d/98-backlight.rules~ file)
 #+begin_src shell
@@ -35,7 +60,6 @@ Again change ~KERNEL==~ with appropriate entry from ~ls /sys/class/leds~.
 - [[https://superuser.com/a/1393488][Writing to file /sys/class/backlight/<vendor>/brightness]]
 - [[https://unix.stackexchange.com/a/593121][How to set permissions in /sys permanently?]]
 
------
 ** Using Wacom
 *** Install the driver
 #+begin_src shell

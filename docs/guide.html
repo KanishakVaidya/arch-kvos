@@ -25,6 +25,56 @@
 <h2 id="org1c589a9">After KVOS installation</h2>
 <div class="outline-text-2" id="text-org1c589a9">
 </div>
+<div id="outline-container-org77f1cce" class="outline-3">
+<h3 id="org77f1cce">Package cache cleaning</h3>
+<div class="outline-text-3" id="text-org77f1cce">
+<ul class="org-ul">
+<li><a href="https://wiki.archlinux.org/title/pacman#Cleaning_the_package_cache">Reference: Archwiki Guide to package cachhe cleaning</a></li>
+</ul>
+<p>
+Pacman stores it downloaded packages in <code>/var/cache/pacman/pkg</code> and does not remove old versions automatically. This can cause this directory to grow very large, very fast. To keep the system clean, install the <code>pacman-contrib</code> package, and then
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">doas paccache -r
+</pre>
+</div>
+<p>
+This will delete all cached versions of installed and uninstalled packages, except for the most recent three.
+To specify how many recent versions you want to keep, use (<code>-rk1</code> will keep only one previous generation)
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">doas paccache -rk1
+</pre>
+</div>
+<p>
+To limit the action of <code>paccache</code> to uninstalled packages only, add the <code>-u</code> flag.
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">doas paccache -ruk0
+</pre>
+</div>
+</div>
+<div id="outline-container-orgf367311" class="outline-4">
+<h4 id="orgf367311">Inbuilt pacman actions</h4>
+<div class="outline-text-4" id="text-orgf367311">
+<p>
+Pacman also has some built-in options to clean the cache and the leftover database files from repositories which are no longer listed in the configuration file <code>/etc/pacman.conf</code>
+To remove all the cached packages that are not currently installed, and the unused sync database, execute:
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">doas pacman -Sc
+</pre>
+</div>
+<p>
+To remove all files from the cache, use the clean switch twice, this is the most aggressive approach and will leave nothing in the cache directory:
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">doas pacman -Scc
+</pre>
+</div>
+</div>
+</div>
+</div>
 <div id="outline-container-orgecaf2bc" class="outline-3">
 <h3 id="orgecaf2bc">Changing keyboard and display brightness</h3>
 <div class="outline-text-3" id="text-orgecaf2bc">
@@ -61,11 +111,10 @@ Again change <code>KERNEL==</code> with appropriate entry from <code>ls /sys/cla
 <li><a href="https://superuser.com/a/1393488">Writing to file /sys/class/backlight/&lt;vendor&gt;/brightness</a></li>
 <li><a href="https://unix.stackexchange.com/a/593121">How to set permissions in /sys permanently?</a></li>
 </ul>
+</div>
+</div>
+</div>
 
-<hr />
-</div>
-</div>
-</div>
 <div id="outline-container-org8437719" class="outline-3">
 <h3 id="org8437719">Using Wacom</h3>
 <div class="outline-text-3" id="text-org8437719">
