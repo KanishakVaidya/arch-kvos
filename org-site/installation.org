@@ -18,7 +18,6 @@
 One can setup KVOS on a fresh setup of vanilla arch install by running the [[file:static/scripts/kvos-setup.sh][kvos-setup.sh]] script.
 
 There is also a script provided for installing vanilla arch. Let's start with that.
------
 ** Install base arch linux
 - Download an Arch Linux ISO and write it to a USB
 - Boot from the live USB and connect to the internet
@@ -33,7 +32,6 @@ bash <(curl -s https://kanishakvaidya.github.io/arch-install.sh)
   + Hostname
   + root user password
   + New user with its password
------
 ** KVOS installation
 - Download the [[file:static/scripts/kvos-setup.sh][kvos-setup.sh]] script and run it from your user account. You can use the following command to download and run the setup file:
   #+begin_src bash

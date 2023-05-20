@@ -101,6 +101,13 @@ h3{
 color: var(--blue);
 font-size: 180%;
 line-height: 1.2em;
+border-bottom: 2px solid var(--blue);
+}
+
+h4 {
+color: var(--green);
+font-size: 140%;
+line-height: 1.1em;
 }
 
 code {

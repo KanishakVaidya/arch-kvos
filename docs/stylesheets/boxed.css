@@ -5,7 +5,6 @@ div.boxed {
 
 div.boxed h2 {
     align-content: center;
-    /* border: 2px dashed yellow; */
     text-align: center;
 }
 
@@ -26,6 +25,7 @@ div.boxed div.outline-3 h3 {
     padding: 10px 0 10px 0;
     text-align: center;
     border-radius: 7px 7px 0 0;
+    border-bottom: none;
 }
 
 div.boxed div.outline-3 div.outline-text-3 {
