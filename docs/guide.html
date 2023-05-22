@@ -21,13 +21,13 @@
     <a href="./software.html">Pre-Installed</a>
 </div>
 
-<div id="outline-container-org1c589a9" class="outline-2">
-<h2 id="org1c589a9">After KVOS installation</h2>
-<div class="outline-text-2" id="text-org1c589a9">
+<div id="outline-container-org14ab751" class="outline-2">
+<h2 id="org14ab751">After KVOS installation</h2>
+<div class="outline-text-2" id="text-org14ab751">
 </div>
-<div id="outline-container-org77f1cce" class="outline-3">
-<h3 id="org77f1cce">Package cache cleaning</h3>
-<div class="outline-text-3" id="text-org77f1cce">
+<div id="outline-container-orgc4dfaf5" class="outline-3">
+<h3 id="orgc4dfaf5">Package cache cleaning</h3>
+<div class="outline-text-3" id="text-orgc4dfaf5">
 <ul class="org-ul">
 <li><a href="https://wiki.archlinux.org/title/pacman#Cleaning_the_package_cache">Reference: Archwiki Guide to package cachhe cleaning</a></li>
 </ul>
@@ -54,9 +54,9 @@ To limit the action of <code>paccache</code> to uninstalled packages only, add t
 </pre>
 </div>
 </div>
-<div id="outline-container-orgf367311" class="outline-4">
-<h4 id="orgf367311">Inbuilt pacman actions</h4>
-<div class="outline-text-4" id="text-orgf367311">
+<div id="outline-container-org5b1e726" class="outline-4">
+<h4 id="org5b1e726">Inbuilt pacman actions</h4>
+<div class="outline-text-4" id="text-org5b1e726">
 <p>
 Pacman also has some built-in options to clean the cache and the leftover database files from repositories which are no longer listed in the configuration file <code>/etc/pacman.conf</code>
 To remove all the cached packages that are not currently installed, and the unused sync database, execute:
@@ -75,9 +75,9 @@ To remove all files from the cache, use the clean switch twice, this is the most
 </div>
 </div>
 </div>
-<div id="outline-container-orgecaf2bc" class="outline-3">
-<h3 id="orgecaf2bc">Changing keyboard and display brightness</h3>
-<div class="outline-text-3" id="text-orgecaf2bc">
+<div id="outline-container-orgcc4f919" class="outline-3">
+<h3 id="orgcc4f919">Changing keyboard and display brightness</h3>
+<div class="outline-text-3" id="text-orgcc4f919">
 <p>
 Only root can change the brightness by editing files in <code>/sys/class/backlight</code>. To allow users in the video group to change the brightness, a udev rule such as the following can be used (a sample <code>/etc/udev/rules.d/98-backlight.rules</code> file)
 </p>
@@ -103,9 +103,9 @@ Again change <code>KERNEL==</code> with appropriate entry from <code>ls /sys/cla
 </p>
 </div>
 
-<div id="outline-container-orgebb0d78" class="outline-4">
-<h4 id="orgebb0d78">References</h4>
-<div class="outline-text-4" id="text-orgebb0d78">
+<div id="outline-container-org46d0bcd" class="outline-4">
+<h4 id="org46d0bcd">References</h4>
+<div class="outline-text-4" id="text-org46d0bcd">
 <ul class="org-ul">
 <li><a href="https://wiki.archlinux.org/title/backlight#ACPI">ArchWiki</a></li>
 <li><a href="https://superuser.com/a/1393488">Writing to file /sys/class/backlight/&lt;vendor&gt;/brightness</a></li>
@@ -115,13 +115,13 @@ Again change <code>KERNEL==</code> with appropriate entry from <code>ls /sys/cla
 </div>
 </div>
 
-<div id="outline-container-org8437719" class="outline-3">
-<h3 id="org8437719">Using Wacom</h3>
-<div class="outline-text-3" id="text-org8437719">
+<div id="outline-container-org7b1f5ba" class="outline-3">
+<h3 id="org7b1f5ba">Using Wacom</h3>
+<div class="outline-text-3" id="text-org7b1f5ba">
 </div>
-<div id="outline-container-org5cfe827" class="outline-4">
-<h4 id="org5cfe827">Install the driver</h4>
-<div class="outline-text-4" id="text-org5cfe827">
+<div id="outline-container-org8e73949" class="outline-4">
+<h4 id="org8e73949">Install the driver</h4>
+<div class="outline-text-4" id="text-org8e73949">
 <div class="org-src-container">
 <pre class="src src-shell">pacman -S xf86-input-wacom
 </pre>
@@ -131,9 +131,9 @@ This provides xsetwacom command.
 </p>
 </div>
 </div>
-<div id="outline-container-org3fb7f92" class="outline-4">
-<h4 id="org3fb7f92">Mapping the tablet to a display (for multi-monitor)</h4>
-<div class="outline-text-4" id="text-org3fb7f92">
+<div id="outline-container-org1c06716" class="outline-4">
+<h4 id="org1c06716">Mapping the tablet to a display (for multi-monitor)</h4>
+<div class="outline-text-4" id="text-org1c06716">
 <p>
 First list the wacom devices using the command
 </p>
