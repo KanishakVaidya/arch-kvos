@@ -17,7 +17,15 @@ config_text='
                                                                                                                    '
 clear
 echo "$config_text"
-ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+reg=$(ls /usr/share/zoneinfo | fzf)
+
+if [ -f /usr/share/zoneinfo/$reg ]
+then
+    ln -sf /usr/share/zoneinfo/$reg /etc/localtime
+else
+    city=$(ls /usr/share/zoneinfo/$reg | fzf)
+    ln -sf /usr/share/zoneinfo/$reg/$city /etc/localtime
+fi
 hwclock --systohc
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
