@@ -25,7 +25,7 @@ There is also a script provided for installing vanilla arch. Let's start with th
   #+begin_src bash
 bash <(curl -s https://kanishakvaidya.github.io/arch-install.sh)
   #+end_src
-- This will execute my [[file:static/scripts/base-installation.sh][arch install]] script
+- This will execute my [[file:static/scripts/arch-install.sh][arch install]] script
 - This script will guide you through base arch install. (partitions and ~pacstrap~)
 - Read the details about the scripts from the repository.
 - [[file:static/scripts/configuration-script.sh][configuration-script.sh]] will be executed automatically by this script. Here you need to configure
@@ -33,7 +33,7 @@ bash <(curl -s https://kanishakvaidya.github.io/arch-install.sh)
   + root user password
   + New user with its password
 ** KVOS installation
-- Download the [[file:static/scripts/kvos-setup.sh][kvos-setup.sh]] script and run it from your user account. You can use the following command to download and run the setup file:
+- Download the [[file:static/scripts/kvos-setup.sh][kvos-setup.sh]] script and run it from your user account. You can use the following command to download and run the script:
   #+begin_src bash
 bash <(curl -s https://kanishakvaidya.github.io/kvos-setup.sh)
   #+end_src
