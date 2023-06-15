@@ -1,1 +1,1 @@
-../docs/menu.js
+/home/kanishak/doc/repos/arch-KVOS/docs/menu.js
