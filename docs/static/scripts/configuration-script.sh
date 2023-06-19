@@ -17,13 +17,13 @@ config_text='
                                                                                                                    '
 clear
 echo "$config_text"
-reg=$(ls /usr/share/zoneinfo | fzf)
+reg=$(ls /usr/share/zoneinfo | fzf --prompt "Setting time zone. Choose region: ")
 
 if [ -f /usr/share/zoneinfo/$reg ]
 then
     ln -sf /usr/share/zoneinfo/$reg /etc/localtime
 else
-    city=$(ls /usr/share/zoneinfo/$reg | fzf)
+    city=$(ls /usr/share/zoneinfo/$reg | fzf --prompt "Setting time zone. Choose City: ")
     ln -sf /usr/share/zoneinfo/$reg/$city /etc/localtime
 fi
 hwclock --systohc
