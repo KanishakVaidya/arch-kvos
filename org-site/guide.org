@@ -1,7 +1,7 @@
 #+title: KVOS Guides
-#+HTML_HEAD: <link rel="stylesheet" href="/style.css">
-#+HTML_HEAD: <link rel="stylesheet" href="/stylesheets/toc.css">
-#+HTML_HEAD: <script src="/menu.js"></script>
+#+HTML_HEAD: <link rel="stylesheet" href="./style.css">
+#+HTML_HEAD: <link rel="stylesheet" href="./stylesheets/toc.css">
+#+HTML_HEAD: <script src="./menu.js"></script>
 #+OPTIONS: toc:nil num:nil timestamp:nil html-style:nil title:nil
 
 #+begin_export html
