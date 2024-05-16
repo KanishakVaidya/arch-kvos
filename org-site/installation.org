@@ -21,9 +21,9 @@ There is also a script provided for installing vanilla arch. Let's start with th
 ** Install base arch linux
 - Download an Arch Linux ISO and write it to a USB
 - Boot from the live USB and connect to the internet
-- From the command line execute following command
+- Download my [[file:static/scripts/arch-install.sh][arch install]] script and read it carefully, then execute it. If you believe a random guy from the internet and don't want to read the script, you can run the following command, to download and run the script.
   #+begin_src bash
-bash <(curl -s https://kanishakvaidya.github.io/arch-install.sh)
+bash <(curl -s https://kanishakvaidya.github.io/arch-kvos/static/scripts/arch-install.sh)
   #+end_src
 - This will execute my [[file:static/scripts/arch-install.sh][arch install]] script
 - This script will guide you through base arch install. (partitions and ~pacstrap~)
@@ -35,7 +35,7 @@ bash <(curl -s https://kanishakvaidya.github.io/arch-install.sh)
 ** KVOS installation
 - Download the [[file:static/scripts/kvos-setup.sh][kvos-setup.sh]] script and run it from your user account. You can use the following command to download and run the script:
   #+begin_src bash
-bash <(curl -s https://kanishakvaidya.github.io/kvos-setup.sh)
+bash <(curl -s https://kanishakvaidya.github.io/arch-kvos/static/scripts/kvos-setup.sh)
   #+end_src
 - This script will add [[https://github.com/KanishakVaidya/kv-arch-repo][kv-arch-repo]] to the repository list. It will open [[file:static/scripts/packages.md][packages.md]] file in a text editor. Check the boxes corresponding to the softwares you want to install. You can also add your own software to the list by appending them to a section with -[X]
 - The directories in your ~$HOME~ will have shortened names for better accessibility from terminal.

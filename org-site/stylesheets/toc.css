@@ -1,0 +1,21 @@
+div#table-of-contents {
+    width: 15%;
+    position: absolute;
+    margin: 60px 0 0 -15%;
+    border: 2px solid var(--blue);
+}
+
+div#table-of-contents ul {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+div#table-of-contents ul li ul {
+    font-weight: bold;
+    font-size: 1em;
+}
+
+div#table-of-contents ul li ul li ul {
+    font-weight: normal;
+    font-size: 1em;
+}

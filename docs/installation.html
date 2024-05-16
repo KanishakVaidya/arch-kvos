@@ -21,28 +21,28 @@
     <a href="./software.html">Pre-Installed</a>
 </div>
 
-<div id="outline-container-org7e2a0ea" class="outline-2">
-<h2 id="org7e2a0ea">Installing KVOS</h2>
-<div class="outline-text-2" id="text-org7e2a0ea">
+<div id="outline-container-org13e1a7f" class="outline-2">
+<h2 id="org13e1a7f">Installing KVOS</h2>
+<div class="outline-text-2" id="text-org13e1a7f">
 <p>
 One can setup KVOS on a fresh setup of vanilla arch install by running the <a href="static/scripts/kvos-setup.sh">kvos-setup.sh</a> script.
 </p>
 
 <p>
-There is also a script provided for installing vanilla arch. Let&rsquo;s start with that.
+There is also a script provided for installing vanilla arch. Let's start with that.
 </p>
 </div>
-<div id="outline-container-orgb695536" class="outline-3">
-<h3 id="orgb695536">Install base arch linux</h3>
-<div class="outline-text-3" id="text-orgb695536">
+<div id="outline-container-org09c1ab1" class="outline-3">
+<h3 id="org09c1ab1">Install base arch linux</h3>
+<div class="outline-text-3" id="text-org09c1ab1">
 <ul class="org-ul">
 <li>Download an Arch Linux ISO and write it to a USB</li>
 <li>Boot from the live USB and connect to the internet</li>
 <li><p>
-From the command line execute following command
+Download my <a href="static/scripts/arch-install.sh">arch install</a> script and read it carefully, then execute it. If you believe a random guy from the internet and don't want to read the script, you can run the following command, to download and run the script.
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">bash &lt;<span style="color: #b294bb;">(</span><span style="color: #f0c674;">curl</span> -s https://kanishakvaidya.github.io/arch-install.sh<span style="color: #b294bb;">)</span>
+<pre class="src src-bash">bash &lt;(curl -s https://kanishakvaidya.github.io/arch-kvos/static/scripts/arch-install.sh)
 </pre>
 </div></li>
 <li>This will execute my <a href="static/scripts/arch-install.sh">arch install</a> script</li>
@@ -57,15 +57,15 @@ From the command line execute following command
 </ul>
 </div>
 </div>
-<div id="outline-container-org9af18a9" class="outline-3">
-<h3 id="org9af18a9">KVOS installation</h3>
-<div class="outline-text-3" id="text-org9af18a9">
+<div id="outline-container-org7d23e31" class="outline-3">
+<h3 id="org7d23e31">KVOS installation</h3>
+<div class="outline-text-3" id="text-org7d23e31">
 <ul class="org-ul">
 <li><p>
 Download the <a href="static/scripts/kvos-setup.sh">kvos-setup.sh</a> script and run it from your user account. You can use the following command to download and run the script:
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">bash &lt;<span style="color: #b294bb;">(</span><span style="color: #f0c674;">curl</span> -s https://kanishakvaidya.github.io/kvos-setup.sh<span style="color: #b294bb;">)</span>
+<pre class="src src-bash">bash &lt;(curl -s https://kanishakvaidya.github.io/arch-kvos/static/scripts/kvos-setup.sh)
 </pre>
 </div></li>
 <li>This script will add <a href="https://github.com/KanishakVaidya/kv-arch-repo">kv-arch-repo</a> to the repository list. It will open <a href="static/scripts/packages.md">packages.md</a> file in a text editor. Check the boxes corresponding to the softwares you want to install. You can also add your own software to the list by appending them to a section with -[X]</li>
@@ -76,9 +76,6 @@ Download the <a href="static/scripts/kvos-setup.sh">kvos-setup.sh</a> script and
 </div>
 </div>
 </div>
-</div>
-<div id="postamble" class="status">
-<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.2 (<a href="https://orgmode.org">Org</a> mode 9.6)</p>
 </div>
 </body>
 </html>

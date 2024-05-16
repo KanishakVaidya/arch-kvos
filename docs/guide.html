@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>KVOS Guides</title>
 <meta name="generator" content="Org Mode" />
-<link rel="stylesheet" href="./style.css">
-<link rel="stylesheet" href="./stylesheets/toc.css">
-<script src="./menu.js"></script>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/stylesheets/toc.css">
+<script src="/menu.js"></script>
 </head>
 <body>
 <div id="content" class="content">
@@ -22,13 +22,13 @@
     <a href="./software.html">Pre-Installed</a>
 </div>
 
-<div id="outline-container-orgb0c0bc4" class="outline-2">
-<h2 id="orgb0c0bc4">After KVOS installation</h2>
-<div class="outline-text-2" id="text-orgb0c0bc4">
+<div id="outline-container-org6cf59ca" class="outline-2">
+<h2 id="org6cf59ca">After KVOS installation</h2>
+<div class="outline-text-2" id="text-org6cf59ca">
 </div>
-<div id="outline-container-orge2db7e6" class="outline-3">
-<h3 id="orge2db7e6">Package cache cleaning</h3>
-<div class="outline-text-3" id="text-orge2db7e6">
+<div id="outline-container-orge2ee26e" class="outline-3">
+<h3 id="orge2ee26e">Package cache cleaning</h3>
+<div class="outline-text-3" id="text-orge2ee26e">
 <ul class="org-ul">
 <li><a href="https://wiki.archlinux.org/title/pacman#Cleaning_the_package_cache">Reference: Archwiki Guide to package cachhe cleaning</a></li>
 </ul>
@@ -55,9 +55,9 @@ To limit the action of <code>paccache</code> to uninstalled packages only, add t
 </pre>
 </div>
 </div>
-<div id="outline-container-orgbdadef0" class="outline-4">
-<h4 id="orgbdadef0">Inbuilt pacman actions</h4>
-<div class="outline-text-4" id="text-orgbdadef0">
+<div id="outline-container-orgaa0d1d5" class="outline-4">
+<h4 id="orgaa0d1d5">Inbuilt pacman actions</h4>
+<div class="outline-text-4" id="text-orgaa0d1d5">
 <p>
 Pacman also has some built-in options to clean the cache and the leftover database files from repositories which are no longer listed in the configuration file <code>/etc/pacman.conf</code>
 To remove all the cached packages that are not currently installed, and the unused sync database, execute:
@@ -76,15 +76,15 @@ To remove all files from the cache, use the clean switch twice, this is the most
 </div>
 </div>
 </div>
-<div id="outline-container-org1dc351a" class="outline-3">
-<h3 id="org1dc351a">Changing keyboard and display brightness</h3>
-<div class="outline-text-3" id="text-org1dc351a">
+<div id="outline-container-org72ee3ea" class="outline-3">
+<h3 id="org72ee3ea">Changing keyboard and display brightness</h3>
+<div class="outline-text-3" id="text-org72ee3ea">
 <p>
 Only root can change the brightness by editing files in <code>/sys/class/backlight</code>. To allow users in the video group to change the brightness, a udev rule such as the following can be used (a sample <code>/etc/udev/rules.d/98-backlight.rules</code> file)
 </p>
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #5a5b5a;"># </span><span style="color: #5a5b5a;">allow screen brightness control for everyone</span>
-<span style="color: #cc6666;">ACTION</span>==<span style="color: #b5bd68;">"add"</span>, <span style="color: #cc6666;">SUBSYSTEM</span>==<span style="color: #b5bd68;">"backlight"</span>, <span style="color: #cc6666;">RUN</span>+=<span style="color: #b5bd68;">"/bin/chgrp video </span><span style="color: #de935f;">$</span><span style="color: #cc6666;">sys</span><span style="color: #b5bd68;">$devpath/brightness"</span>, <span style="color: #cc6666;">RUN</span>+=<span style="color: #b5bd68;">"/bin/chmod g+w </span><span style="color: #de935f;">$</span><span style="color: #cc6666;">sys</span><span style="color: #b5bd68;">$devpath/brightness"</span>
+<pre class="src src-shell"># allow screen brightness control for everyone
+ACTION=="add", SUBSYSTEM=="backlight", RUN+="/bin/chgrp video $sys$devpath/brightness", RUN+="/bin/chmod g+w $sys$devpath/brightness"
 </pre>
 </div>
 <p>
@@ -95,8 +95,8 @@ Make sure the user is in <code>video</code> group. If you used <a href="static/s
 To change keyboard brightness, following udev rule can be used (a sample <code>/etc/udev/rules.d/99-asus.rules</code> file):
 </p>
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #5a5b5a;"># </span><span style="color: #5a5b5a;">allow keyboard brightness control for everyone</span>
-<span style="color: #cc6666;">ACTION</span>==<span style="color: #b5bd68;">"add"</span>, <span style="color: #cc6666;">SUBSYSTEM</span>==<span style="color: #b5bd68;">"leds"</span>, <span style="color: #cc6666;">KERNEL</span>==<span style="color: #b5bd68;">"asus::kbd_backlight"</span>, <span style="color: #cc6666;">RUN</span>+=<span style="color: #b5bd68;">"/bin/chmod a+w /sys/class/leds/%k/brightness"</span>
+<pre class="src src-shell"># allow keyboard brightness control for everyone
+ACTION=="add", SUBSYSTEM=="leds", KERNEL=="asus::kbd_backlight", RUN+="/bin/chmod a+w /sys/class/leds/%k/brightness"
 </pre>
 </div>
 <p>
@@ -104,9 +104,9 @@ Again change <code>KERNEL==</code> with appropriate entry from <code>ls /sys/cla
 </p>
 </div>
 
-<div id="outline-container-orga670ed5" class="outline-4">
-<h4 id="orga670ed5">References</h4>
-<div class="outline-text-4" id="text-orga670ed5">
+<div id="outline-container-org66d3e5d" class="outline-4">
+<h4 id="org66d3e5d">References</h4>
+<div class="outline-text-4" id="text-org66d3e5d">
 <ul class="org-ul">
 <li><a href="https://wiki.archlinux.org/title/backlight#ACPI">ArchWiki</a></li>
 <li><a href="https://superuser.com/a/1393488">Writing to file /sys/class/backlight/&lt;vendor&gt;/brightness</a></li>
@@ -116,13 +116,13 @@ Again change <code>KERNEL==</code> with appropriate entry from <code>ls /sys/cla
 </div>
 </div>
 
-<div id="outline-container-org9dcc6c7" class="outline-3">
-<h3 id="org9dcc6c7">Using Wacom</h3>
-<div class="outline-text-3" id="text-org9dcc6c7">
+<div id="outline-container-org29ee30b" class="outline-3">
+<h3 id="org29ee30b">Using Wacom</h3>
+<div class="outline-text-3" id="text-org29ee30b">
 </div>
-<div id="outline-container-org2501645" class="outline-4">
-<h4 id="org2501645">Install the driver</h4>
-<div class="outline-text-4" id="text-org2501645">
+<div id="outline-container-orgab1d318" class="outline-4">
+<h4 id="orgab1d318">Install the driver</h4>
+<div class="outline-text-4" id="text-orgab1d318">
 <div class="org-src-container">
 <pre class="src src-shell">pacman -S xf86-input-wacom
 </pre>
@@ -132,9 +132,9 @@ This provides xsetwacom command.
 </p>
 </div>
 </div>
-<div id="outline-container-org0768a03" class="outline-4">
-<h4 id="org0768a03">Mapping the tablet to a display (for multi-monitor)</h4>
-<div class="outline-text-4" id="text-org0768a03">
+<div id="outline-container-org3fdd705" class="outline-4">
+<h4 id="org3fdd705">Mapping the tablet to a display (for multi-monitor)</h4>
+<div class="outline-text-4" id="text-org3fdd705">
 <p>
 First list the wacom devices using the command
 </p>
@@ -153,19 +153,16 @@ A sample output is
 To map wacom tablet with ID 15 to display named HDMI-1, use following command
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">xsetwacom --set <span style="color: #b5bd68;">"15"</span> MapToOutput HDMI-1
+<pre class="src src-shell">xsetwacom --set "15" MapToOutput HDMI-1
 </pre>
 </div>
 <p>
-Sometimes output names &ldquo;HEAD-0&rdquo; and &ldquo;HEAD-1&rdquo; have to be used insted of HDMI-1
+Sometimes output names "HEAD-0" and "HEAD-1" have to be used insted of HDMI-1
 </p>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div id="postamble" class="status">
-<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.2 (<a href="https://orgmode.org">Org</a> mode 9.6)</p>
 </div>
 </body>
 </html>

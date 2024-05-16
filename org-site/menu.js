@@ -1,1 +1,8 @@
-/home/kanishak/doc/repos/arch-KVOS/docs/menu.js
+function myFunction() {
+  var x = document.getElementById("nav");
+  if (x.className === "nav") {
+    x.className += " responsive";
+  } else {
+    x.className = "nav";
+  }
+}
