@@ -31,8 +31,6 @@
       :base-directory "~/doc/repos/arch-kvos/org-site"
       :base-extension "org"
       :publishing-directory "~/doc/repos/arch-kvos/docs"
-      :html-link-home "https://kanishakvaidya.github.io/arch-kvos"
-      :html-link-use-abs-url t
       :recursive t
       :with-author nil
       :with-broken-links t
