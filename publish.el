@@ -39,7 +39,7 @@
       :publishing-function org-html-publish-to-html)
      ("kvos-static"
       :base-directory "~/doc/repos/arch-kvos/org-site"
-      :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|svg\\|ttf"
+      :base-extension "md\\|css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|svg\\|ttf"
       :publishing-directory "~/doc/repos/arch-kvos/docs"
       :recursive t
       :publishing-function org-publish-attachment)

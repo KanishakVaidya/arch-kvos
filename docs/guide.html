@@ -22,13 +22,13 @@
     <a href="./software.html">Pre-Installed</a>
 </div>
 
-<div id="outline-container-org6cf59ca" class="outline-2">
-<h2 id="org6cf59ca">After KVOS installation</h2>
-<div class="outline-text-2" id="text-org6cf59ca">
+<div id="outline-container-orgbd44ae6" class="outline-2">
+<h2 id="orgbd44ae6">After KVOS installation</h2>
+<div class="outline-text-2" id="text-orgbd44ae6">
 </div>
-<div id="outline-container-orge2ee26e" class="outline-3">
-<h3 id="orge2ee26e">Package cache cleaning</h3>
-<div class="outline-text-3" id="text-orge2ee26e">
+<div id="outline-container-orgf234373" class="outline-3">
+<h3 id="orgf234373">Package cache cleaning</h3>
+<div class="outline-text-3" id="text-orgf234373">
 <ul class="org-ul">
 <li><a href="https://wiki.archlinux.org/title/pacman#Cleaning_the_package_cache">Reference: Archwiki Guide to package cachhe cleaning</a></li>
 </ul>
@@ -55,9 +55,9 @@ To limit the action of <code>paccache</code> to uninstalled packages only, add t
 </pre>
 </div>
 </div>
-<div id="outline-container-orgaa0d1d5" class="outline-4">
-<h4 id="orgaa0d1d5">Inbuilt pacman actions</h4>
-<div class="outline-text-4" id="text-orgaa0d1d5">
+<div id="outline-container-orge3f1d90" class="outline-4">
+<h4 id="orge3f1d90">Inbuilt pacman actions</h4>
+<div class="outline-text-4" id="text-orge3f1d90">
 <p>
 Pacman also has some built-in options to clean the cache and the leftover database files from repositories which are no longer listed in the configuration file <code>/etc/pacman.conf</code>
 To remove all the cached packages that are not currently installed, and the unused sync database, execute:
@@ -76,9 +76,9 @@ To remove all files from the cache, use the clean switch twice, this is the most
 </div>
 </div>
 </div>
-<div id="outline-container-org72ee3ea" class="outline-3">
-<h3 id="org72ee3ea">Changing keyboard and display brightness</h3>
-<div class="outline-text-3" id="text-org72ee3ea">
+<div id="outline-container-org0bd0e17" class="outline-3">
+<h3 id="org0bd0e17">Changing keyboard and display brightness</h3>
+<div class="outline-text-3" id="text-org0bd0e17">
 <p>
 Only root can change the brightness by editing files in <code>/sys/class/backlight</code>. To allow users in the video group to change the brightness, a udev rule such as the following can be used (a sample <code>/etc/udev/rules.d/98-backlight.rules</code> file)
 </p>
@@ -104,9 +104,9 @@ Again change <code>KERNEL==</code> with appropriate entry from <code>ls /sys/cla
 </p>
 </div>
 
-<div id="outline-container-org66d3e5d" class="outline-4">
-<h4 id="org66d3e5d">References</h4>
-<div class="outline-text-4" id="text-org66d3e5d">
+<div id="outline-container-org9bc8c4f" class="outline-4">
+<h4 id="org9bc8c4f">References</h4>
+<div class="outline-text-4" id="text-org9bc8c4f">
 <ul class="org-ul">
 <li><a href="https://wiki.archlinux.org/title/backlight#ACPI">ArchWiki</a></li>
 <li><a href="https://superuser.com/a/1393488">Writing to file /sys/class/backlight/&lt;vendor&gt;/brightness</a></li>
@@ -116,13 +116,13 @@ Again change <code>KERNEL==</code> with appropriate entry from <code>ls /sys/cla
 </div>
 </div>
 
-<div id="outline-container-org29ee30b" class="outline-3">
-<h3 id="org29ee30b">Using Wacom</h3>
-<div class="outline-text-3" id="text-org29ee30b">
+<div id="outline-container-orgfab7af4" class="outline-3">
+<h3 id="orgfab7af4">Using Wacom</h3>
+<div class="outline-text-3" id="text-orgfab7af4">
 </div>
-<div id="outline-container-orgab1d318" class="outline-4">
-<h4 id="orgab1d318">Install the driver</h4>
-<div class="outline-text-4" id="text-orgab1d318">
+<div id="outline-container-orgb70cfe5" class="outline-4">
+<h4 id="orgb70cfe5">Install the driver</h4>
+<div class="outline-text-4" id="text-orgb70cfe5">
 <div class="org-src-container">
 <pre class="src src-shell">pacman -S xf86-input-wacom
 </pre>
@@ -132,9 +132,9 @@ This provides xsetwacom command.
 </p>
 </div>
 </div>
-<div id="outline-container-org3fdd705" class="outline-4">
-<h4 id="org3fdd705">Mapping the tablet to a display (for multi-monitor)</h4>
-<div class="outline-text-4" id="text-org3fdd705">
+<div id="outline-container-org3d15b91" class="outline-4">
+<h4 id="org3d15b91">Mapping the tablet to a display (for multi-monitor)</h4>
+<div class="outline-text-4" id="text-org3d15b91">
 <p>
 First list the wacom devices using the command
 </p>
@@ -165,7 +165,7 @@ Sometimes output names "HEAD-0" and "HEAD-1" have to be used insted of HDMI-1
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.2 (<a href="https://orgmode.org">Org</a> mode 9.6.15)</p>
+<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.4 (<a href="https://orgmode.org">Org</a> mode 9.6.15)</p>
 </div>
 </body>
 </html>
